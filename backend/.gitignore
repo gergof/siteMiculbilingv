@@ -1,6 +1,8 @@
 /public/hot
 /public/storage
+/public/index.js
 /storage/*.key
+/resources/views/index.blade.php
 /vendor
 .env
 Homestead.json

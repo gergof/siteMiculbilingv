@@ -26,7 +26,7 @@ module.exports = {
 		new Dotenv(),
 		new HtmlPlugin({
 			hash: true,
-			filename: 'index.html',
+			filename: 'index.blade.php',
 			template: 'src/public/index.html'
 		})
 	],

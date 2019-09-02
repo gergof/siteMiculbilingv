@@ -5,7 +5,6 @@ branches:
   - release/.*
 matrix:
   - env: DOMAIN=frontend SCRIPT=lint
-  - env: DOMAIN=backend SCRIPT=testConsole
 install:
   - cd frontend && npm ci && cd ..
   - cd backend && composer install && cd ..

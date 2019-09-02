@@ -17,6 +17,5 @@ deploy:
   - cp frontend/build/index.blade.php backend/resources/views/
   - cp frontend/build/index.js backend/public/
   - cd backend && php artisan config:cache && cd ..
-  - cd backend && php artisan route:cache && cd ..
   - tar -czvf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz

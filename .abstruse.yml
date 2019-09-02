@@ -1,0 +1,25 @@
+image: laravel
+branches:
+  - master
+  - dev
+  - release/.*
+matrix:
+  - env: DOMAIN=frontend SCRIPT=lint
+  - env: DOMAIN=backend SCRIPT=testConsole
+install:
+  - cd frontend && npm ci && cd ..
+  - cd backend && composer install && cd ..
+script:
+  - if [ "$DOMAIN" == "frontend" ]; then cd frontend && npm run $SCRIPT && cd ..; else cd backend && php artisan $SCRIPT && cd ..; fi
+deploy:
+  - cd frontend && npm ci && cd ..
+  - cd backend && composer install --optimize-autoloader --no-dev && cd ..
+  - cd frontend && npm run build && cd ..
+  - mv frontend/build/index.blade.php backend/resources/views/
+  - mv frontend/build/index.js backend/public/
+  - cd backend
+  - php artisan config:cache
+  - php artisan route:cache
+  - cd ..
+  - tar -czvf dist.tar.gz -C backend .
+  - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz

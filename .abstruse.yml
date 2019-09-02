@@ -14,8 +14,8 @@ deploy:
   - cd frontend && npm ci && cd ..
   - cd backend && composer install --optimize-autoloader --no-dev && cd ..
   - cd frontend && npm run build && cd ..
-  - mv frontend/build/index.blade.php backend/resources/views/
-  - mv frontend/build/index.js backend/public/
+  - cp frontend/build/index.blade.php backend/resources/views/
+  - cp frontend/build/index.js backend/public/
   - cd backend
   - php artisan config:cache
   - php artisan route:cache

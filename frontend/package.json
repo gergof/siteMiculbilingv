@@ -1,0 +1,48 @@
+{
+  "name": "miculbilingv-frontend",
+  "version": "0.1.0",
+  "description": "Frontend for the website of the Micul Bilingv contest.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack",
+    "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
+    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.html'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gergof/siteMiculbilingv.git"
+  },
+  "keywords": [
+    "micul",
+    "bilingv"
+  ],
+  "author": "Fándly Gergő",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/gergof/siteMiculbilingv/issues"
+  },
+  "homepage": "https://github.com/gergof/siteMiculbilingv#readme",
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^5.2.1",
+    "dotenv-webpack": "^1.7.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "html-webpack-plugin": "^3.2.0",
+    "path": "^0.12.7",
+    "prettier": "^1.18.2",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
+  }
+}

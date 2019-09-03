@@ -10,3 +10,9 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
  */
+
+Route::group(['middleware' => 'auth:token'], function () {
+	Route::post('auth/logout', 'LoginController@logout');
+});
+
+Route::post('auth/login', 'LoginController@login');

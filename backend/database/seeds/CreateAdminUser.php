@@ -18,6 +18,7 @@ class CreateAdminUser extends Seeder {
 			'school_id' => null,
 			'class_size' => 0,
 			'class' => 0,
+			'role' => 'admin',
 		]);
 	}
 }

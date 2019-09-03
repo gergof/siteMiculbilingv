@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration {
 			$table->bigInteger('school_id')->nullable();
 			$table->tinyInteger('class'); // 0-no class, 1-3rd grade, 2-4th grade, 3-both
 			$table->tinyInteger('class_size');
+			$table->string('role', 10)->default('teacher'); // one of: teacher, lmanager, manager, admin
 			$table->timestamps();
 
 			$table->foreign('school_id')->references('id')->on('schools');

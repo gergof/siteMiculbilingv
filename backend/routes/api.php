@@ -18,3 +18,5 @@ Route::group(['middleware' => 'auth:token'], function () {
 Route::post('auth/login', 'LoginController@login');
 
 Route::post('auth/register', 'RegisterController@register');
+
+Route::post('auth/verifyEmail', 'RegisterController@verifyEmail');

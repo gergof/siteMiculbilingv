@@ -6,6 +6,7 @@ use App\Contract;
 use App\Document;
 use App\School;
 use App\Season;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -62,5 +63,27 @@ class RegisterController extends Controller {
 		$school->users()->create($userData);
 
 		return response()->json(['message' => 'User created'], 201);
+	}
+
+	public function verifyEmail(Request $request) {
+		$data = $request->validate([
+			'email' => 'email|required',
+			'token' => 'string|required',
+		]);
+
+		$user = User::where('email', $data['email'])->first();
+
+		if (!is_null($user) && $user->email_verification_token == $data['token']) {
+			if (is_null($user->email_verified_at)) {
+				$user->email_verified_at = date('Y-m-d H:i:s');
+				$user->save();
+
+				return response()->json(['message' => 'Email verified'], 202);
+			} else {
+				return response()->json(['error' => 'Email already verified'], 400);
+			}
+		} else {
+			return response()->json(['error' => 'Invalid email or token'], 400);
+		}
 	}
 }

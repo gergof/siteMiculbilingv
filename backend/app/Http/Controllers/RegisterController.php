@@ -40,7 +40,7 @@ class RegisterController extends Controller {
 			$season = Season::latest()->first();
 
 			$contractDoc = new Document();
-			$contractDoc->name = "contract_" . $data['school_name_ro'] . "_contract.pdf";
+			$contractDoc->name = "contract_" . $data['school_name_ro'] . "_" . $season->name . ".pdf";
 			$contractDoc->season()->associate($season);
 			$contractDoc->saveFile($request->file('school_contract'));
 			$contractDoc->save();

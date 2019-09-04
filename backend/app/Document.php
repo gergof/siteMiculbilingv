@@ -13,14 +13,14 @@ class Document extends Model {
 		$this->mime = $file->getClientMimeType();
 	}
 
-	public function getDownload() {
-		$command = Storage::disk('s3')->getDriver()->getAdapter()->getClient()->getCommand('GetObject', [
+	public function getDownloadLink() {
+		$command = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->getCommand('GetObject', [
 			'Bucket' => config('filesystems.disks.s3.bucket'),
 			'Key' => $this->file,
 			'ResponseContentDisposition' => 'attachment; filename=' . $this->name,
 		]);
 
-		$request = Storage::disk('s3')->getDriver()->getAdapter()->getClient()->createPresignedRequest($command, config('filesystems.downloadLinkValid'));
+		$request = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->createPresignedRequest($command, config('filesystems.downloadLinkValid'));
 
 		return (string) $request->getUri();
 	}

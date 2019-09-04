@@ -14,15 +14,22 @@ class LoginController extends Controller {
 		if (Auth::attempt($cred)) {
 			$user = Auth::user();
 
-			$token = Str::random(32);
-			$expires = date('Y-m-d H:i:s', time() + config('auth.lifetime'));
+			if (!is_null($user->email_verified_at)) {
+				$token = Str::random(32);
+				$expires = date('Y-m-d H:i:s', time() + config('auth.lifetime'));
 
-			$user->authTokens()->create(['access_token' => $token, 'expires_at' => $expires]);
+				$user->authTokens()->create(['access_token' => $token, 'expires_at' => $expires]);
 
-			return response()->json([
-				'token' => 'Bearer ' . $token,
-				'expires_at' => $expires,
-			]);
+				return response()->json([
+					'token' => 'Bearer ' . $token,
+					'expires_at' => $expires,
+				]);
+			} else {
+				return response()->json([
+					'error' => 'Email not verified',
+				], 401);
+			}
+
 		}
 
 		return response()->json([

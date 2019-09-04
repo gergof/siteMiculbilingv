@@ -15,7 +15,9 @@ class CreateUsersTable extends Migration {
 			$table->bigIncrements('id');
 			$table->string('name');
 			$table->string('email')->unique();
+			$table->string('email_verification_token', 35);
 			$table->timestamp('email_verified_at')->nullable();
+			$table->boolean('is_email_subscribed')->default(true);
 			$table->string('password');
 			$table->bigInteger('school_id')->nullable();
 			$table->tinyInteger('class'); // 0-no class, 1-3rd grade, 2-4th grade, 3-both

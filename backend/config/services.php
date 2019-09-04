@@ -19,4 +19,6 @@ return [
 		'secret' => env('AWS_SECRET'),
 		'region' => env('AWS_REGION'),
 	],
+
+	'supportedCounties' => env('SUPPORTED_COUNTIES'),
 ];

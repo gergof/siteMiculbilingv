@@ -11,7 +11,7 @@ class User extends Authenticatable {
 	 * @var array
 	 */
 	protected $fillable = [
-		'name', 'email', 'password', 'class_size', 'class', 'role',
+		'name', 'email', 'email_verification_token', 'password', 'class_size', 'class', 'role',
 	];
 
 	/**
@@ -34,5 +34,9 @@ class User extends Authenticatable {
 
 	public function authTokens() {
 		return $this->hasMany('App\AuthToken');
+	}
+
+	public function school() {
+		return $this->belongsTo('App\School');
 	}
 }

@@ -38,7 +38,7 @@ class LoginController extends Controller {
 	}
 
 	public function logout(Request $request) {
-		$token = AuthToken::where('access_token', $this->getTokenForRequest($request))->get()->first();
+		$token = AuthToken::where('access_token', $this->getTokenForRequest($request))->first();
 		$token->expires_at = null;
 		$token->save();
 

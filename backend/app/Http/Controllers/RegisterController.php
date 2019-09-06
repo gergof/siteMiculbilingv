@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Contract;
 use App\Document;
+use App\Mail\RegistrationEmail;
 use App\School;
 use App\Season;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller {
@@ -61,6 +63,13 @@ class RegisterController extends Controller {
 		$userData['password'] = Hash::make($userData['password']);
 
 		$school->users()->create($userData);
+
+		Mail::to($data['email'])->send(
+			new RegistrationEmail([
+				'name' => $userData['name'],
+				'confirmationUrl' => config('app.url') . '/auth/verifyEmail?email=' . $userData['email'] . '&token=' . $emailToken,
+			])
+		);
 
 		return response()->json(['message' => 'User created'], 201);
 	}

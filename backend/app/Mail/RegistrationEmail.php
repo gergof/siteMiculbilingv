@@ -24,6 +24,6 @@ class RegistrationEmail extends Mailable {
 	 * @return $this
 	 */
 	public function build() {
-		return $this->view('emails.RegistrationEmail')->with($this->data);
+		return $this->view('emails.RegistrationEmail')->with($this->data)->subject('Sikeres regisztráció');
 	}
 }

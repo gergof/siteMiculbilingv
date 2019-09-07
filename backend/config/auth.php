@@ -46,6 +46,10 @@ return [
 			'provider' => 'users',
 			'hash' => false,
 		],
+
+		'token' => [
+			'driver' => 'access_token',
+		],
 	],
 
 	/*
@@ -100,4 +104,7 @@ return [
 		],
 	],
 
+	'lifetime' => 60 * 60 * 24 * 30,
+
+	'defaultAdminPassword' => env('DEFAULT_ADMIN_PASSWD', 'admin'),
 ];

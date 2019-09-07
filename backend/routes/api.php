@@ -18,5 +18,8 @@ Route::group(['middleware' => 'auth:token'], function () {
 Route::post('auth/login', 'LoginController@login');
 
 Route::post('auth/register', 'RegisterController@register');
-
 Route::post('auth/verifyEmail', 'RegisterController@verifyEmail');
+
+Route::post('auth/passwordReset', 'PasswordResetController@passwordReset');
+Route::post('auth/passwordReset/reset', 'PasswordResetController@reset');
+Route::post('auth/passwordReset/invalidate', 'PasswordResetController@invalidate');

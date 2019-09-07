@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class RegistrationEmail extends Mailable {
+class PasswordResetEmail extends Mailable {
 	use Queueable, SerializesModels;
 
 	/**
@@ -25,8 +25,8 @@ class RegistrationEmail extends Mailable {
 	 */
 	public function build() {
 		return $this
-			->view('emails.RegistrationEmail')
+			->view('emails.PasswordResetEmail')
 			->with($this->data)
-			->subject('Sikeres regisztráció');
+			->subject('Jelszó visszaállítása');
 	}
 }

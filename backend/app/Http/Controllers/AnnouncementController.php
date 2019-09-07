@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Announcement;
+use App\Mail\AnnouncementEmail;
 use App\School;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 
 class AnnouncementController extends Controller {
 	public function index(Request $request) {
@@ -14,7 +19,7 @@ class AnnouncementController extends Controller {
 		$public = Announcement::where('is_public', true)->get();
 
 		//get targeted announcements
-		$targeted = Auth::user()->announcements()->with('announcement')->get()->pluck('announcement');
+		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement');
 
 		$announcements = $public->merge($targeted);
 
@@ -29,6 +34,7 @@ class AnnouncementController extends Controller {
 		}
 
 		$data = $request->validate([
+			'title' => 'string|required',
 			'message' => 'string|required',
 			'is_public' => 'boolean|required',
 			'target_counties' => 'array',
@@ -111,6 +117,7 @@ class AnnouncementController extends Controller {
 
 		$announcement = new Announcement();
 		$announcement->user()->associate(Auth::user());
+		$announcement->title = $data['title'];
 		$announcement->message = $data['message'];
 		$announcement->is_public = $data['is_public'];
 		$announcement->save();
@@ -122,6 +129,47 @@ class AnnouncementController extends Controller {
 			];
 		});
 		$announcement->targets()->createMany($targets->toArray());
+
+		if ($announcement->is_public) {
+			$targetedUsers = User::where('is_email_subscribed', true)->whereNotNull('email_verified_at')->get();
+		}
+
+		//send emails to users subscribed
+		$throttleCount = 0;
+		foreach ($targetedUsers as $user) {
+			if ($user->is_email_subscribed && $user->email_verified_at) {
+				$timing;
+
+				if (Queue::size('transactional') > 0) {
+					$lastEmailJob = DB::table('jobs')->where('queue', 'transactional')->latest('id')->first();
+
+					if ($throttleCount >= config('services.ses.throttle')) {
+						$timing = Carbon::createFromTimestamp($lastEmailJob->available_at)->addSeconds(2);
+						$throttleCount = 0;
+					} else {
+						$timing = Carbon::createFromTimestamp($lastEmailJob->available_at);
+					}
+				} else {
+					$timing = now()->addSeconds(5);
+				}
+
+				$mail = new AnnouncementEmail([
+					'title' => $announcement->title,
+					'content' => $announcement->message,
+					'user_name' => $user->name,
+					'announcementUrl' => config('app.url') . '/announcements',
+					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
+				]);
+				$mail->onQueue('transactional');
+
+				Mail::to($user->email)->later(
+					$timing,
+					$mail
+				);
+
+				$throttleCount++;
+			}
+		}
 
 		return response()->json(['message' => 'Announcement created'], 201);
 	}

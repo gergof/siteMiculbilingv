@@ -14,6 +14,7 @@ class CreateAnnouncementsTable extends Migration {
 		Schema::create('announcements', function (Blueprint $table) {
 			$table->bigIncrements('id');
 			$table->bigInteger('user_id');
+			$table->text('title');
 			$table->text('message');
 			$table->boolean('is_public')->default(false);
 			$table->timestamps();

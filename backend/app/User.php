@@ -40,7 +40,7 @@ class User extends Authenticatable {
 		return $this->belongsTo('App\School');
 	}
 
-	public function announcements() {
+	public function announcementTargets() {
 		return $this->hasMany('App\AnnouncementTarget');
 	}
 }

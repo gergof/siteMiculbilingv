@@ -39,4 +39,8 @@ class User extends Authenticatable {
 	public function school() {
 		return $this->belongsTo('App\School');
 	}
+
+	public function announcementTargets() {
+		return $this->hasMany('App\AnnouncementTarget');
+	}
 }

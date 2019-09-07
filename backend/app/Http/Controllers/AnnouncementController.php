@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 
 class AnnouncementController extends Controller {
-	public function index(Request $request) {
+	public function index() {
 		//get public announcements
 		$public = Announcement::where('is_public', true)->get();
 
@@ -172,5 +172,47 @@ class AnnouncementController extends Controller {
 		}
 
 		return response()->json(['message' => 'Announcement created'], 201);
+	}
+
+	public function show($id) {
+		$announcement = Announcement::find($id);
+		if (is_null($announcement)) {
+			return response()->json(['error' => 'Not found'], 404);
+		} else {
+			return response()->json($announcement);
+		}
+	}
+
+	public function update(Request $request, $id) {
+		$data = $request->validate([
+			'title' => 'string',
+			'message' => 'string',
+			'is_public' => 'boolean',
+		]);
+
+		$announcement = Announcement::find($id);
+		if (is_null($announcement)) {
+			return response()->json(['error' => 'Not found'], 404);
+		}
+
+		if (!empty($data['title'])) {
+			$announcement->title = $data['title'];
+		}
+		if (!empty($data['message'])) {
+			$announcement->message = $data['message'];
+		}
+		if (!empty($data['is_public'])) {
+			$announcement->is_public = $data['is_public'];
+		}
+
+		$announcement->save();
+
+		return response()->json($announcement);
+	}
+
+	public function destroy($id) {
+		Announcement::destroy($id);
+
+		return response()->json(['message' => 'Deleted']);
 	}
 }

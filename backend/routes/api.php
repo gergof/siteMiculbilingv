@@ -13,6 +13,7 @@
 
 Route::group(['middleware' => 'auth:token'], function () {
 	Route::post('auth/logout', 'LoginController@logout');
+	Route::resource('announcements', 'AnnouncementController');
 });
 
 Route::post('auth/login', 'LoginController@login');

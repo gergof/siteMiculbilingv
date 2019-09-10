@@ -28,6 +28,13 @@ class AnnouncementController extends Controller {
 		return response()->json($announcements);
 	}
 
+	public function indexPublic() {
+		//get public announcements
+		$announcements = Announcement::where('is_public', true)->latest()->get();
+
+		return response()->json($announcements);
+	}
+
 	public function store(Request $request) {
 		if (!in_array(Auth::user()->role, ['lmanager', 'manager', 'admin'])) {
 			return response()->json(['error' => 'Forbidden'], 403);

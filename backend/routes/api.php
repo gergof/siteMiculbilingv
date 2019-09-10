@@ -26,3 +26,5 @@ Route::post('auth/verifyEmail', 'RegisterController@verifyEmail');
 Route::post('auth/passwordReset', 'PasswordResetController@passwordReset');
 Route::post('auth/passwordReset/reset', 'PasswordResetController@reset');
 Route::post('auth/passwordReset/invalidate', 'PasswordResetController@invalidate');
+
+Route::get('publicAnnouncements', 'AnnouncementController@indexPublic');

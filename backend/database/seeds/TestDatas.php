@@ -22,7 +22,7 @@ class TestDatas extends Seeder {
 			'name' => 'test',
 			'email' => 'test@miculbilingv.ro',
 			'email_verification_token' => '',
-			'email_verified_at' => null,
+			'email_verified_at' => '2000-01-01',
 			'password' => Hash::make(config('auth.defaultAdminPassword')),
 			'school_id' => 1,
 			'class_size' => 0,

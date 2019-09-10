@@ -1,6 +1,6 @@
 @extends('emails.Base')
 
-@section('title', 'Új közlemény: ' . $title)
+@section('title', 'Új üzenet tőle: ' . $sender_name)
 
 @section('head')
 	@parent
@@ -15,9 +15,9 @@
 @endsection
 
 @section('content')
-	<p>Kedves {{ $user_name }}!</p>
+	<p>Kedves {{ $recipient_name }}!</p>
 	<p>
-		A weboldalon egy új közleményt tettek közzé!
+		A weboldalon új üzeneted érkezett tőle: {{ $sender_name }}
 	</p>
 	<div class="message">
 		{!! $content !!}
@@ -26,9 +26,9 @@
 
 @section('actions')
 	<div class="button__width button__margin">
-		<a href="{{ $announcementUrl }}">
+		<a href="{{ $messageUrl }}">
 			<div class="button">
-				<span>Közlemény megtekintése</span>
+				<span>Üzenet megtekintése,<br/>válasz írása</span>
 			</div>
 		</a>
 	</div>
@@ -38,7 +38,7 @@
 	<p>
 		Ammennyiben a fenti gomb nem működik, kérlek másold be az alábbi linket a böngésződ címsorába:
 		<br/>
-		<a href="{{ $announcementUrl }}">{{ $announcementUrl }}</a>
+		<a href="{{ $messageUrl }}">{{ $messageUrl }}</a>
 	</p>
 	<a href="{{ $unsubscribeUrl }}">
 		Leiratkozás

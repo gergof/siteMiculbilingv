@@ -13,7 +13,9 @@
 
 Route::group(['middleware' => 'auth:token'], function () {
 	Route::post('auth/logout', 'LoginController@logout');
+
 	Route::resource('announcements', 'AnnouncementController')->only(['index', 'store', 'show', 'update', 'destroy']);
+	Route::resource('messages', 'MessageController')->only(['index', 'store', 'show', 'update', 'destroy']);
 });
 
 Route::post('auth/login', 'LoginController@login');

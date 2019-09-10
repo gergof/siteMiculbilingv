@@ -42,9 +42,11 @@ class AnnouncementController extends Controller {
 			'target_users' => 'array',
 		]);
 
+		//acl
+		if (Auth::user()->role == 'teacher') {
+			return response()->json(['error' => 'Forbidden'], 403);
+		}
 		if (Auth::user()->role == 'lmanager') {
-
-			//we only need ACL in this case
 			if ($data['is_public'] == true) {
 				return response()->json(['error' => 'Forbidden'], 403);
 			}
@@ -157,7 +159,7 @@ class AnnouncementController extends Controller {
 					'title' => $announcement->title,
 					'content' => $announcement->message,
 					'user_name' => $user->name,
-					'announcementUrl' => config('app.url') . '/announcements',
+					'announcementUrl' => config('app.url') . '/announcements?highlight=' . $announcement->id,
 					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
 				]);
 				$mail->onQueue('transactional');
@@ -179,6 +181,15 @@ class AnnouncementController extends Controller {
 		if (is_null($announcement)) {
 			return response()->json(['error' => 'Not found'], 404);
 		} else {
+			//acl
+			if (
+				!Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement')->contains('id', $announcement->id) &&
+				Auth::user()->role != 'manager' &&
+				Auth::user()->role != 'admin'
+			) {
+				return response()->json(['error' => 'Forbidden'], 403);
+			}
+
 			return response()->json($announcement);
 		}
 	}
@@ -193,6 +204,11 @@ class AnnouncementController extends Controller {
 		$announcement = Announcement::find($id);
 		if (is_null($announcement)) {
 			return response()->json(['error' => 'Not found'], 404);
+		}
+
+		//acl
+		if (!$announcement->user->is(Auth::user()) && Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+			return response()->json(['error' => 'Forbidden'], 403);
 		}
 
 		if (!empty($data['title'])) {
@@ -211,7 +227,14 @@ class AnnouncementController extends Controller {
 	}
 
 	public function destroy($id) {
-		Announcement::destroy($id);
+		$announcement = Announcement::find($id);
+
+		//acl
+		if (!$announcement->user->is(Auth::user()) && Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+			return response()->json(['error' => 'Forbidden'], 403);
+		}
+
+		$announcement->delete();
 
 		return response()->json(['message' => 'Deleted']);
 	}

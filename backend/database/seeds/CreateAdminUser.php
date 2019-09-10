@@ -21,16 +21,5 @@ class CreateAdminUser extends Seeder {
 			'class' => 0,
 			'role' => 'admin',
 		]);
-		DB::table('users')->insert([
-			'name' => 'test',
-			'email' => 'test@miculbilingv.ro',
-			'email_verification_token' => '',
-			'email_verified_at' => null,
-			'password' => Hash::make(config('auth.defaultAdminPassword')),
-			'school_id' => null,
-			'class_size' => 0,
-			'class' => 0,
-			'role' => 'admin',
-		]);
 	}
 }

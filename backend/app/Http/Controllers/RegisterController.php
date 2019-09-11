@@ -53,7 +53,7 @@ class RegisterController extends Controller {
 			$contract->document()->associate($contractDoc);
 			$contract->save();
 		} else {
-			$school = School::find($data->school_id);
+			$school = School::find($data['school_id']);
 		}
 
 		$emailToken = Str::random(32);

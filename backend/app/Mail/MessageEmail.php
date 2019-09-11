@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PasswordResetEmail extends Mailable {
+class MessageEmail extends Mailable {
 	use Queueable, SerializesModels;
 
 	private $data;
@@ -27,8 +27,8 @@ class PasswordResetEmail extends Mailable {
 	 */
 	public function build() {
 		return $this
-			->view('emails.PasswordResetEmail')
+			->view('emails.MessageEmail')
 			->with($this->data)
-			->subject('Jelszó visszaállítása');
+			->subject('Új üzenet tőle: ' . $this->data['sender_name']);
 	}
 }

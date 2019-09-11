@@ -19,11 +19,22 @@ class AnnouncementController extends Controller {
 		$public = Announcement::where('is_public', true)->get();
 
 		//get targeted announcements
-		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement');
+		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
+			$announcementWithIsRead = $announcementTarget->announcement;
+			$announcementWithIsRead->is_read = $announcementTarget->is_read;
+			return $announcementWithIsRead;
+		});
 
 		$announcements = $public->merge($targeted);
 
 		$announcements->sortByDesc('updated_at');
+
+		return response()->json($announcements);
+	}
+
+	public function indexPublic() {
+		//get public announcements
+		$announcements = Announcement::where('is_public', true)->latest()->get();
 
 		return response()->json($announcements);
 	}
@@ -42,9 +53,11 @@ class AnnouncementController extends Controller {
 			'target_users' => 'array',
 		]);
 
+		//acl
+		if (Auth::user()->role == 'teacher') {
+			return response()->json(['error' => 'Forbidden'], 403);
+		}
 		if (Auth::user()->role == 'lmanager') {
-
-			//we only need ACL in this case
 			if ($data['is_public'] == true) {
 				return response()->json(['error' => 'Forbidden'], 403);
 			}
@@ -157,7 +170,7 @@ class AnnouncementController extends Controller {
 					'title' => $announcement->title,
 					'content' => $announcement->message,
 					'user_name' => $user->name,
-					'announcementUrl' => config('app.url') . '/announcements',
+					'announcementUrl' => config('app.url') . '/announcements?highlight=' . $announcement->id,
 					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
 				]);
 				$mail->onQueue('transactional');
@@ -171,7 +184,7 @@ class AnnouncementController extends Controller {
 			}
 		}
 
-		return response()->json(['message' => 'Announcement created'], 201);
+		return response()->json($announcement, 201);
 	}
 
 	public function show($id) {
@@ -179,6 +192,15 @@ class AnnouncementController extends Controller {
 		if (is_null($announcement)) {
 			return response()->json(['error' => 'Not found'], 404);
 		} else {
+			//acl
+			if (
+				!Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement')->contains('id', $announcement->id) &&
+				Auth::user()->role != 'manager' &&
+				Auth::user()->role != 'admin'
+			) {
+				return response()->json(['error' => 'Forbidden'], 403);
+			}
+
 			return response()->json($announcement);
 		}
 	}
@@ -193,6 +215,11 @@ class AnnouncementController extends Controller {
 		$announcement = Announcement::find($id);
 		if (is_null($announcement)) {
 			return response()->json(['error' => 'Not found'], 404);
+		}
+
+		//acl
+		if (!$announcement->user->is(Auth::user()) && Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+			return response()->json(['error' => 'Forbidden'], 403);
 		}
 
 		if (!empty($data['title'])) {
@@ -211,7 +238,14 @@ class AnnouncementController extends Controller {
 	}
 
 	public function destroy($id) {
-		Announcement::destroy($id);
+		$announcement = Announcement::find($id);
+
+		//acl
+		if (!$announcement->user->is(Auth::user()) && Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+			return response()->json(['error' => 'Forbidden'], 403);
+		}
+
+		$announcement->delete();
 
 		return response()->json(['message' => 'Deleted']);
 	}

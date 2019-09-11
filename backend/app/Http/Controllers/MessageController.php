@@ -55,7 +55,7 @@ class MessageController extends Controller {
 			);
 		}
 
-		return response()->json(['message' => 'Message created'], 201);
+		return response()->json($message, 201);
 	}
 
 	public function show($id) {
@@ -75,6 +75,7 @@ class MessageController extends Controller {
 	public function update(Request $request, $id) {
 		$data = $request->validate([
 			'message' => 'string',
+			'is_read' => 'boolean',
 		]);
 
 		$message = Message::find($id);
@@ -83,12 +84,21 @@ class MessageController extends Controller {
 		}
 
 		//acl
-		if (!$message->user->is(Auth::user())) {
+		if (!$message->user->is(Auth::user()) && !$message->recipient->is(Auth::user())) {
 			return response()->json(['error' => 'Forbidden'], 403);
+		}
+		if ($message->user->is(Auth::user()) && !empty($data['is_read'])) {
+			return response()->json(['error' => 'Can only change message'], 403);
+		}
+		if ($message->recipient->is(Auth::user()) && !empty($data['message'])) {
+			return response()->json(['error' => 'Can only change is_read'], 403);
 		}
 
 		if (!empty($data['message'])) {
 			$message->message = $data['message'];
+		}
+		if (isset($data['is_read'])) {
+			$message->is_read = boolval($data['is_read']);
 		}
 
 		$message->save();

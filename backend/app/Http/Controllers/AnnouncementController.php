@@ -19,7 +19,11 @@ class AnnouncementController extends Controller {
 		$public = Announcement::where('is_public', true)->get();
 
 		//get targeted announcements
-		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement');
+		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
+			$announcementWithIsRead = $announcementTarget->announcement;
+			$announcementWithIsRead->is_read = $announcementTarget->is_read;
+			return $announcementWithIsRead;
+		});
 
 		$announcements = $public->merge($targeted);
 
@@ -180,7 +184,7 @@ class AnnouncementController extends Controller {
 			}
 		}
 
-		return response()->json(['message' => 'Announcement created'], 201);
+		return response()->json($announcement, 201);
 	}
 
 	public function show($id) {

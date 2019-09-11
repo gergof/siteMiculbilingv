@@ -33,7 +33,8 @@ Route::post('auth/passwordReset', 'PasswordResetController@passwordReset');
 Route::post('auth/passwordReset/reset', 'PasswordResetController@reset');
 Route::post('auth/passwordReset/invalidate', 'PasswordResetController@invalidate');
 
-Route::get('publicAnnouncements', 'AnnouncementController@indexPublic');
-
-Route::resource('seasons', 'SeasonController')->only(['index', 'show']);
-Route::resource('schools', 'SchoolController')->only(['index', 'show']);
+Route::group(['prefix' => 'public'], function () {
+	Route::resource('announcements', 'AnnouncementController')->only(['index', 'show']);
+	Route::resource('seasons', 'SeasonController')->only(['index', 'show']);
+	Route::resource('schools', 'SchoolController')->only(['index', 'show']);
+});

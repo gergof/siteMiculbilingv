@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Season extends Model {
 	protected $fillable = ['name'];
+	protected $hidden = ['contracts', 'documents'];
 
 	public function contracts() {
 		return $this->hasMany('App\Contract');

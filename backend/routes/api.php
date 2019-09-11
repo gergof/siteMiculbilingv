@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::resource('announcementTargets', 'AnnouncementTargetController')->only(['index', 'update']);
 	Route::resource('messages', 'MessageController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('seasons', 'SeasonController')->only(['index', 'store', 'show', 'update']);
+	Route::resource('schools', 'SchoolController')->only(['index', 'store', 'show', 'update', 'destroy']);
 });
 
 Route::post('auth/login', 'LoginController@login');
@@ -35,3 +36,4 @@ Route::post('auth/passwordReset/invalidate', 'PasswordResetController@invalidate
 Route::get('publicAnnouncements', 'AnnouncementController@indexPublic');
 
 Route::resource('seasons', 'SeasonController')->only(['index', 'show']);
+Route::resource('schools', 'SchoolController')->only(['index', 'show']);

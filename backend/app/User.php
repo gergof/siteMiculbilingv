@@ -40,6 +40,10 @@ class User extends Authenticatable {
 		return $this->belongsTo('App\School');
 	}
 
+	public function announcements() {
+		return $this->hasMany('App\Announcement');
+	}
+
 	public function announcementTargets() {
 		return $this->hasMany('App\AnnouncementTarget');
 	}
@@ -50,5 +54,9 @@ class User extends Authenticatable {
 
 	public function incomingMessages() {
 		return $this->hasMany('App\Message', 'recipient_id');
+	}
+
+	public function documentTargets() {
+		return $this->hasMany('App\DocumentTarget');
 	}
 }

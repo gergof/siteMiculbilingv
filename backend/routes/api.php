@@ -14,9 +14,15 @@
 Route::group(['middleware' => 'auth:token'], function () {
 	Route::post('auth/logout', 'LoginController@logout');
 
+	Route::get('me', 'ProfileController@index');
+	Route::put('me', 'ProfileController@update');
+
 	Route::resource('announcements', 'AnnouncementController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('announcementTargets', 'AnnouncementTargetController')->only(['index', 'update']);
 	Route::resource('messages', 'MessageController')->only(['index', 'store', 'show', 'update', 'destroy']);
+	Route::resource('seasons', 'SeasonController')->only(['index', 'store', 'show', 'update']);
+	Route::resource('schools', 'SchoolController')->only(['index', 'store', 'show', 'update', 'destroy']);
+	Route::resource('contracts', 'ContractController')->only(['index', 'store', 'show', 'destroy']);
 });
 
 Route::post('auth/login', 'LoginController@login');
@@ -28,4 +34,8 @@ Route::post('auth/passwordReset', 'PasswordResetController@passwordReset');
 Route::post('auth/passwordReset/reset', 'PasswordResetController@reset');
 Route::post('auth/passwordReset/invalidate', 'PasswordResetController@invalidate');
 
-Route::get('publicAnnouncements', 'AnnouncementController@indexPublic');
+Route::group(['prefix' => 'public'], function () {
+	Route::resource('announcements', 'AnnouncementController')->only(['index', 'show']);
+	Route::resource('seasons', 'SeasonController')->only(['index', 'show']);
+	Route::resource('schools', 'SchoolController')->only(['index', 'show']);
+});

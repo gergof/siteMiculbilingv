@@ -18,14 +18,19 @@ class AnnouncementController extends Controller {
 		//get public announcements
 		$public = Announcement::where('is_public', true)->get();
 
-		//get targeted announcements
-		$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
-			$announcementWithIsRead = $announcementTarget->announcement;
-			$announcementWithIsRead->is_read = $announcementTarget->is_read;
-			return $announcementWithIsRead;
-		});
+		$announcements;
+		if (!is_null(Auth::user())) {
+			//get targeted announcements
+			$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
+				$announcementWithIsRead = $announcementTarget->announcement;
+				$announcementWithIsRead->is_read = $announcementTarget->is_read;
+				return $announcementWithIsRead;
+			});
 
-		$announcements = $public->merge($targeted);
+			$announcements = $public->merge($targeted);
+		} else {
+			$announcements = $public;
+		}
 
 		$announcements->sortByDesc('updated_at');
 
@@ -194,6 +199,7 @@ class AnnouncementController extends Controller {
 		} else {
 			//acl
 			if (
+				!$announcement->is_public &&
 				!Auth::user()->announcementTargets()->with('announcement')->get()->pluck('announcement')->contains('id', $announcement->id) &&
 				Auth::user()->role != 'manager' &&
 				Auth::user()->role != 'admin'

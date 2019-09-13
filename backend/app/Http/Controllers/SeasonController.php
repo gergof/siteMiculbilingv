@@ -17,7 +17,7 @@ class SeasonController extends Controller {
 		]);
 
 		//acl
-		if (Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+		if (Auth::user()->role != 'admin') {
 			return response()->json(['error' => 'Forbidden'], 403);
 		}
 
@@ -44,7 +44,7 @@ class SeasonController extends Controller {
 		]);
 
 		//acl
-		if (Auth::user()->role != 'manager' && Auth::user()->role != 'admin') {
+		if (Auth::user()->role != 'admin') {
 			return response()->json(['error' => 'Forbidden'], 403);
 		}
 

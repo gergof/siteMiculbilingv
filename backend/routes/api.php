@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::resource('messages', 'MessageController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('seasons', 'SeasonController')->only(['index', 'store', 'show', 'update']);
 	Route::resource('schools', 'SchoolController')->only(['index', 'store', 'show', 'update', 'destroy']);
+	Route::resource('contracts', 'ContractController')->only(['index', 'store', 'show', 'destroy']);
 });
 
 Route::post('auth/login', 'LoginController@login');

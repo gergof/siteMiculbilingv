@@ -28,4 +28,12 @@ class Document extends Model {
 	public function season() {
 		return $this->belongsTo('App\Season');
 	}
+
+	public static function boot() {
+		parent::boot();
+
+		static::deleting(function ($document) {
+			\Storage::disk('s3')->delete($document->file);
+		});
+	}
 }

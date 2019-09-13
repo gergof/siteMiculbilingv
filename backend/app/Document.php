@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
 class Document extends Model {
-	protected $fillable = ['name', 'file', 'mime'];
+	protected $fillable = ['name', 'is_public'];
+	protected $hidden = ['season', 'targets'];
 
 	public function saveFile(UploadedFile $file) {
 		$this->file = $file->store('documents', 's3');
@@ -27,6 +28,10 @@ class Document extends Model {
 
 	public function season() {
 		return $this->belongsTo('App\Season');
+	}
+
+	public function targets() {
+		return $this->hasMany('App\DocumentTarget');
 	}
 
 	public static function boot() {

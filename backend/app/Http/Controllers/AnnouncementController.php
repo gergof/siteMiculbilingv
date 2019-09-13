@@ -21,25 +21,26 @@ class AnnouncementController extends Controller {
 		$announcements;
 		if (!is_null(Auth::user())) {
 			//get targeted announcements
-			$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
-				$announcementWithIsRead = $announcementTarget->announcement;
-				$announcementWithIsRead->is_read = $announcementTarget->is_read;
-				return $announcementWithIsRead;
-			});
+			if (Auth::user()->role != 'admin' && Auth::user()->role != 'manager') {
+				$targeted = Auth::user()->announcementTargets()->with('announcement')->get()->map(function ($announcementTarget) {
+					$announcementWithIsRead = $announcementTarget->announcement;
+					$announcementWithIsRead->is_read = $announcementTarget->is_read;
+					return $announcementWithIsRead;
+				});
 
-			$announcements = $public->merge($targeted);
+				$announcements = $public->merge($targeted);
+
+				if (Auth::user()->role == 'lmanager') {
+					$announcements = $announcements->merge(Auth::user()->announcements);
+				}
+			} else {
+				$announcements = Announcement::all();
+			}
 		} else {
 			$announcements = $public;
 		}
 
 		$announcements->sortByDesc('updated_at');
-
-		return response()->json($announcements);
-	}
-
-	public function indexPublic() {
-		//get public announcements
-		$announcements = Announcement::where('is_public', true)->latest()->get();
 
 		return response()->json($announcements);
 	}

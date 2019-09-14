@@ -17,6 +17,9 @@ class CreatePartialResultsTable extends Migration {
 			$table->bigInteger('objective_id');
 			$table->tinyInteger('result');
 			$table->timestamps();
+
+			$table->foreign('student_id')->references('id')->on('students');
+			$table->foreign('objective_id')->references('id')->on('objectives')->onDelete('cascade');
 		});
 	}
 

@@ -59,4 +59,8 @@ class User extends Authenticatable {
 	public function documentTargets() {
 		return $this->hasMany('App\DocumentTarget');
 	}
+
+	public function students() {
+		return $this->hasMany('App\Student');
+	}
 }

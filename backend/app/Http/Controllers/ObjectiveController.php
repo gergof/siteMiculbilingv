@@ -14,6 +14,7 @@ class ObjectiveController extends Controller {
 			'phase_id' => 'integer|required|exists:phases,id',
 		]);
 
+		//acl
 		if (is_null(Auth::user()) || (Auth::user()->role != 'manager' && Auth::user()->role != 'admin')) {
 			$phase = Phase::find($filters['phase_id']);
 			if ($phase->deadline->greaterThan(Carbon::now())) {

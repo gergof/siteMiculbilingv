@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model {
 	protected $fillable = ['name', 'class'];
-	protected $hidden = ['season', 'partialResults', 'results'];
+	protected $hidden = ['season', 'partialResults', 'results', 'school', 'user'];
 
 	public function season() {
 		return $this->belongsTo('App\Season');
@@ -18,5 +18,13 @@ class Student extends Model {
 
 	public function results() {
 		return $this->hasMany('App\Result');
+	}
+
+	public function school() {
+		return $this->belongsTo('App\School');
+	}
+
+	public function user() {
+		return $this->belongsTo('App\User');
 	}
 }

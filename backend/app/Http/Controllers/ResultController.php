@@ -131,6 +131,10 @@ class ResultController extends Controller {
 			}
 		}
 
+		if (isset($data['is_advanced']) && !$result->phase->is_advance) {
+			return response()->json(['error' => 'Not advancing phase'], 400);
+		}
+
 		if (isset($data['is_absent'])) {
 			$result->is_absent = $data['is_absent'];
 		}

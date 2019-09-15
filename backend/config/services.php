@@ -22,4 +22,5 @@ return [
 	],
 
 	'supportedCounties' => env('SUPPORTED_COUNTIES'),
+	'maxEntries' => env('MAX_ENTRIES'),
 ];

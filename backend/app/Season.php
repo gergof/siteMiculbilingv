@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Season extends Model {
 	protected $fillable = ['name'];
-	protected $hidden = ['contracts', 'documents'];
+	protected $hidden = ['contracts', 'documents', 'phases', 'students'];
 
 	public function contracts() {
 		return $this->hasMany('App\Contract');
@@ -14,5 +14,13 @@ class Season extends Model {
 
 	public function documents() {
 		return $this->hasMany('App\Document');
+	}
+
+	public function phases() {
+		return $this->hasMany('App\Phase');
+	}
+
+	public function students() {
+		return $this->hasMany('App\Student');
 	}
 }

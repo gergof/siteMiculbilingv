@@ -17,6 +17,8 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::get('me', 'ProfileController@index');
 	Route::put('me', 'ProfileController@update');
 
+	Route::post('contest/calculateResults', 'ContestController@calculateResults');
+
 	Route::resource('announcements', 'AnnouncementController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('announcementTargets', 'AnnouncementTargetController')->only(['index', 'update']);
 	Route::resource('messages', 'MessageController')->only(['index', 'store', 'show', 'update', 'destroy']);

@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::resource('students', 'StudentController')->only(['index', 'show', 'update']);
 	Route::resource('objectives', 'ObjectiveController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('partialResults', 'PartialResultController')->only(['index', 'store', 'show', 'update', 'destroy']);
+	Route::resource('results', 'ResultController')->only(['index', 'store', 'show', 'update']);
 });
 
 Route::post('auth/login', 'LoginController@login');
@@ -49,4 +50,5 @@ Route::group(['prefix' => 'public'], function () {
 	Route::resource('students', 'StudentController')->only(['index', 'show']);
 	Route::resource('objectives', 'ObjectiveController')->only(['index', 'show']);
 	Route::resource('partialResults', 'PartialResultController')->only(['index', 'show']);
+	Route::resource('results', 'ResultController')->only(['index', 'show']);
 });

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model {
-	protected $fillable = ['result', 'is_absent'];
+	protected $fillable = ['result', 'is_absent', 'is_advanced'];
 	protected $hidden = ['student', 'phase'];
 
 	public function student() {

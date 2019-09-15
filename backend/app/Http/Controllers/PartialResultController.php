@@ -64,14 +64,16 @@ class PartialResultController extends Controller {
 			if ($student->school->county != Auth::user()->school->county) {
 				return response()->json(['error' => 'Forbiden'], 403);
 			}
+			if (!$objective->phase->is_local_managed) {
+				return response()->json(['error' => 'Forbiden'], 403);
+			}
 		}
 
 		if (!$objective->phase->is_rated) {
 			return response()->json(['error' => 'Phase not rated'], 400);
 		}
 
-		$existing = PartialResult::where('student_id', $data['student_id'])->where('objective_id', $data['objective_id'])->first();
-		if (!is_null($existing)) {
+		if (PartialResult::where('student_id', $data['student_id'])->where('objective_id', $data['objective_id'])->exists()) {
 			return response()->json(['error' => 'Partial result already exists'], 400);
 		}
 
@@ -132,6 +134,9 @@ class PartialResultController extends Controller {
 				return response()->json(['error' => 'Deadline already passed'], 400);
 			}
 			if ($partialResult->student->school->county != Auth::user()->school->county) {
+				return response()->json(['error' => 'Forbiden'], 403);
+			}
+			if (!$partialResult->objective->phase->is_local_managed) {
 				return response()->json(['error' => 'Forbiden'], 403);
 			}
 		}

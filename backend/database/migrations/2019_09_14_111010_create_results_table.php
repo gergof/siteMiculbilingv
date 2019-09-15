@@ -15,8 +15,9 @@ class CreateResultsTable extends Migration {
 			$table->bigIncrements('id');
 			$table->bigInteger('student_id');
 			$table->bigInteger('phase_id');
-			$table->boolean('is_absent');
-			$table->integer('result');
+			$table->boolean('is_absent')->default(false);
+			$table->boolean('is_advanced')->default(false);
+			$table->integer('result')->default(0);
 			$table->timestamps();
 
 			$table->foreign('student_id')->references('id')->on('students');

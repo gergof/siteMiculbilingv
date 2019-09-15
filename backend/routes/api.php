@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::resource('documents', 'DocumentController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('documentTargets', 'DocumentTargetController')->only(['index']);
 	Route::resource('phases', 'PhaseController')->only(['index', 'store', 'show', 'update', 'destroy']);
-	Route::resource('students', 'StudentController')->only(['index', 'show', 'update']);
+	Route::resource('students', 'StudentController')->only(['index', 'store', 'show', 'update']);
 	Route::resource('objectives', 'ObjectiveController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('partialResults', 'PartialResultController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('results', 'ResultController')->only(['index', 'store', 'show', 'update']);

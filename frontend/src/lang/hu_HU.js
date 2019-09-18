@@ -1,6 +1,6 @@
 export default {
 	loginError: 'Hibás felhasználónév vagy jelszó.',
-	loginSuccess: 'Sikeres bejelentkeztél.',
+	loginSuccess: 'Sikeresen bejelentkeztél.',
 	logoutSuccess: 'Sikeresen kijelentkeztél.',
 	error404: 'Sajnáljuk, a keresett oldal nem található.',
 	goHome: 'Vissza a kezdőlapra',

@@ -120,7 +120,7 @@ export const login = cred => dispatch => {
 			} else {
 				dispatch(setAuthToken(resp.data.token));
 				axios.defaults.headers['Authorization'] = resp.data.token;
-				dispatch(addNotification('message', getLang().loginSuccess));
+				dispatch(addNotification('success', getLang().loginSuccess));
 			}
 		});
 };
@@ -132,7 +132,7 @@ export const logout = () => (dispatch, getState) => {
 			dispatch(setAuthLoading(false));
 			dispatch(clearAuthToken());
 			axios.defaults.headers['Authorization'] = '';
-			dispatch(addNotification('message', getLang().logoutSuccess));
+			dispatch(addNotification('success', getLang().logoutSuccess));
 		});
 	}
 };

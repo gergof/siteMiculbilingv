@@ -27,17 +27,18 @@ import Logout from './Logout';
 const styles = theme => ({
 	appBar: {
 		width: '100%',
-		paddingLeft: '250px'
+		zIndex: theme.zIndex.drawer+1
 	},
 	toolbar: {
-		paddingLeft: theme.spacing(5),
 		justifyContent: 'space-between'
 	},
 	title: {
 		color: theme.palette.primary.contrastText
 	},
 	drawer: {
-		width: '250px'
+		width: '250px',
+		paddingTop: '20px',
+		paddingLeft: theme.spacing(1)
 	},
 	drawerPlaceholder: {
 		...theme.mixins.toolbar

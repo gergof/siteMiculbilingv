@@ -22,6 +22,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 import Login from './Login';
+import Logout from './Logout';
 
 const styles = theme => ({
 	appBar: {
@@ -80,11 +81,14 @@ export const Scenes = ({
 								open={!!accountMenu}
 								onClose={onAccountMenuClose}
 							>
-								<MenuItem style={{paddingLeft: '43px'}} onClick={() => goTo('/profile')}>
+								<MenuItem
+									style={{ paddingLeft: '43px' }}
+									onClick={() => goTo('/profile')}
+								>
 									{lang.profile}
 								</MenuItem>
 								<MenuItem onClick={() => goTo('/auth/logout')}>
-									<PowerSettingsNewIcon style={{paddingRight: '4px'}} />
+									<PowerSettingsNewIcon style={{ paddingRight: '4px' }} />
 									<span>{lang.logout}</span>
 								</MenuItem>
 							</Menu>
@@ -137,6 +141,7 @@ export const Scenes = ({
 			<div className={classes.content}>
 				<Switch>
 					<Route exact path="/auth/login" component={Login} />
+					<Route exact path="/auth/logout" component={Logout} />
 				</Switch>
 			</div>
 		</React.Fragment>

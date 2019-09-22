@@ -56,7 +56,7 @@ const reducer = (state = initialState, action) => {
 		case types.DELETE_NOTIFICATION:
 			return {
 				...state,
-				notifications: notifications.filter(
+				notifications: state.notifications.filter(
 					notification => notification.id != action.payload
 				)
 			};

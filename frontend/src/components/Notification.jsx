@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withState, withHandler } from 'recompose';
+import { compose, withState, withHandlers } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
 
 import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Collapse from '@material-ui/core/Collapse';
 
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -15,7 +16,10 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const styles = theme => ({
 	snackbar: {
-		margin: theme.spacing(2)
+		margin: theme.spacing(1),
+		position: 'static',
+		left: 0,
+		transform: 'none'
 	},
 	success: {
 		backgroundColor: green[600]
@@ -30,18 +34,24 @@ const styles = theme => ({
 		display: 'flex',
 		alignItems: 'center'
 	},
+	messageText: {
+		paddingLeft: '5px'
+	},
 	icon: {
 		width: '20px',
 		height: '20px'
 	}
 });
 
-export const Notification = ({ type, message, open, onClose, classes }) => {
+export const Notification = ({ id, type, message, open, onClose, classes }) => {
 	return (
 		<Snackbar
+			key={id}
 			open={open}
 			autoHideDuration={10000}
 			onClose={onClose}
+			classes={{ root: classes.snackbar }}
+			TransitionComponent={Collapse}
 		>
 			<SnackbarContent
 				className={classes[type]}
@@ -50,11 +60,11 @@ export const Notification = ({ type, message, open, onClose, classes }) => {
 						{type == 'success' ? (
 							<CheckCircleIcon className={classes.icon} />
 						) : type == 'error' ? (
-							<ErrorIcon classes={classes.icon} />
+							<ErrorIcon className={classes.icon} />
 						) : (
-							<InfoIcon classes={classes.icon} />
+							<InfoIcon className={classes.icon} />
 						)}
-						{message}
+						<span className={classes.messageText}>{message}</span>
 					</span>
 				}
 				action={[
@@ -67,10 +77,22 @@ export const Notification = ({ type, message, open, onClose, classes }) => {
 	);
 };
 
+Notification.propTypes = {
+	id: PropTypes.string,
+	type: PropTypes.string,
+	message: PropTypes.string,
+	open: PropTypes.bool,
+	onClose: PropTypes.func,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withState('open', 'setOpen', true),
-	withHandler({
-		onClose: ({ setOpen, onClose }) => () => {
+	withHandlers({
+		onClose: ({ setOpen, onClose }) => (e, reason) => {
+			if (reason == 'clickaway') {
+				return;
+			}
 			setOpen(false);
 			setTimeout(onClose, 500);
 		}

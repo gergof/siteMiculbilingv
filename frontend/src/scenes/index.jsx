@@ -21,13 +21,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
+import NotificationList from '../components/NotificationList';
+
 import Login from './Login';
 import Logout from './Logout';
 
 const styles = theme => ({
 	appBar: {
 		width: '100%',
-		zIndex: theme.zIndex.drawer+1
+		zIndex: theme.zIndex.drawer + 1
 	},
 	toolbar: {
 		justifyContent: 'space-between'
@@ -139,6 +141,7 @@ export const Scenes = ({
 					)}
 				</List>
 			</Drawer>
+			<NotificationList />
 			<div className={classes.content}>
 				<Switch>
 					<Route exact path="/auth/login" component={Login} />

@@ -118,8 +118,8 @@ export const login = cred => dispatch => {
 			if (resp.status != 200) {
 				dispatch(addNotification('error', getLang().loginError));
 			} else {
-				dispatch(setAuthToken(resp.data.token));
 				axios.defaults.headers['Authorization'] = resp.data.token;
+				dispatch(setAuthToken(resp.data.token));
 				dispatch(addNotification('success', getLang().loginSuccess));
 			}
 		});
@@ -129,9 +129,9 @@ export const logout = () => (dispatch, getState) => {
 	if (getState().app.auth.token) {
 		dispatch(setAuthLoading(true));
 		axios.post('/auth/logout').then(resp => {
+			axios.defaults.headers['Authorization'] = '';
 			dispatch(setAuthLoading(false));
 			dispatch(clearAuthToken());
-			axios.defaults.headers['Authorization'] = '';
 			dispatch(addNotification('success', getLang().logoutSuccess));
 		});
 	}

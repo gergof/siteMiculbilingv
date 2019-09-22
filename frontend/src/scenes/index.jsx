@@ -23,6 +23,7 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 import NotificationList from '../components/NotificationList';
 
+import Index from './Index';
 import Login from './Login';
 import Logout from './Logout';
 
@@ -144,6 +145,7 @@ export const Scenes = ({
 			<NotificationList />
 			<div className={classes.content}>
 				<Switch>
+					<Route exact path="/" component={Index} />
 					<Route exact path="/auth/login" component={Login} />
 					<Route exact path="/auth/logout" component={Logout} />
 				</Switch>

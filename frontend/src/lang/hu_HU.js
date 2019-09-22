@@ -14,5 +14,7 @@ export default {
 	registration: 'Regisztráció',
 	enterContest: 'Nevezés',
 	email: 'Email cím',
-	password: 'Jelszó'
+	password: 'Jelszó',
+	contestAbout: 'A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. A Micul Bilingv immáron második éve kerül megrendezésre, hogy a 3-4 osztályos tanulók összemérhessék román tudásukat ésatöbbi. ',
+	news: 'Hírek'
 };

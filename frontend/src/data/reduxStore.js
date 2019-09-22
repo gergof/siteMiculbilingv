@@ -5,9 +5,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import appDuck from './duck';
+import indexDuck from '../scenes/Index/data/duck';
 
 const rootReducer = combineReducers({
-	app: appDuck
+	app: appDuck,
+	index: indexDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

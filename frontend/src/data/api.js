@@ -14,24 +14,16 @@ const getAxios = (apiBase, token) => {
 };
 
 export const listModels = (modelName, params, publicEndpoint = false) =>
-	axios.get('/' +(publicEndpoint && 'public/') + modelName, {
-		params: params
-	});
+	axios.get('/' +(publicEndpoint ? 'public/' : '') + modelName, params);
 
 export const getModel = (modelName, id, params, publicEndpoint = false) =>
-	axios.get('/' +(publicEndpoint && 'public/') + modelName + '/' + id, {
-		params: params
-	});
+	axios.get('/' +(publicEndpoint ? 'public/' : '') + modelName + '/' + id, params);
 
 export const createModel = (modelName, params) =>
-	axios.post('/' +modelName, {
-		params: params
-	});
+	axios.post('/' +modelName, params);
 
 export const updateModel = (modelName, id, params) =>
-	axios.put('/' +modelName + '/' + id, {
-		params: params
-	});
+	axios.put('/' +modelName + '/' + id, params);
 
 export const deleteModel = (modelName, id) =>
 	axios.delete('/' +modelName + '/' + id);

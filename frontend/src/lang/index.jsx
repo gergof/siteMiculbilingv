@@ -10,7 +10,9 @@ const language = {
 let cached;
 
 export const getLang = lang => {
-	cached = lang;
+	if(lang){
+		cached = lang;
+	}
 	return language[lang || cached || process.env.DEFAULT_LANGUAGE || 'hu_HU'];
 };
 

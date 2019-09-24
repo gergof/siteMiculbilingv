@@ -12,7 +12,7 @@ class SchoolController extends Controller {
 		if (!is_null(Auth::user()) && (Auth::user()->role == 'manager' || Auth::user()->role == 'admin')) {
 			return response()->json(School::all());
 		} else {
-			$schools = Season::latest()->first()->contracts->pluck('school')->unique();
+			$schools = Season::latest()->first()->contracts->pluck('school')->unique()->flatten();
 			return response()->json($schools);
 		}
 	}

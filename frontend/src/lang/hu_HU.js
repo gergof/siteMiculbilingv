@@ -22,6 +22,7 @@ export default {
 	countySelect: 'Megye kiválasztása',
 	previous: 'Vissza',
 	next: 'Tovább',
-	selected: 'Kiválasztva',
-	pleaseSelectCounty: 'Kérlek válaszd ki a megyédet!'
+	pleaseSelectCounty: 'Kérlek válaszd ki a megyédet!',
+	pleaseSelectSchool: 'Kérlek válaszd ki az iskoládat, vagy ha nem találod, add hozzá!',
+	schoolSelect: 'Iskola kiválasztása',
 };

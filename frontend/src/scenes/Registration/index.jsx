@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 import CountySelect from './steps/CountySelect';
+import SchoolSelect from './steps/SchoolSelect';
 
 const styles = theme => ({
 	title: {
@@ -30,7 +31,7 @@ const styles = theme => ({
 });
 
 export const Registration = ({ activeStep, onNextStepClick, onPrevStepClick, lang, classes }) => {
-	const steps = [{ id: 1, label: lang.countySelect, Comp: CountySelect }];
+	const steps = [{ id: 1, label: lang.countySelect, Comp: CountySelect }, {id: 2, label: lang.schoolSelect, Comp: SchoolSelect}];
 
 	return (
 		<Paper className={classes.container}>
@@ -38,9 +39,11 @@ export const Registration = ({ activeStep, onNextStepClick, onPrevStepClick, lan
 			<Formik
 				initialValues={{
 					school_county: null,
+					school_id: 0,
 				}}
 				validationSchema={Yup.object().shape({
-					school_county: Yup.string().oneOf(process.env.SUPPORTED_COUNTIES.split(','))
+					school_county: Yup.string().oneOf(process.env.SUPPORTED_COUNTIES.split(',')),
+					school_id: Yup.number().positive(),
 				})}
 				onSubmit={values => {
 					console.log(values);

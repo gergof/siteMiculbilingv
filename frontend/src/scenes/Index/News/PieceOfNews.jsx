@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import DraftsIcon from '@material-ui/icons/Drafts';
 import MarkunreadIcon from '@material-ui/icons/Markunread';
@@ -57,9 +58,21 @@ export const PieceOfNews = ({ news, onToggleReadClick, lang, classes }) => {
 						{news.target.loading ? (
 							<CircularProgress />
 						) : (
-							<IconButton onClick={onToggleReadClick}>
-								{news.target.is_read == 1 ? <DraftsIcon /> : <MarkunreadIcon />}
-							</IconButton>
+							<Tooltip
+								enterDelay={500}
+								placement="top"
+								title={
+									news.target.is_read == 1 ? lang.markAsRead : lang.markAsUnread
+								}
+							>
+								<IconButton onClick={onToggleReadClick}>
+									{news.target.is_read == 1 ? (
+										<DraftsIcon />
+									) : (
+										<MarkunreadIcon />
+									)}
+								</IconButton>
+							</Tooltip>
 						)}
 					</Grid>
 				) : null}

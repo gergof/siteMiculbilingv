@@ -4,28 +4,85 @@ import { compose, lifecycle, withHandlers, withState } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../../lang';
 import { Field } from 'formik';
-import {listModels} from '../../../data/api';
+import { listModels } from '../../../data/api';
+import classnames from 'classnames';
 
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Select from '@material-ui/core/Select';
 import Collapse from '@material-ui/core/Collapse';
 import MenuItem from '@material-ui/core/MenuItem';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 
-const styles = theme => ({});
+const styles = theme => ({
+	task: {
+		marginBottom: theme.spacing(3),
+	},
+	selectContainer: {
+		textAlign: 'center',
+		position: 'relative'
+	},
+	select: {
+		width: '80%',
+	},
+	isFetchingIndicator: {
+		position: 'absolute',
+		top: '8px'
+	},
+	hidden: {
+		opacity: 0
+	},
+	newSchoolForm: {
+		marginTop: theme.spacing(5),
+		textAlign: 'center'
+	},
+	textField: {
+		width: '80%',
+		marginBottom: theme.spacing(3)
+	}
+});
 
-export const SchoolSelect = ({ schools, lang, classes, ...rest }) => {
+export const SchoolSelect = ({ schools, isFetching, isNewSchool, handleNewSchool, lang, classes, ...rest }) => {
 	return (
 		<React.Fragment>
 			<Typography>{lang.pleaseSelectSchool}</Typography>
-			<Field name="school_id"
-				render={({field}) => (
-					<Select {...field}>
-						{schools.map(school => (
-							<MenuItem key={school.id} value={school.id}>{school.name_hu}</MenuItem>
-						))}
-					</Select>
-			)}/>
+			<Field name="school_id">
+				{({ field }) => (
+					<div className={classes.selectContainer}>
+						<Select className={classes.select} {...field} onChange={(e) => {field.onChange(e); handleNewSchool(e)}}>
+							{schools.map(school => (
+								<MenuItem key={school.id} value={school.id}>
+									{school.name_ro}
+								</MenuItem>
+							))}
+							<MenuItem value={-1}>
+								{lang.newSchool}
+							</MenuItem>
+						</Select>
+						<CircularProgress size={20} className={classnames({[classes.isFetchingIndicator]: true, [classes.hidden]: !isFetching})} />
+					</div>
+				)}
+			</Field>
+			<Collapse in={isNewSchool}>
+				<div className={classes.newSchoolForm}>
+					<Field name="school_name_ro">
+						{({field, form}) => (
+							<TextField {...field} className={classes.textField} label={lang.schoolNameRo} error={!!form.errors.school_name_ro && !!form.touched.school_name_ro} />
+						)}
+					</Field>
+					<Field name="school_name_hu">
+						{({field, form}) => (
+							<TextField {...field} className={classes.textField} label={lang.schoolNameHu} error={!!form.errors.school_name_hu && !!form.touched.school_name_hu} />
+						)}
+					</Field>
+					<Field name="school_city">
+						{({field, form}) => (
+							<TextField {...field} className={classes.textField} label={lang.city} error={!!form.errors.school_city && !!form.touched.school_city} />
+						)}
+					</Field>
+				</div>
+			</Collapse>
 		</React.Fragment>
 	);
 };
@@ -33,17 +90,23 @@ export const SchoolSelect = ({ schools, lang, classes, ...rest }) => {
 SchoolSelect.propTypes = {};
 
 export const enhancer = compose(
-	withState('newSchool', 'setNewSchool', false),
+	withState('isNewSchool', 'setIsNewSchool', false),
+	withState('isFetching', 'setIsFetching', true),
 	withState('schools', 'setSchools', []),
 	withHandlers({
-		onSchoolClick: ({setNewSchool}) => e => {
-			console.log(e);
+		handleNewSchool: ({setIsNewSchool}) => (e) => {
+			if(e.target.value==-1){
+				setIsNewSchool(true);
+			}
+			else{
+				setIsNewSchool(false);
+			}
 		}
 	}),
 	lifecycle({
-		componentDidMount(){
+		componentDidMount() {
 			listModels('schools', null, true).then(res => {
-				console.log(res.data);
+				this.props.setIsFetching(false);
 				this.props.setSchools(res.data);
 			});
 		}

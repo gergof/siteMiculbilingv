@@ -25,4 +25,8 @@ export default {
 	pleaseSelectCounty: 'Kérlek válaszd ki a megyédet!',
 	pleaseSelectSchool: 'Kérlek válaszd ki az iskoládat, vagy ha nem találod, add hozzá!',
 	schoolSelect: 'Iskola kiválasztása',
+	newSchool: 'Iskola hozzáadása',
+	schoolNameRo: 'Iskola román neve',
+	schoolNameHu: 'Iskola magyar neve',
+	city: 'Város'
 };

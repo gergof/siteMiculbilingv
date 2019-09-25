@@ -44,14 +44,14 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 				onSubmit={values => {
 					login(values);
 				}}
-				render={({ touched, errors }) => (
+			>
+				{({ touched, errors }) => (
 					<Form>
 						<Typography variant="h6" gutterBottom>
 							{lang.login}
 						</Typography>
-						<Field
-							name="email"
-							render={({ field }) => (
+						<Field name="email">
+							{({ field }) => (
 								<TextField
 									{...field}
 									label={lang.email}
@@ -60,11 +60,10 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 									required
 								/>
 							)}
-						/>
+						</Field>
 						<br />
-						<Field
-							name="password"
-							render={({ field }) => (
+						<Field name="password">
+							{({ field }) => (
 								<TextField
 									{...field}
 									label={lang.password}
@@ -73,7 +72,7 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 									required
 								/>
 							)}
-						/>
+						</Field>
 						<br />
 						<Button
 							type="submit"
@@ -89,7 +88,7 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 						</Button>
 					</Form>
 				)}
-			/>
+			</Formik>
 		</Paper>
 	);
 };

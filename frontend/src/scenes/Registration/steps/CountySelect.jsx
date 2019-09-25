@@ -9,26 +9,32 @@ import Typography from '@material-ui/core/Typography';
 
 import CountyPicker from '../../../components/CountyPicker';
 
-const styles = theme => ({});
+const styles = theme => ({
+	task: {
+		marginBottom: theme.spacing(3)
+	}
+});
 
 export const CountySelect = ({ lang, classes, ...rest }) => {
 	return (
 		<React.Fragment>
-			<Typography>{lang.pleaseSelectCounty}</Typography>
-			<Field
-				name="school_county"
-				render={({ field }) => (
+			<Typography className={classes.task}>{lang.pleaseSelectCounty}</Typography>
+			<Field name="school_county">
+				{({ field }) => (
 					<CountyPicker
 						value={field.value}
 						onChange={county => field.onChange('school_county')(county)}
 					/>
 				)}
-			/>
+			</Field>
 		</React.Fragment>
 	);
 };
 
-CountySelect.propTypes = {};
+CountySelect.propTypes = {
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
 
 export const enhancer = compose(
 	withLang,

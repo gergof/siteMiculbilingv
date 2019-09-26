@@ -17,14 +17,14 @@ import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
 	task: {
-		marginBottom: theme.spacing(3),
+		marginBottom: theme.spacing(3)
 	},
 	selectContainer: {
 		textAlign: 'center',
 		position: 'relative'
 	},
 	select: {
-		width: '80%',
+		width: '80%'
 	},
 	isFetchingIndicator: {
 		position: 'absolute',
@@ -43,42 +43,80 @@ const styles = theme => ({
 	}
 });
 
-export const SchoolSelect = ({ schools, isFetching, isNewSchool, handleNewSchool, lang, classes, ...rest }) => {
+export const SchoolSelect = ({
+	schools,
+	isFetching,
+	isNewSchool,
+	handleNewSchool,
+	lang,
+	classes,
+	...rest
+}) => {
 	return (
 		<React.Fragment>
 			<Typography>{lang.pleaseSelectSchool}</Typography>
 			<Field name="school_id">
 				{({ field }) => (
 					<div className={classes.selectContainer}>
-						<Select className={classes.select} {...field} onChange={(e) => {field.onChange(e); handleNewSchool(e)}}>
+						<Select
+							className={classes.select}
+							{...field}
+							onChange={e => {
+								field.onChange(e);
+								handleNewSchool(e);
+							}}
+						>
 							{schools.map(school => (
 								<MenuItem key={school.id} value={school.id}>
 									{school.name_ro}
 								</MenuItem>
 							))}
-							<MenuItem value={-1}>
-								{lang.newSchool}
-							</MenuItem>
+							<MenuItem value={-1}>{lang.newSchool}</MenuItem>
 						</Select>
-						<CircularProgress size={20} className={classnames({[classes.isFetchingIndicator]: true, [classes.hidden]: !isFetching})} />
+						<CircularProgress
+							size={20}
+							className={classnames({
+								[classes.isFetchingIndicator]: true,
+								[classes.hidden]: !isFetching
+							})}
+						/>
 					</div>
 				)}
 			</Field>
 			<Collapse in={isNewSchool}>
 				<div className={classes.newSchoolForm}>
 					<Field name="school_name_ro">
-						{({field, form}) => (
-							<TextField {...field} className={classes.textField} label={lang.schoolNameRo} error={!!form.errors.school_name_ro && !!form.touched.school_name_ro} />
+						{({ field, form }) => (
+							<TextField
+								{...field}
+								className={classes.textField}
+								label={lang.schoolNameRo}
+								error={
+									!!form.errors.school_name_ro && !!form.touched.school_name_ro
+								}
+							/>
 						)}
 					</Field>
 					<Field name="school_name_hu">
-						{({field, form}) => (
-							<TextField {...field} className={classes.textField} label={lang.schoolNameHu} error={!!form.errors.school_name_hu && !!form.touched.school_name_hu} />
+						{({ field, form }) => (
+							<TextField
+								{...field}
+								className={classes.textField}
+								label={lang.schoolNameHu}
+								error={
+									!!form.errors.school_name_hu && !!form.touched.school_name_hu
+								}
+							/>
 						)}
 					</Field>
 					<Field name="school_city">
-						{({field, form}) => (
-							<TextField {...field} className={classes.textField} label={lang.city} error={!!form.errors.school_city && !!form.touched.school_city} />
+						{({ field, form }) => (
+							<TextField
+								{...field}
+								className={classes.textField}
+								label={lang.city}
+								error={!!form.errors.school_city && !!form.touched.school_city}
+							/>
 						)}
 					</Field>
 				</div>
@@ -94,11 +132,10 @@ export const enhancer = compose(
 	withState('isFetching', 'setIsFetching', true),
 	withState('schools', 'setSchools', []),
 	withHandlers({
-		handleNewSchool: ({setIsNewSchool}) => (e) => {
-			if(e.target.value==-1){
+		handleNewSchool: ({ setIsNewSchool }) => e => {
+			if (e.target.value == -1) {
 				setIsNewSchool(true);
-			}
-			else{
+			} else {
 				setIsNewSchool(false);
 			}
 		}
@@ -109,6 +146,9 @@ export const enhancer = compose(
 				this.props.setIsFetching(false);
 				this.props.setSchools(res.data);
 			});
+			if (this.props.form.values.school_id == -1) {
+				this.props.setIsNewSchool(true);
+			}
 		}
 	}),
 	withLang,

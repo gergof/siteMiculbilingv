@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withState, withHandlers } from 'recompose';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../lang';
+import { withAxios } from 'react-axios';
+import { connect } from 'react-redux';
+import { addNotification } from '../../data/duck';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -13,9 +17,12 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CountySelect from './steps/CountySelect';
 import SchoolSelect from './steps/SchoolSelect';
+import PersonalData from './steps/PersonalData';
+import VerifyData from './steps/VerifyData';
 
 const styles = theme => ({
 	title: {
@@ -24,13 +31,25 @@ const styles = theme => ({
 	container: {
 		padding: theme.spacing(5)
 	},
-	controls:{ 
+	controls: {
 		marginTop: theme.spacing(3)
 	},
 	button: {
 		minWidth: '100px',
 		marginRight: theme.spacing(1),
 		marginTop: theme.spacing(1)
+	},
+	submitButtonContainer: {
+		textAlign: 'center'
+	},
+	submitButton: {
+		width: '50%',
+		minWidth: '250px',
+		marginTop: theme.spacing(8)
+	},
+	indicator: {
+		margin: 'auto',
+		display: 'block'
 	}
 });
 
@@ -38,6 +57,9 @@ export const Registration = ({
 	activeStep,
 	onNextStepClick,
 	onPrevStepClick,
+	isSubmitting,
+	isRegDone,
+	onSubmit,
 	lang,
 	classes
 }) => {
@@ -52,7 +74,33 @@ export const Registration = ({
 			id: 2,
 			label: lang.schoolSelect,
 			Comp: SchoolSelect,
-			hasErrors: errors => !!(errors.school_id)
+			hasErrors: errors =>
+				!!(
+					errors.school_id ||
+					errors.school_name_ro ||
+					errors.school_name_hu ||
+					errors.school_city
+				)
+		},
+		{
+			id: 3,
+			label: lang.personalData,
+			Comp: PersonalData,
+			hasErrors: errors =>
+				!!(
+					errors.name ||
+					errors.email ||
+					errors.passwordConf ||
+					errors.class3 ||
+					errors.class4 ||
+					errors.class_size
+				)
+		},
+		{
+			id: 4,
+			label: lang.verifyData,
+			Comp: VerifyData,
+			hasErrors: () => false
 		}
 	];
 
@@ -66,31 +114,71 @@ export const Registration = ({
 					school_name_ro: '',
 					school_name_hu: '',
 					school_city: '',
+					name: '',
+					email: '',
+					password: '',
+					passwordConf: '',
+					class3: false,
+					class4: false,
+					class_size: 0
 				}}
 				initialErrors={{
 					school_county: true,
 					school_id: true,
+					name: true,
+					email: true,
+					password: true,
+					passwordConf: true
 				}}
 				validationSchema={Yup.object().shape({
 					school_county: Yup.string()
 						.oneOf(process.env.SUPPORTED_COUNTIES.split(','))
 						.required(),
-					school_id: Yup.number().when('school_name_ro', {is: '', then: Yup.number().positive().required(), otherwise: Yup.number()}),
-					school_name_ro: Yup.string().when('school_id', {is: '', then: Yup.string().required(), otherwise: Yup.string()}),
-					school_name_hu: Yup.string().when('school_id', (school_id, schema) => school_id > 0 ? schema : schema.required()),
-					school_city: Yup.string().when('school_id', (school_id, schema) => school_id > 0 ? schema : schema.required()),
+					school_id: Yup.number()
+						.integer()
+						.test('non-zero', val => val != 0)
+						.required(),
+					school_name_ro: Yup.string().when('school_id', (school_id, schema) =>
+						school_id > 0 ? schema : schema.required()
+					),
+					school_name_hu: Yup.string().when('school_id', (school_id, schema) =>
+						school_id > 0 ? schema : schema.required()
+					),
+					school_city: Yup.string().when('school_id', (school_id, schema) =>
+						school_id > 0 ? schema : schema.required()
+					),
+					name: Yup.string().required(),
+					email: Yup.string()
+						.email()
+						.required(),
+					password: Yup.string()
+						.min(8, lang.passwordTooShort)
+						.required(lang.mustFill),
+					passwordConf: Yup.string()
+						.test('password-match', lang.passwordsDontMatch, function(val) {
+							return this.parent.password == val;
+						})
+						.required(lang.mustFill),
+					class3: Yup.boolean(),
+					class4: Yup.boolean(),
+					class_size: Yup.number()
+						.integer()
+						.when(['class3', 'class4'], {
+							is: false,
+							then: Yup.number().min(0),
+							otherwise: Yup.number().min(1)
+						})
+						.required()
 				})}
-				onSubmit={values => {
-					console.log(values);
-				}}
+				onSubmit={onSubmit}
 			>
-				{({ errors }) => {console.log(errors); return(
+				{form => (
 					<Stepper activeStep={activeStep} orientation="vertical">
 						{steps.map(step => (
 							<Step key={step.id}>
 								<StepLabel>{step.label}</StepLabel>
 								<StepContent>
-									<step.Comp />
+									<step.Comp form={form} goNextStep={onNextStepClick} />
 									<div className={classes.controls}>
 										{step.id != 1 ? (
 											<Button
@@ -102,24 +190,26 @@ export const Registration = ({
 												{lang.previous}
 											</Button>
 										) : null}
-										{step.id != 4 ? (
-											<Button
-												onClick={onNextStepClick}
-												variant="contained"
-												color="primary"
-												className={classes.button}
-												disabled={step.hasErrors(errors)}
-											>
-												{lang.next}
-											</Button>
-										) : null}
+										<Button
+											onClick={
+												step.id == 4 ? form.handleSubmit : onNextStepClick
+											}
+											variant="contained"
+											color="primary"
+											className={classes.button}
+											disabled={step.hasErrors(form.errors)}
+										>
+											{step.id == 4 ? lang.finalize : lang.next}
+										</Button>
 									</div>
 								</StepContent>
 							</Step>
 						))}
 					</Stepper>
-				)}}
+				)}
 			</Formik>
+			{isSubmitting ? <CircularProgress className={classes.indicator} /> : null}
+			{isRegDone ? <Typography>{lang.regDone}</Typography> : null}
 		</Paper>
 	);
 };
@@ -127,16 +217,74 @@ export const Registration = ({
 Registration.propTypes = {};
 
 export const enhancer = compose(
+	withAxios,
+	withRouter,
+	connect(
+		null,
+		dispatch => ({
+			dispatchNotification: (type, message) =>
+				dispatch(addNotification(type, message))
+		})
+	),
 	withState('activeStep', 'setActiveStep', 0),
+	withState('isSubmitting', 'setIsSubmitting', false),
+	withState('isRegDone', 'setIsRegDone', false),
+	withLang,
 	withHandlers({
 		onNextStepClick: ({ activeStep, setActiveStep }) => () => {
 			setActiveStep(activeStep + 1);
 		},
 		onPrevStepClick: ({ activeStep, setActiveStep }) => () => {
 			setActiveStep(activeStep - 1);
+		},
+		onSubmit: ({
+			axios,
+			history,
+			dispatchNotification,
+			lang,
+			setActiveStep,
+			setIsSubmitting,
+			setIsRegDone
+		}) => values => {
+			setActiveStep(100);
+			setIsSubmitting(true);
+
+			const params = {
+				name: values.name,
+				email: values.email,
+				class: (values.class3 ? 1 : 0) + (values.class4 ? 2 : 0),
+				class_size: values.class_size,
+				password: values.password
+			};
+
+			if (values.school_id > 0) {
+				params.school_id = values.school_id;
+			} else {
+				params.school_county = values.school_county;
+				params.school_name_ro = values.school_name_ro;
+				params.school_name_hu = values.school_name_hu;
+				params.school_city = values.school_city;
+			}
+
+			axios.post('/auth/register', params).then(
+				() => {
+					setIsSubmitting(false);
+					setIsRegDone(true);
+					dispatchNotification('success', lang.successfullRegistration);
+				},
+				error => {
+					setIsSubmitting(false);
+					if (error.response.status == 422) {
+						setActiveStep(2);
+						dispatchNotification('error', lang.emailUsed);
+					} else {
+						setActiveStep(0);
+						dispatchNotification('error', lang.error500);
+					}
+				}
+			);
 		}
 	}),
-	withLang,
 	withStyles(styles)
 );
 

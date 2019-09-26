@@ -79,7 +79,8 @@ export const Registration = ({
 					errors.school_id ||
 					errors.school_name_ro ||
 					errors.school_name_hu ||
-					errors.school_city
+					errors.school_city ||
+					errors.school_contract
 				)
 		},
 		{
@@ -114,6 +115,7 @@ export const Registration = ({
 					school_name_ro: '',
 					school_name_hu: '',
 					school_city: '',
+					school_contract: null,
 					name: '',
 					email: '',
 					password: '',
@@ -146,6 +148,11 @@ export const Registration = ({
 					),
 					school_city: Yup.string().when('school_id', (school_id, schema) =>
 						school_id > 0 ? schema : schema.required()
+					),
+					school_contract: Yup.mixed().when('school_id', (school_id, schema) =>
+						school_id > 0
+							? schema.nullable()
+							: schema.test('is-file', val => val && val instanceof File)
 					),
 					name: Yup.string().required(),
 					email: Yup.string()
@@ -249,40 +256,47 @@ export const enhancer = compose(
 			setActiveStep(100);
 			setIsSubmitting(true);
 
-			const params = {
-				name: values.name,
-				email: values.email,
-				class: (values.class3 ? 1 : 0) + (values.class4 ? 2 : 0),
-				class_size: values.class_size,
-				password: values.password
-			};
+			const formData = new FormData();
+			formData.append('name', values.name);
+			formData.append('email', values.email);
+			formData.append(
+				'class',
+				(values.class3 ? 1 : 0) + (values.class4 ? 2 : 0)
+			);
+			formData.append('class_size', values.class_size);
+			formData.append('password', values.password);
 
 			if (values.school_id > 0) {
-				params.school_id = values.school_id;
+				formData.append('school_id', values.school_id);
 			} else {
-				params.school_county = values.school_county;
-				params.school_name_ro = values.school_name_ro;
-				params.school_name_hu = values.school_name_hu;
-				params.school_city = values.school_city;
+				formData.append('school_county', values.school_county);
+				formData.append('school_name_ro', values.school_name_ro);
+				formData.append('school_name_hu', values.school_name_hu);
+				formData.append('school_city', values.school_city);
+				formData.append('school_contract', values.school_contract);
 			}
 
-			axios.post('/auth/register', params).then(
-				() => {
-					setIsSubmitting(false);
-					setIsRegDone(true);
-					dispatchNotification('success', lang.successfullRegistration);
-				},
-				error => {
-					setIsSubmitting(false);
-					if (error.response.status == 422) {
-						setActiveStep(2);
-						dispatchNotification('error', lang.emailUsed);
-					} else {
-						setActiveStep(0);
-						dispatchNotification('error', lang.error500);
+			axios
+				.post('/auth/register', formData, {
+					headers: { 'Content-type': 'multipart/form-data' }
+				})
+				.then(
+					() => {
+						setIsSubmitting(false);
+						setIsRegDone(true);
+						dispatchNotification('success', lang.successfullRegistration);
+					},
+					error => {
+						setIsSubmitting(false);
+						if (error.response.status == 422) {
+							setActiveStep(2);
+							dispatchNotification('error', lang.emailUsed);
+						} else {
+							setActiveStep(0);
+							dispatchNotification('error', lang.error500);
+						}
 					}
-				}
-			);
+				);
 		}
 	}),
 	withStyles(styles)

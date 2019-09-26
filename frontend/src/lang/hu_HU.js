@@ -50,5 +50,9 @@ export default {
 	emailUsed: 'A megadott email címmel már regisztráltak. Kérlek jelentkezz be!',
 	successfullRegistration: 'Sikeresen regisztráltál. Kérlek nézd meg az email fiókod!',
 	regDone: 'Sikeresen regisztráltál. Perceken belül kapsz egy emailt, amivel megerősítheted a regisztrációdat. Csak ez után tudsz majd belépni.',
-	error500: 'Valami rosszul ment. Kérlek próbáld újra később!'
+	error500: 'Valami rosszul ment. Kérlek próbáld újra később!',
+	schoolContract: 'Társszerződés',
+	schoolContractExplanation: 'Az iskola regisztrálásához fel kell töltse a kitöltött és aláírt társszerződést. Az általunk is aláírt társszerződést pár napon belül visszaküldjük. Kizárólag PDF fájlokat tölthetsz fel.',
+	getSchoolContract: 'Üres társszerződés letöltése',
+	uploadSchoolContract: 'Társszerződés feltöltése',
 };

@@ -174,7 +174,7 @@ class AnnouncementController extends Controller {
 					'title' => $announcement->title,
 					'content' => $announcement->message,
 					'user_name' => $user->name,
-					'announcementUrl' => config('app.url') . '/announcements?highlight=' . $announcement->id,
+					'announcementUrl' => config('app.url') . '/?highlight=' . $announcement->id,
 					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
 				]);
 				$mail->onQueue('transactional');

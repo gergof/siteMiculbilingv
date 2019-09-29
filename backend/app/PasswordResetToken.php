@@ -12,7 +12,7 @@ class PasswordResetToken extends Model {
 	}
 
 	public function getResetUrl() {
-		return config('app.url') . '/auth/passwordReset?token=' . $this->token;
+		return config('app.url') . '/auth/passwordReset?token=' . urlencode($this->token);
 	}
 
 	public function getInvalidateUrl() {

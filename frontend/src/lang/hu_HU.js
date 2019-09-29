@@ -55,4 +55,7 @@ export default {
 	schoolContractExplanation: 'Az iskola regisztrálásához fel kell töltse a kitöltött és aláírt társszerződést. Az általunk is aláírt társszerződést pár napon belül visszaküldjük. Kizárólag PDF fájlokat tölthetsz fel.',
 	getSchoolContract: 'Üres társszerződés letöltése',
 	uploadSchoolContract: 'Társszerződés feltöltése',
+	invalidEmailVerify: 'Az email címet nem tudtuk ellenőrizni. Kérlek ellenőrizd, hogy a helyesen másoltad-e be a linket.',
+	emailVerified: 'Az email címedet sikeresen ellenőriztük. Mostmár be tudsz jelentkezni.',
+	emailAlreadyVerified: 'Az email címedet már ellenőriztük.'
 };

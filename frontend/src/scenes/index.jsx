@@ -27,6 +27,7 @@ import Index from './Index';
 import Login from './Login';
 import Logout from './Logout';
 import Registration from './Registration';
+import VerifyEmail from './VerifyEmail';
 
 const styles = theme => ({
 	appBar: {
@@ -150,6 +151,7 @@ export const Scenes = ({
 					<Route exact path="/auth/login" component={Login} />
 					<Route exact path="/auth/logout" component={Logout} />
 					<Route exact path="/auth/registration" component={Registration} />
+					<Route path="/auth/verifyEmail" component={VerifyEmail} />
 				</Switch>
 			</div>
 		</React.Fragment>

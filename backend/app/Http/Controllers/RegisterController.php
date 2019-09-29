@@ -67,7 +67,7 @@ class RegisterController extends Controller {
 		Mail::to($data['email'])->send(
 			new RegistrationEmail([
 				'name' => $userData['name'],
-				'confirmationUrl' => config('app.url') . '/auth/verifyEmail?email=' . $userData['email'] . '&token=' . $emailToken,
+				'confirmationUrl' => config('app.url') . '/auth/verifyEmail?email=' . urlencode($userData['email']) . '&token=' . urlencode($emailToken),
 			])
 		);
 

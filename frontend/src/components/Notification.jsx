@@ -19,7 +19,8 @@ const styles = theme => ({
 		margin: theme.spacing(1),
 		position: 'static',
 		left: 0,
-		transform: 'none'
+		transform: 'none',
+		alignSelf: 'flex-end'
 	},
 	success: {
 		backgroundColor: green[600]

@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, lifecycle, withHandlers } from 'recompose';
+import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { withLang } from '../../../lang';
 import { withStyles } from '@material-ui/core/styles';
+import {withRouter} from 'react-router-dom';
+import queryString from 'query-string';
 
 import { fetchNews, markAsRead } from '../data/duck';
 
@@ -19,7 +21,7 @@ const styles = theme => ({
 	}
 });
 
-export const News = ({ news, markAsRead, lang, classes }) => {
+export const News = ({ news, highlight, markAsRead, lang, classes }) => {
 	return (
 		<div>
 			<Typography className={classes.title} variant="h3">
@@ -27,7 +29,7 @@ export const News = ({ news, markAsRead, lang, classes }) => {
 			</Typography>
 			<div>
 				{news.map(news => (
-					<PieceOfNews key={news.id} news={news} markAsRead={markAsRead} />
+					<PieceOfNews key={news.id} news={news} markAsRead={markAsRead} highlight={news.id==highlight} />
 				))}
 			</div>
 		</div>
@@ -40,6 +42,7 @@ News.propTypes = {
 };
 
 export const enhance = compose(
+	withRouter,
 	connect(
 		state => ({
 			news: state.index.news.list.map(id => ({
@@ -52,6 +55,13 @@ export const enhance = compose(
 			markAsRead: (id, read = true) => dispatch(markAsRead(id, read))
 		})
 	),
+	withProps(({location}) => {
+		const queryParams=queryString.parse(location.search);
+
+		return {
+			highlight: queryParams.highlight
+		}
+	}),
 	lifecycle({
 		componentDidMount() {
 			this.props.fetchNews();

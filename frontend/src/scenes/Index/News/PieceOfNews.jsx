@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, withProps, lifecycle } from 'recompose';
 import renderHTML from 'react-render-html';
 import { withLang } from '../../../lang';
 import { withStyles } from '@material-ui/core/styles';
@@ -37,23 +37,39 @@ const styles = theme => ({
 	headerActions: {},
 	unread: {
 		background: '#FFFFDF'
+	},
+	highlight: {
+		animation: '5s $highlightAnimation ease-in-out'
+	},
+	'@keyframes highlightAnimation': {
+		'0%': {
+			background: '#FFFFFF'
+		},
+		'10%': {
+			background: '#FFFF50'
+		},
+		'100%': {
+			background: '#FFFFFF'
+		}
 	}
 });
 
-export const PieceOfNews = ({ news, onToggleReadClick, lang, classes }) => {
+export const PieceOfNews = ({ news, onToggleReadClick, highlight, highlightRef, lang, classes }) => {
 	return (
 		<Paper
 			className={classnames({
 				[classes.container]: true,
-				[classes.unread]: news.is_public == 0 && news.target.is_read == 0
+				[classes.unread]: news.is_public == 0 && news.target && news.target.is_read == 0,
+				[classes.highlight]: highlight
 			})}
+			ref={highlightRef}
 		>
 			<Grid container className={classes.header}>
 				<Grid item className={classes.headerContent}>
 					<Typography variant="subtitle1">{news.title}</Typography>
 					<Typography variant="caption">{news.updated_at}</Typography>
 				</Grid>
-				{news.is_public == 0 ? (
+				{news.is_public == 0 && news.target ? (
 					<Grid item className={classes.headerActions}>
 						{news.target.loading ? (
 							<CircularProgress />
@@ -93,6 +109,25 @@ export const enhance = compose(
 	withHandlers({
 		onToggleReadClick: ({ news, markAsRead }) => () => {
 			markAsRead(news.target.id, news.target.is_read == 0);
+		}
+	}),
+	withProps(({highlight}) => {
+		if(highlight){
+			return {
+				highlightRef: React.createRef()
+			}
+		}
+	}),
+	lifecycle({
+		componentDidMount(){
+			if(this.props.highlight){
+				setTimeout(() => {
+					window.scrollTo({
+						top: this.props.highlightRef.current.offsetTop-100,
+						behavior: 'smooth'
+					});
+				}, 500);
+			}
 		}
 	}),
 	withLang,

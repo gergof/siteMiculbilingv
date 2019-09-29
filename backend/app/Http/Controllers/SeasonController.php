@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SeasonController extends Controller {
 	public function index() {
-		return response()->json(Season::all());
+		return response()->json(Season::latest()->get());
 	}
 
 	public function store(Request $request) {

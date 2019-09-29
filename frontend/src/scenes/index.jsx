@@ -24,6 +24,7 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import NotificationList from '../components/NotificationList';
 
 import Index from './Index';
+import Documents from './Documents';
 import Login from './Login';
 import Logout from './Logout';
 import Registration from './Registration';
@@ -148,10 +149,11 @@ export const Scenes = ({
 			<div className={classes.content}>
 				<Switch>
 					<Route exact path="/" component={Index} />
+					<Route exact path="/documents" component={Documents} />
 					<Route exact path="/auth/login" component={Login} />
 					<Route exact path="/auth/logout" component={Logout} />
 					<Route exact path="/auth/registration" component={Registration} />
-					<Route path="/auth/verifyEmail" component={VerifyEmail} />
+					<Route exact path="/auth/verifyEmail" component={VerifyEmail} />
 				</Switch>
 			</div>
 		</React.Fragment>

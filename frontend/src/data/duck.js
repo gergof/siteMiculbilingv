@@ -1,5 +1,6 @@
 import uuidv4 from 'uuid/v4';
-import { axios } from './api';
+import { axios, listModels } from './api';
+import { normalize, pluck } from '../utils';
 import { getLang } from '../lang';
 
 export const types = {
@@ -8,7 +9,9 @@ export const types = {
 	SET_AUTH_LOADING: 'AUTH::LOADING@SET',
 	ADD_NOTIFICATION: 'NOTIFICATION@ADD',
 	DELETE_NOTIFICATION: 'NOTIFICATION@DELETE',
-	SET_LANGUAGE: 'CONFIG::LANG@SET'
+	SET_LANGUAGE: 'CONFIG::LANG@SET',
+	SET_SEASONS_LOADING: 'SEASONS::LOADING@SET',
+	LOAD_SEASONS: 'SEASONS@LOAD'
 };
 
 const initialState = {
@@ -19,7 +22,12 @@ const initialState = {
 	config: {
 		language: process.env.DEFAULT_LANGUAGE || 'hu_HU'
 	},
-	notifications: []
+	notifications: [],
+	seasons: {
+		loading: false,
+		store: {},
+		list: []
+	}
 };
 
 const reducer = (state = initialState, action) => {
@@ -68,6 +76,23 @@ const reducer = (state = initialState, action) => {
 					language: action.payload
 				}
 			};
+		case types.SET_SEASONS_LOADING:
+			return {
+				...state,
+				seasons: {
+					...state.seasons,
+					loading: action.payload
+				}
+			};
+		case types.LOAD_SEASONS:
+			return {
+				...state,
+				seasons: {
+					...state.seasons,
+					store: normalize(action.payload),
+					list: pluck(action.payload, 'id')
+				}
+			};
 		default:
 			return state;
 	}
@@ -106,6 +131,16 @@ export const setLanguage = lang => ({
 	payload: lang
 });
 
+export const setSeasonsLoading = (loading = true) => ({
+	type: types.SET_SEASONS_LOADING,
+	payload: loading
+});
+
+export const loadSeasons = seasons => ({
+	type: types.LOAD_SEASONS,
+	payload: seasons
+});
+
 export const login = cred => dispatch => {
 	dispatch(setAuthLoading(true));
 	axios
@@ -113,16 +148,18 @@ export const login = cred => dispatch => {
 			email: cred.email,
 			password: cred.password
 		})
-		.then(resp => {
-			dispatch(setAuthLoading(false));
-			if (resp.status != 200) {
-				dispatch(addNotification('error', getLang().loginError));
-			} else {
+		.then(
+			resp => {
+				dispatch(setAuthLoading(false));
 				axios.defaults.headers['Authorization'] = resp.data.token;
 				dispatch(setAuthToken(resp.data.token));
 				dispatch(addNotification('success', getLang().loginSuccess));
+			},
+			err => {
+				dispatch(setAuthLoading(false));
+				dispatch(addNotification('error', getLang().loginError));
 			}
-		});
+		);
 };
 
 export const logout = () => (dispatch, getState) => {
@@ -135,6 +172,14 @@ export const logout = () => (dispatch, getState) => {
 			dispatch(addNotification('success', getLang().logoutSuccess));
 		});
 	}
+};
+
+export const fetchSeasons = () => dispatch => {
+	dispatch(setSeasonsLoading(true));
+	listModels('seasons', null, true).then(res => {
+		dispatch(loadSeasons(res.data));
+		dispatch(setSeasonsLoading(false));
+	});
 };
 
 export default reducer;

@@ -57,5 +57,7 @@ export default {
 	uploadSchoolContract: 'Társszerződés feltöltése',
 	invalidEmailVerify: 'Az email címet nem tudtuk ellenőrizni. Kérlek ellenőrizd, hogy a helyesen másoltad-e be a linket.',
 	emailVerified: 'Az email címedet sikeresen ellenőriztük. Mostmár be tudsz jelentkezni.',
-	emailAlreadyVerified: 'Az email címedet már ellenőriztük.'
+	emailAlreadyVerified: 'Az email címedet már ellenőriztük.',
+	download: 'Letöltés',
+	actions: 'Műveletek',
 };

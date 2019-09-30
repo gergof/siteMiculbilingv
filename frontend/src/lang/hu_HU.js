@@ -69,4 +69,7 @@ export default {
 	passwordResetRequested: 'Amennyiben létezik felhasználó a megadott email címmel, perceken belül kapsz egy emailt amivel visszaállíthatod a jelszavadat.',
 	newPassword: 'Új jelszó',
 	newPasswordConf: 'Új jelszó megerősítése',
+	entryNeedsLogin: 'A nevezéshez regisztrálnod kell illetve be kell jelentkezz!',
+	enteredStudents: 'Nevezett diákok',
+	newStudent: 'Új diák hozzáadása',
 };

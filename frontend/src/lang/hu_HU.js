@@ -60,4 +60,13 @@ export default {
 	emailAlreadyVerified: 'Az email címedet már ellenőriztük.',
 	download: 'Letöltés',
 	actions: 'Műveletek',
+	resetTokenInvalidated: 'A jelszó visszaállító kulcsot sikeresen érvénytelenítettük.',
+	resetTokenAlreadyInvalidated: 'A jelszó visszaállító kulcs már nem érvényes.',
+	resetTokenInvalid: 'A jelszó visszaállító kulcs érvénytelen vagy már lejárt.',
+	passwordReset: 'Jelszó visszaállítása',
+	passwordReseted: 'A jelszó sikeresen megváltoztatva. Mostmár be tudsz lépni az új jelszavaddal.',
+	submit: 'Küldés',
+	passwordResetRequested: 'Amennyiben létezik felhasználó a megadott email címmel, perceken belül kapsz egy emailt amivel visszaállíthatod a jelszavadat.',
+	newPassword: 'Új jelszó',
+	newPasswordConf: 'Új jelszó megerősítése',
 };

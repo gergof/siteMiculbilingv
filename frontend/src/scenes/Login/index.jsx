@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, branch, renderComponent } from 'recompose';
+import { compose, branch, renderComponent, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { withLang } from '../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
@@ -14,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
 	textField: {
@@ -27,10 +29,14 @@ const styles = theme => ({
 	},
 	button: {
 		minWidth: '200px'
+	},
+	actions: {
+		justifyContent: 'space-between',
+		alignItems: 'center'
 	}
 });
 
-export const Login = ({ isLogging, login, lang, classes }) => {
+export const Login = ({ isLogging, login, onResetPassword, lang, classes }) => {
 	return (
 		<Paper className={classes.form}>
 			<Formik
@@ -39,7 +45,7 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 					email: Yup.string()
 						.email()
 						.required(),
-					password: Yup.string()
+					password: Yup.string().required()
 				})}
 				onSubmit={values => {
 					login(values);
@@ -74,18 +80,33 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 							)}
 						</Field>
 						<br />
-						<Button
-							type="submit"
-							variant="contained"
-							color="primary"
-							className={classes.button}
-						>
-							{isLogging ? (
-								<CircularProgress color="secondary" size="1.8em" />
-							) : (
-								lang.login
-							)}
-						</Button>
+						<Grid container className={classes.actions}>
+							<Grid item>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									className={classes.button}
+								>
+									{isLogging ? (
+										<CircularProgress color="secondary" size="1.8em" />
+									) : (
+										lang.login
+									)}
+								</Button>
+							</Grid>
+							<Grid item>
+								<Link
+									className={classes.resetLink}
+									component="button"
+									type="button"
+									variant="body2"
+									onClick={onResetPassword}
+								>
+									{lang.passwordReset}
+								</Link>
+							</Grid>
+						</Grid>
 					</Form>
 				)}
 			</Formik>
@@ -94,6 +115,7 @@ export const Login = ({ isLogging, login, lang, classes }) => {
 };
 
 export const enhancer = compose(
+	withRouter,
 	connect(
 		state => ({
 			isLogged: !!state.app.auth.token,
@@ -103,6 +125,11 @@ export const enhancer = compose(
 			login: cred => dispatch(login(cred))
 		})
 	),
+	withHandlers({
+		onResetPassword: ({ history }) => () => {
+			history.push('/auth/passwordReset');
+		}
+	}),
 	branch(
 		({ isLogged }) => isLogged,
 		renderComponent(() => <Redirect to="/" />)

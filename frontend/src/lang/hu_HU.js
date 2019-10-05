@@ -72,4 +72,12 @@ export default {
 	entryNeedsLogin: 'A nevezéshez regisztrálnod kell illetve be kell jelentkezz!',
 	enteredStudents: 'Nevezett diákok',
 	newStudent: 'Új diák hozzáadása',
+	save: 'Mentés',
+	confirmEntry: 'Nevezés megerősítése',
+	confirmEntryText: 'A nevezés után már nem lesz lehetőség annak a módosítására. Kérlek győződj meg róla, hogy helyesen adtad meg az adatokat!',
+	accept: 'Rendben',
+	cancel: 'Mégsem',
+	deadlinePassed: 'A regisztráció már lezárult.',
+	alreadyMaxEntries: 'Már regisztrált a maximális számú diákkal.',
+	notTeachingInThatClass: 'A profilod alapján nem tanítasz a megadott osztályban.',
 };

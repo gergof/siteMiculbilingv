@@ -8,6 +8,7 @@ import {withRouter} from 'react-router-dom';
 import queryString from 'query-string';
 
 import { fetchNews, markAsRead } from '../data/duck';
+import {fetchSeasons} from '../../../data/duck';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -52,7 +53,8 @@ export const enhance = compose(
 		}),
 		dispatch => ({
 			fetchNews: () => dispatch(fetchNews()),
-			markAsRead: (id, read = true) => dispatch(markAsRead(id, read))
+			markAsRead: (id, read = true) => dispatch(markAsRead(id, read)),
+			fetchSeasons: () => dispatch(fetchSeasons())
 		})
 	),
 	withProps(({location}) => {
@@ -65,6 +67,7 @@ export const enhance = compose(
 	lifecycle({
 		componentDidMount() {
 			this.props.fetchNews();
+			this.props.fetchSeasons();
 		}
 	}),
 	withHandlers({

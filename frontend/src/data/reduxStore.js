@@ -7,11 +7,13 @@ import storage from 'redux-persist/lib/storage';
 import appDuck from './duck';
 import indexDuck from '../scenes/Index/data/duck';
 import documentsDuck from '../scenes/Documents/data/duck';
+import entriesDuck from '../scenes/Enter/data/duck';
 
 const rootReducer = combineReducers({
 	app: appDuck,
 	index: indexDuck,
-	documents: documentsDuck
+	documents: documentsDuck,
+	enter: entriesDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

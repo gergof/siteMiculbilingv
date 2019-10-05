@@ -12,9 +12,16 @@ class StudentController extends Controller {
 	public function index(Request $request) {
 		$filters = $request->validate([
 			'season_id' => 'integer|required|exists:seasons,id',
+			'own' => 'boolean',
 		]);
 
-		$students = Student::where('season_id', $filters['season_id'])->get();
+		$students = Student::where('season_id', $filters['season_id']);
+
+		if (Auth::user() && $filters['own']) {
+			$students = $students->where('user_id', Auth::user()->id);
+		}
+
+		$students = $students->get();
 
 		return response()->json($students);
 	}
@@ -39,13 +46,13 @@ class StudentController extends Controller {
 			return response()->json(['error' => 'Already having max entries'], 400);
 		}
 		if (Auth::user()->class == 0) {
-			return response()->json(['You are not teaching in any classes based on your profile'], 400);
+			return response()->json(['error' => 'You are not teaching in any classes based on your profile'], 400);
 		}
 		if (Auth::user()->class == 1 && $data['class'] != 3) {
-			return response()->json(['You are not teaching in that class'], 400);
+			return response()->json(['error' => 'You are not teaching in that class'], 400);
 		}
 		if (Auth::user()->class == 2 && $data['class'] != 4) {
-			return response()->json(['You are not teaching in that class'], 400);
+			return response()->json(['error' => 'You are not teaching in that class'], 400);
 		}
 
 		$student = new Student();

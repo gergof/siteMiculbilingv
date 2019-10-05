@@ -17,12 +17,12 @@ class MessageController extends Controller {
 
 		$messages;
 		if (isset($filters['sent']) && $filters['sent']) {
-			$messages = Auth::user()->messages()->latest()->get();
+			$messages = Auth::user()->messages()->with(['user:id,name', 'recipient:id,name'])->latest()->get();
 		} else {
-			$messages = Auth::user()->incomingMessages()->latest()->get();
+			$messages = Auth::user()->incomingMessages()->with(['user:id,name', 'recipient:id,name'])->latest()->get();
 		}
 
-		return response()->json($messages);
+		return response()->json($messages->makeVisible(['user', 'recipient']));
 	}
 
 	public function store(Request $request) {

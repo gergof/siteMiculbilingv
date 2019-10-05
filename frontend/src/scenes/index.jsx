@@ -31,6 +31,7 @@ import Logout from './Logout';
 import Registration from './Registration';
 import VerifyEmail from './VerifyEmail';
 import PasswordReset from './PasswordReset';
+import Messages from './Messages';
 import Profile from './Profile';
 
 const styles = theme => ({
@@ -138,6 +139,9 @@ export const Scenes = ({
 						</React.Fragment>
 					) : (
 						<React.Fragment>
+							<ListItem button onClick={() => goTo('/messages')}>
+								<ListItemText>{lang.messages}</ListItemText>
+							</ListItem>
 							<ListItem button onClick={() => goTo('/profile')}>
 								<ListItemText>{lang.profile}</ListItemText>
 							</ListItem>
@@ -159,6 +163,7 @@ export const Scenes = ({
 					<Route exact path="/auth/registration" component={Registration} />
 					<Route exact path="/auth/verifyEmail" component={VerifyEmail} />
 					<Route exact path="/auth/passwordReset" component={PasswordReset} />
+					<Route exact path="/messages/:id?" component={Messages} />
 					<Route path="/profile" component={Profile} />
 				</Switch>
 			</div>

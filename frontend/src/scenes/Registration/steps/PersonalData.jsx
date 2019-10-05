@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {compose} from 'recompose';
-import {withLang} from '../../../lang';
-import {withStyles} from '@material-ui/core/styles';
-import {Field} from 'formik';
+import { compose } from 'recompose';
+import { withLang } from '../../../lang';
+import { withStyles } from '@material-ui/core/styles';
+import { Field } from 'formik';
 
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -11,7 +11,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 
-const styles=theme => ({
+const styles = theme => ({
 	container: {
 		width: '80%',
 		margin: 'auto'
@@ -31,54 +31,61 @@ const styles=theme => ({
 		minWidth: '300px'
 	},
 	fieldControl: {
-		flexGrow: 1,
+		flexGrow: 1
 	},
 	classSizeField: {
 		width: '100px'
 	},
-	classSizeSlider:{ 
+	classSizeSlider: {
 		flexGrow: 1
 	},
 	errorMessage: {
 		color: theme.palette.error.main,
 		fontSize: '0.8em'
 	}
-})
+});
 
-export const PersonalData=({lang, classes}) => {
+export const PersonalData = ({ lang, classes }) => {
 	return (
 		<div className={classes.container}>
 			<Field name="name">
-				{({field, form}) => (
-					<TextField {...field} className={classes.textField} label={lang.name} error={!!form.errors.name && !!form.touched.name}/>
+				{({ field, form }) => (
+					<TextField
+						{...field}
+						className={classes.textField}
+						label={lang.name}
+						error={!!form.errors.name && !!form.touched.name}
+					/>
 				)}
 			</Field>
 			<Field name="email">
-				{({field, form}) => (
-					<TextField {...field} type="email" className={classes.textField} label={lang.email} error={!!form.errors.email && !!form.touched.email} />
+				{({ field, form }) => (
+					<TextField
+						{...field}
+						type="email"
+						className={classes.textField}
+						label={lang.email}
+						error={!!form.errors.email && !!form.touched.email}
+					/>
 				)}
 			</Field>
 			<Grid container className={classes.fieldGroup}>
 				<Grid item className={classes.fieldLegend}>
-					<Typography variant="body2" >{lang.whichClassesTeaching}</Typography>
+					<Typography variant="body2">{lang.whichClassesTeaching}</Typography>
 				</Grid>
 				<Grid item className={classes.fieldControl}>
-					<Field name="class3">
-						{({field}) => (
+					<Field type="checkbox" name="class3">
+						{({ field }) => (
 							<FormControlLabel
-								control={
-									<Checkbox {...field} checked={field.value}/>
-								}
+								control={<Checkbox {...field} />}
 								label={lang.class3}
 							/>
 						)}
 					</Field>
-					<Field name="class4">
-						{({field}) => (
+					<Field type="checkbox" name="class4">
+						{({ field }) => (
 							<FormControlLabel
-								control={
-									<Checkbox {...field} checked={field.value}/>
-								}
+								control={<Checkbox {...field} />}
 								label={lang.class4}
 							/>
 						)}
@@ -91,44 +98,67 @@ export const PersonalData=({lang, classes}) => {
 				</Grid>
 				<Grid item className={classes.fieldControl}>
 					<Field name="class_size">
-						{({field, form}) => (
-							<TextField {...field} type="number" inputProps={{min: 0}} className={classes.classSizeField} label={lang.classSize} error={!!form.errors.class_size && !!form.touched.class_size} />
+						{({ field, form }) => (
+							<TextField
+								{...field}
+								type="number"
+								inputProps={{ min: 0 }}
+								className={classes.classSizeField}
+								label={lang.classSize}
+								error={!!form.errors.class_size && !!form.touched.class_size}
+							/>
 						)}
 					</Field>
 				</Grid>
 			</Grid>
 			<Field name="password">
-				{({field, form}) => (
+				{({ field, form }) => (
 					<React.Fragment>
-						<TextField {...field} type="password" className={classes.textField} label={lang.password} error={!!form.errors.password && !!form.touched.password} />
-						{form.errors.password && form.touched.password ?
-						<Typography className={classes.errorMessage}>{form.errors.password}</Typography>
-						:null}
+						<TextField
+							{...field}
+							type="password"
+							className={classes.textField}
+							label={lang.password}
+							error={!!form.errors.password && !!form.touched.password}
+						/>
+						{form.errors.password && form.touched.password ? (
+							<Typography className={classes.errorMessage}>
+								{form.errors.password}
+							</Typography>
+						) : null}
 					</React.Fragment>
 				)}
 			</Field>
 			<Field name="passwordConf">
-				{({field, form}) => (
+				{({ field, form }) => (
 					<React.Fragment>
-						<TextField {...field} type="password" className={classes.textField} label={lang.passwordConf} error={!!form.errors.passwordConf && !!form.touched.passwordConf} />
-						{form.errors.passwordConf && form.touched.passwordConf ?
-						<Typography className={classes.errorMessage}>{form.errors.passwordConf}</Typography>
-						:null}
+						<TextField
+							{...field}
+							type="password"
+							className={classes.textField}
+							label={lang.passwordConf}
+							error={!!form.errors.passwordConf && !!form.touched.passwordConf}
+						/>
+						{form.errors.passwordConf && form.touched.passwordConf ? (
+							<Typography className={classes.errorMessage}>
+								{form.errors.passwordConf}
+							</Typography>
+						) : null}
 					</React.Fragment>
 				)}
 			</Field>
 		</div>
-	)
-}
+	);
+};
 
-PersonalData.propTypes={
+PersonalData.propTypes = {
 	lang: PropTypes.object,
 	classes: PropTypes.object
-}
+};
 
-export const enhancer=compose(
+export const enhancer = compose(
 	withLang,
 	withStyles(styles)
-)
+);
 
 export default enhancer(PersonalData);

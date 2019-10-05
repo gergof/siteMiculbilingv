@@ -80,4 +80,5 @@ export default {
 	deadlinePassed: 'A regisztráció már lezárult.',
 	alreadyMaxEntries: 'Már regisztrált a maximális számú diákkal.',
 	notTeachingInThatClass: 'A profilod alapján nem tanítasz a megadott osztályban.',
+	emailSubscribed: 'Hírlevelek, értesítések és üzenetek fogadása email-ben:'
 };

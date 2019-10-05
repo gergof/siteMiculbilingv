@@ -59,6 +59,7 @@ export const EnterField = ({
 			validationSchema={Yup.object().shape({
 				name: Yup.string().required(),
 				class: Yup.number()
+					.integer()
 					.min(3)
 					.max(4)
 					.required()

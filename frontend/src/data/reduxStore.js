@@ -8,12 +8,14 @@ import appDuck from './duck';
 import indexDuck from '../scenes/Index/data/duck';
 import documentsDuck from '../scenes/Documents/data/duck';
 import entriesDuck from '../scenes/Enter/data/duck';
+import profileDuck from '../scenes/Profile/data/duck';
 
 const rootReducer = combineReducers({
 	app: appDuck,
 	index: indexDuck,
 	documents: documentsDuck,
-	enter: entriesDuck
+	enter: entriesDuck,
+	profile: profileDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

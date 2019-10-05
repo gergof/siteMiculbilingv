@@ -10,10 +10,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller {
-	public function index() {
-		$announcements = Auth::user()->incomingMessages()->latest()->get();
+	public function index(Request $request) {
+		$filters = $request->validate([
+			'sent' => 'boolean',
+		]);
 
-		return response()->json($announcements);
+		$messages;
+		if (isset($filters['sent']) && $filters['sent']) {
+			$messages = Auth::user()->messages()->latest()->get();
+		} else {
+			$messages = Auth::user()->incomingMessages()->latest()->get();
+		}
+
+		return response()->json($messages);
 	}
 
 	public function store(Request $request) {

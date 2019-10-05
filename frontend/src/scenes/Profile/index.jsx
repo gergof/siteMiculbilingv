@@ -8,6 +8,7 @@ import { Formik, Form, Field } from 'formik';
 import { fetchProfile, patchProfile } from './data/duck';
 import * as Yup from 'yup';
 import classNames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -106,6 +107,7 @@ export const Profile = ({ onSubmit, loading, profile, lang, classes }) => {
 										{...field}
 										label={lang.name}
 										className={classes.textField}
+										error={!!form.errors.name && !!form.touched.name}
 									/>
 								)}
 							</Field>
@@ -149,9 +151,12 @@ export const Profile = ({ onSubmit, loading, profile, lang, classes }) => {
 									<TextField
 										{...field}
 										type="number"
-										inputProps={{ min: 3 }}
+										inputProps={{ min: 0 }}
 										className={classes.textField}
 										label={lang.classSize}
+										error={
+											!!form.errors.class_size && !!form.touched.class_size
+										}
 									/>
 								)}
 							</Field>
@@ -178,6 +183,7 @@ export const Profile = ({ onSubmit, loading, profile, lang, classes }) => {
 };
 
 export const enhancer = compose(
+	withRouter,
 	connect(
 		state => ({
 			profile: state.profile.profile.data,
@@ -191,6 +197,11 @@ export const enhancer = compose(
 	lifecycle({
 		componentDidMount() {
 			this.props.fetchProfile();
+
+			if (this.props.location.pathname == '/profile/emailUnsubscribe') {
+				this.props.patchProfile({ is_email_subscribed: false });
+				this.props.history.push('/profile');
+			}
 		}
 	}),
 	withHandlers({

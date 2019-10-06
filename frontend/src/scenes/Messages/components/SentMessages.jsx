@@ -40,7 +40,7 @@ export const SentMessages = ({
 			<Table className={classes.table}>
 				<TableHead>
 					<TableRow>
-						<TableCell>{lang.sender}</TableCell>
+						<TableCell>{lang.recipient}</TableCell>
 						<TableCell>{lang.sentOn}</TableCell>
 						<TableCell>{lang.actions}</TableCell>
 					</TableRow>

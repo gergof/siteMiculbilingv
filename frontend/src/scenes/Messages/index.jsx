@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, withProps } from 'recompose';
 import { withLang } from '../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
@@ -11,15 +11,18 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Slide from '@material-ui/core/Slide';
 
 import ReceivedMessages from './components/ReceivedMessages';
 import SentMessages from './components/SentMessages';
+import Message from './components/Message';
 
 const styles = theme => ({
 	container: {
 		width: '80%',
 		margin: 'auto',
-		padding: theme.spacing(3)
+		padding: theme.spacing(3),
+		position: 'relative'
 	},
 	tabs: {
 		width: '150px'
@@ -34,31 +37,47 @@ const styles = theme => ({
 	}
 });
 
-export const Messages = ({ currentTab, onTabChange, lang, classes }) => {
-	return (
-		<Paper className={classes.container}>
-			<Grid container className={classes.grid}>
-				<Grid item>
-					<Tabs
-						orientation="vertical"
-						value={currentTab}
-						onChange={onTabChange}
-						className={classes.tabs}
-					>
-						<Tab label={lang.received} />
-						<Tab label={lang.sent} />
-					</Tabs>
+export const Messages = ({
+	currentTab,
+	onTabChange,
+	messageId,
+	lang,
+	classes
+}) => {
+	return messageId ? (
+		<Message id={messageId} />
+	) : (
+		<Slide in={true} direction="right">
+			<Paper className={classes.container}>
+				<Grid container className={classes.grid}>
+					<Grid item>
+						<Tabs
+							orientation="vertical"
+							value={currentTab}
+							onChange={onTabChange}
+							className={classes.tabs}
+						>
+							<Tab label={lang.received} />
+							<Tab label={lang.sent} />
+						</Tabs>
+					</Grid>
+					<Grid item className={classes.item}>
+						{currentTab == 0 ? <ReceivedMessages /> : <SentMessages />}
+					</Grid>
 				</Grid>
-				<Grid item className={classes.item}>
-					{currentTab == 0 ? <ReceivedMessages /> : <SentMessages />}
-				</Grid>
-			</Grid>
-		</Paper>
+			</Paper>
+		</Slide>
 	);
 };
 
 export const enhancer = compose(
+	withRouter,
 	withState('currentTab', 'setCurrentTab', 0),
+	withProps(({ match }) => {
+		return {
+			messageId: match.params.id
+		};
+	}),
 	withHandlers({
 		onTabChange: ({ setCurrentTab }) => (e, newValue) => {
 			setCurrentTab(newValue);

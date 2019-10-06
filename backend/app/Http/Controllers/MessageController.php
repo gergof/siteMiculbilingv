@@ -65,7 +65,7 @@ class MessageController extends Controller {
 					'sender_name' => Auth::user()->name,
 					'recipient_name' => $recipient->name,
 					'content' => $data['message'],
-					'messageUrl' => config('app.url') . '/messages/' . Auth::user()->id . '?highlight=' . $message->id,
+					'messageUrl' => config('app.url') . '/messages/' . $message->id,
 					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
 				])
 			);

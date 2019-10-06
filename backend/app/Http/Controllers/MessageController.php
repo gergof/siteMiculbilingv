@@ -13,7 +13,14 @@ class MessageController extends Controller {
 	public function index(Request $request) {
 		$filters = $request->validate([
 			'sent' => 'boolean',
+			'has_message' => 'boolean',
 		]);
+
+		if (isset($filters['has_message']) && $filters['has_message']) {
+			//only return if user has message or not
+			$hasMessage = Auth::user()->incomingMessages()->where('is_read', 0)->exists();
+			return response()->json(['hasMessage' => $hasMessage]);
+		}
 
 		$messages;
 		if (isset($filters['sent']) && $filters['sent']) {
@@ -22,7 +29,7 @@ class MessageController extends Controller {
 			$messages = Auth::user()->incomingMessages()->with(['user:id,name', 'recipient:id,name'])->latest()->get();
 		}
 
-		return response()->json($messages->makeVisible(['user', 'recipient']));
+		return response()->json($messages);
 	}
 
 	public function store(Request $request) {

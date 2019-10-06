@@ -82,4 +82,11 @@ export default {
 	notTeachingInThatClass: 'A profilod alapján nem tanítasz a megadott osztályban.',
 	emailSubscribed: 'Hírlevelek, értesítések és üzenetek fogadása email-ben:',
 	messages: 'Üzenetek',
+	received: 'Érkezett',
+	sent: 'Elküldött',
+	sender: 'Küldő',
+	recipient: 'Címzett',
+	sentOn: 'Elküldve',
+	deleteMessage: 'Üzenet törlése',
+	deleteMessageConf: 'Biztosan törölni szeretné az üzenetet? A címzettnél is törlésre kerül az üzenet.',
 };

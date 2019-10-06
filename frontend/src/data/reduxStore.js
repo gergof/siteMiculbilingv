@@ -9,13 +9,15 @@ import indexDuck from '../scenes/Index/data/duck';
 import documentsDuck from '../scenes/Documents/data/duck';
 import entriesDuck from '../scenes/Enter/data/duck';
 import profileDuck from '../scenes/Profile/data/duck';
+import messagesDuck from '../scenes/Messages/data/duck';
 
 const rootReducer = combineReducers({
 	app: appDuck,
 	index: indexDuck,
 	documents: documentsDuck,
 	enter: entriesDuck,
-	profile: profileDuck
+	profile: profileDuck,
+	messages: messagesDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

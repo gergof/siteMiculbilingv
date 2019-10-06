@@ -78,7 +78,7 @@ export const PieceOfNews = ({ news, onToggleReadClick, highlight, highlightRef, 
 								enterDelay={500}
 								placement="top"
 								title={
-									news.target.is_read == 1 ? lang.markAsRead : lang.markAsUnread
+									news.target.is_read == 1 ? lang.markAsUnread : lang.markAsRead
 								}
 							>
 								<IconButton onClick={onToggleReadClick}>

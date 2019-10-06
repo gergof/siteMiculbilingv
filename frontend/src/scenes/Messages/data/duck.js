@@ -154,6 +154,8 @@ const reducer = (state = initialState, action) => {
 					}
 				}
 			};
+		default:
+			return state;
 	}
 };
 
@@ -204,3 +206,62 @@ export const setSentMessageLoading = (id, loading = true) => ({
 	type: types.SET_SENT_MESSAGE_LOADING,
 	payload: { id, loading }
 });
+
+export const fetchMessages = () => dispatch => {
+	dispatch(setMessagesLoading(true));
+
+	listModels('messages').then(res => {
+		dispatch(loadMessages(res.data));
+		dispatch(setMessagesLoading(false));
+	});
+};
+
+export const markMessageAsRead = (id, read = false) => dispatch => {
+	dispatch(setMessageLoading(id, true));
+
+	updateModel('messages', id, { is_read: read }).then(res => {
+		dispatch(updateMessage(res.data));
+		dispatch(setMessageLoading(id, false));
+	});
+};
+
+export const fetchSentMessages = () => dispatch => {
+	dispatch(setMessagesLoading(true));
+
+	listModels('messages', { params: { sent: 1 } }).then(res => {
+		dispatch(loadSentMessages(res.data));
+		dispatch(setMessagesLoading(false));
+	});
+};
+
+export const sendMessage = message => dispatch => {
+	dispatch(addSentMessage({ ...message, loading: true, id: 'new' }));
+
+	createModel('messages', message)
+		.then(res => {
+			dispatch(deleteSentMessage('new'));
+			dispatch(addSentMessage(res.data));
+		})
+		.catch(() => {
+			dispatch(deleteSentMessage('new'));
+		});
+};
+
+export const patchSentMessage = (id, patch) => dispatch => {
+	dispatch(setSentMessageLoading(id, true));
+
+	updateModel('messages', id, patch).then(res => {
+		dispatch(updateSentMessage(res.data));
+		dispatch(setSentMessageLoading(id, false));
+	});
+};
+
+export const deleteMessage = id => dispatch => {
+	dispatch(setSentMessageLoading(id, true));
+
+	deleteModel('messages', id).then(() => {
+		dispatch(deleteSentMessage(id));
+	});
+};
+
+export default reducer;

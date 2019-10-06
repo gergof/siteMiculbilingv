@@ -10,6 +10,7 @@ import documentsDuck from '../scenes/Documents/data/duck';
 import entriesDuck from '../scenes/Enter/data/duck';
 import profileDuck from '../scenes/Profile/data/duck';
 import messagesDuck from '../scenes/Messages/data/duck';
+import usersDuck from '../scenes/Users/data/duck';
 
 const rootReducer = combineReducers({
 	app: appDuck,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
 	documents: documentsDuck,
 	enter: entriesDuck,
 	profile: profileDuck,
-	messages: messagesDuck
+	messages: messagesDuck,
+	users: usersDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

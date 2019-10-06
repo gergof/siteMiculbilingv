@@ -16,13 +16,13 @@ import Slide from '@material-ui/core/Slide';
 import ReceivedMessages from './components/ReceivedMessages';
 import SentMessages from './components/SentMessages';
 import Message from './components/Message';
+import NewMessage from './components/NewMessage';
 
 const styles = theme => ({
 	container: {
 		width: '80%',
 		margin: 'auto',
-		padding: theme.spacing(3),
-		position: 'relative'
+		padding: theme.spacing(3)
 	},
 	tabs: {
 		width: '150px'
@@ -47,26 +47,26 @@ export const Messages = ({
 	return messageId ? (
 		<Message id={messageId} />
 	) : (
-		<Slide in={true} direction="right">
-			<Paper className={classes.container}>
-				<Grid container className={classes.grid}>
-					<Grid item>
-						<Tabs
-							orientation="vertical"
-							value={currentTab}
-							onChange={onTabChange}
-							className={classes.tabs}
-						>
-							<Tab label={lang.received} />
-							<Tab label={lang.sent} />
-						</Tabs>
-					</Grid>
-					<Grid item className={classes.item}>
-						{currentTab == 0 ? <ReceivedMessages /> : <SentMessages />}
-					</Grid>
+		<Paper className={classes.container}>
+			<Grid container className={classes.grid}>
+				<Grid item>
+					<Tabs
+						orientation="vertical"
+						value={currentTab}
+						onChange={onTabChange}
+						className={classes.tabs}
+					>
+						<Tab label={lang.received} />
+						<Tab label={lang.sent} />
+						<Tab label={lang.newMessage} />
+					</Tabs>
 				</Grid>
-			</Paper>
-		</Slide>
+				<Grid item className={classes.item}>
+					{currentTab == 0 ? <ReceivedMessages /> : 
+						currentTab==1 ? <SentMessages /> : <NewMessage/>}
+				</Grid>
+			</Grid>
+		</Paper>
 	);
 };
 

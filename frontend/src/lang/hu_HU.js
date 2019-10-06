@@ -89,4 +89,5 @@ export default {
 	sentOn: 'Elküldve',
 	deleteMessage: 'Üzenet törlése',
 	deleteMessageConf: 'Biztosan törölni szeretné az üzenetet? A címzettnél is törlésre kerül az üzenet.',
+	newMessage: 'Új üzenet',
 };

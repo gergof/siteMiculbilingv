@@ -20,11 +20,13 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Loading from '../../../components/Loading';
 
 const styles = theme => ({
+	outerContainer: {
+		position: 'relative'
+	},
 	container: {
 		width: '50%',
 		padding: theme.spacing(3),
 		margin: 'auto',
-		position: 'relative',
 		minWidth: '800px'
 	},
 	loadingMask: {
@@ -43,7 +45,7 @@ const styles = theme => ({
 export const Message = ({ loading, message, onBackClick, lang, classes }) => {
 	return (
 		<Slide in={true} direction="left">
-			<div>
+			<div className={classes.outerContainer}>
 				<Paper
 					className={classNames({
 						[classes.container]: true,

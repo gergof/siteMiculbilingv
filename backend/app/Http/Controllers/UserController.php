@@ -20,6 +20,6 @@ class UserController extends Controller {
 			}
 		}
 
-		return response()->json($users->makeHidden(['email', 'email_verified_at', 'is_email_subscribed', 'school_id', 'class_size'])->makeVisible('school'));
+		return response()->json($users->makeHidden(['email', 'email_verified_at', 'is_email_subscribed', 'class_size'])->makeVisible('school'));
 	}
 }

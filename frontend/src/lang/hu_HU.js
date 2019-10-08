@@ -90,4 +90,7 @@ export default {
 	deleteMessage: 'Üzenet törlése',
 	deleteMessageConf: 'Biztosan törölni szeretné az üzenetet? A címzettnél is törlésre kerül az üzenet.',
 	newMessage: 'Új üzenet',
+	message: 'Üzenet',
+	send: 'Küldés',
+	messageNotFound: 'A keresett üzenet nem található.'
 };

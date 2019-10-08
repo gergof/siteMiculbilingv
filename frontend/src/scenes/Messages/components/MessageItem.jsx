@@ -94,7 +94,7 @@ export const MessageItem = ({
 		>
 			<TableCell>
 				{isSent ? (
-					message.user.name
+					message.recipient.name
 				) : (
 					<Grid container className={classes.grid}>
 						<Grid item className={classes.unreadIndicatorHolder}>
@@ -139,6 +139,10 @@ export const enhancer = compose(
 	withHandlers({
 		onReadToggleClick: ({ message, markAsRead }) => e => {
 			markAsRead(message.id, message.is_read == 0);
+			e.stopPropagation();
+		},
+		onDeleteClick: ({ message, onDeleteClick }) => e => {
+			onDeleteClick();
 			e.stopPropagation();
 		},
 		onClick: ({ isSent, message, history, markAsRead }) => () => {

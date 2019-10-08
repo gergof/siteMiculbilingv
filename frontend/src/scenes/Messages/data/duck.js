@@ -11,6 +11,7 @@ export const types = {
 	LOAD_MESSAGES: 'MESSAGES@LOAD',
 	UPDATE_MESSAGE: 'MESSAGES@UPDATE',
 	SET_MESSAGE_LOADING: 'MESSAGES::MESSAGE::LOADING@SET',
+	SET_SENT_MESSAGES_LOADING: 'MESSAGE_SENT::LOADING@SET',
 	LOAD_SENT_MESSAGES: 'MESSAGES_SENT@LOAD',
 	ADD_SENT_MESSAGE: 'MESSAGES_SENT@ADD',
 	UPDATE_SENT_MESSAGE: 'MESSAGES_SENT@UPDATE',
@@ -20,12 +21,13 @@ export const types = {
 
 const initialState = {
 	messages: {
-		loading: false,
 		received: {
+			loading: false,
 			store: {},
 			list: []
 		},
 		sent: {
+			loading: false,
 			store: {},
 			list: []
 		}
@@ -39,7 +41,10 @@ const reducer = (state = initialState, action) => {
 				...state,
 				messages: {
 					...state.messages,
-					loading: action.payload
+					received: {
+						...state.messages.received,
+						loading: action.payload
+					}
 				}
 			};
 		case types.LOAD_MESSAGES:
@@ -85,6 +90,17 @@ const reducer = (state = initialState, action) => {
 					}
 				}
 			};
+		case types.SET_SENT_MESSAGES_LOADING:
+			return {
+				...state,
+				messages: {
+					...state.messages,
+					sent: {
+						...state.messages.sent,
+						loading: action.payload
+					}
+				}
+			};
 		case types.LOAD_SENT_MESSAGES:
 			return {
 				...state,
@@ -108,7 +124,7 @@ const reducer = (state = initialState, action) => {
 							...state.messages.sent.store,
 							[action.payload.id]: action.payload
 						},
-						list: [...state.messages.sent.list, action.payload.id]
+						list: [action.payload.id, ...state.messages.sent.list]
 					}
 				}
 			};
@@ -182,6 +198,11 @@ export const setMessageLoading = (id, loading = true) => ({
 	}
 });
 
+export const setSentMessagesLoading = (loading = true) => ({
+	type: types.SET_SENT_MESSAGES_LOADING,
+	payload: loading
+});
+
 export const loadSentMessages = messages => ({
 	type: types.LOAD_SENT_MESSAGES,
 	payload: messages
@@ -226,18 +247,21 @@ export const markMessageAsRead = (id, read = false) => dispatch => {
 };
 
 export const fetchSentMessages = () => dispatch => {
-	dispatch(setMessagesLoading(true));
+	dispatch(setSentMessagesLoading(true));
 
 	listModels('messages', { params: { sent: 1 } }).then(res => {
 		dispatch(loadSentMessages(res.data));
-		dispatch(setMessagesLoading(false));
+		dispatch(setSentMessagesLoading(false));
 	});
 };
 
 export const sendMessage = message => dispatch => {
 	dispatch(addSentMessage({ ...message, loading: true, id: 'new' }));
 
-	createModel('messages', message)
+	createModel('messages', {
+		recipient_id: message.recipient_id,
+		message: message.message
+	})
 		.then(res => {
 			dispatch(deleteSentMessage('new'));
 			dispatch(addSentMessage(res.data));

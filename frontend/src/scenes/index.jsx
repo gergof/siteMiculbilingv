@@ -163,7 +163,7 @@ export const Scenes = ({
 					<Route exact path="/auth/registration" component={Registration} />
 					<Route exact path="/auth/verifyEmail" component={VerifyEmail} />
 					<Route exact path="/auth/passwordReset" component={PasswordReset} />
-					<Route exact path="/messages/:id?" component={Messages} />
+					<Route path="/messages" component={Messages} />
 					<Route path="/profile" component={Profile} />
 				</Switch>
 			</div>

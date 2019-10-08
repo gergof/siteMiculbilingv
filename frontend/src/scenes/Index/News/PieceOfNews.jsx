@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withHandlers, withProps, lifecycle } from 'recompose';
 import renderHTML from 'react-render-html';
+import sanitizeHTML from 'sanitize-html';
 import { withLang } from '../../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -93,7 +94,7 @@ export const PieceOfNews = ({ news, onToggleReadClick, highlight, highlightRef, 
 					</Grid>
 				) : null}
 			</Grid>
-			<div>{renderHTML(news.message)}</div>
+			<div>{renderHTML(sanitizeHTML(news.message))}</div>
 		</Paper>
 	);
 };

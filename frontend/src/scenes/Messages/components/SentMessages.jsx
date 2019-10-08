@@ -81,8 +81,7 @@ export const enhancer = compose(
 		state => ({
 			messages: state.messages.messages.sent.list.map(
 				id => state.messages.messages.sent.store[id]
-			),
-			loading: state.messages.messages.loading
+			)
 		}),
 		dispatch => ({
 			fetchSentMessages: () => dispatch(fetchSentMessages()),

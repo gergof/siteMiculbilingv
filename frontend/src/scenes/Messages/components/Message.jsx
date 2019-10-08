@@ -6,8 +6,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchMessages, fetchSentMessages } from '../data/duck';
+import { addNotification } from '../../../data/duck';
 import classNames from 'classnames';
 import renderHTML from 'react-render-html';
+import sanitizeHTML from 'sanitize-html';
 
 import Slide from '@material-ui/core/Slide';
 import Paper from '@material-ui/core/Paper';
@@ -58,16 +60,19 @@ export const Message = ({ loading, message, onBackClick, lang, classes }) => {
 					<Divider />
 					<div className={classes.meta}>
 						<Typography variant="body2">
-							{lang.sender}: {message.user.name || ''}
+							{lang.sender}: {(message.user && message.user.name) || ''}
 						</Typography>
 						<Typography variant="body2">
-							{lang.recipient}: {message.recipient.name || ''}
+							{lang.recipient}:{' '}
+							{(message.recipient && message.recipient.name) || ''}
 						</Typography>
 						<Typography variant="body2">
 							{lang.sentOn}: {message.created_at || ''}
 						</Typography>
 					</div>
-					<div className={classes.message}>{renderHTML(message.message || '')}</div>
+					<div className={classes.message}>
+						{renderHTML(sanitizeHTML(message.message || ''))}
+					</div>
 				</Paper>
 				{loading ? <Loading /> : null}
 			</div>
@@ -80,30 +85,48 @@ export const enhancer = compose(
 	connect(
 		state => ({
 			messages: state.messages.messages,
-			loading: state.messages.messages.loading
+			loading:
+				state.messages.messages.received.loading ||
+				state.messages.messages.sent.loading
 		}),
 		dispatch => ({
 			fetchMessages: () => dispatch(fetchMessages()),
-			fetchSentMessages: () => dispatch(fetchSentMessages())
+			fetchSentMessages: () => dispatch(fetchSentMessages()),
+			dispatchNotification: (type, message) =>
+				dispatch(addNotification(type, message))
 		})
 	),
-	withProps(({ messages, id }) => {
+	withProps(({ messages, match }) => {
 		return {
-			message: messages.received.store[id] || messages.sent.store[id]
+			message:
+				messages.received.store[match.params.id] ||
+				messages.sent.store[match.params.id] ||
+				{}
 		};
 	}),
 	withHandlers({
 		onBackClick: ({ history }) => () => {
-			history.push('/messages');
+			history.goBack();
 		}
 	}),
+	withLang,
 	lifecycle({
 		componentDidMount() {
 			this.props.fetchMessages();
 			this.props.fetchSentMessages();
+		},
+		componentDidUpdate(prevProps) {
+			if (prevProps.loading == true) {
+				if (this.props.loading == false && !this.props.message.message) {
+					this.props.history.push('/messages');
+					this.props.dispatchNotification(
+						'error',
+						this.props.lang.messageNotFound
+					);
+				}
+			}
 		}
 	}),
-	withLang,
 	withStyles(styles)
 );
 

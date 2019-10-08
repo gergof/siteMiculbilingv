@@ -121,7 +121,6 @@ export const enhancer = compose(
 	),
 	withHandlers({
 		onSubmit: ({ sendMessage, history, usersStore }) => values => {
-			console.log(values);
 			sendMessage({
 				...values,
 				recipient: {

@@ -36,7 +36,7 @@ export default {
 	class: 'Osztály',
 	whichClassesTeaching: 'Milyen osztályokban tanít?',
 	classSize: 'Osztálylétszám',
-	howBigClass: 'Hány diákot tanít?',
+	howBigClass: 'Az osztály létszáma:',
 	password: 'Jelszó',
 	passwordConf: 'Jelszó megerősítése',
 	passwordTooShort: 'A jelszó legalább 8 karakter hosszú kell legyen.',

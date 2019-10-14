@@ -155,7 +155,7 @@ export const login = cred => dispatch => {
 				dispatch(setAuthToken(resp.data.token));
 				dispatch(addNotification('success', getLang().loginSuccess));
 			},
-			err => {
+			() => {
 				dispatch(setAuthLoading(false));
 				dispatch(addNotification('error', getLang().loginError));
 			}
@@ -165,7 +165,7 @@ export const login = cred => dispatch => {
 export const logout = () => (dispatch, getState) => {
 	if (getState().app.auth.token) {
 		dispatch(setAuthLoading(true));
-		axios.post('/auth/logout').then(resp => {
+		axios.post('/auth/logout').then(() => {
 			axios.defaults.headers['Authorization'] = '';
 			dispatch(setAuthLoading(false));
 			dispatch(clearAuthToken());
@@ -176,8 +176,8 @@ export const logout = () => (dispatch, getState) => {
 
 export const fetchSeasons = () => dispatch => {
 	dispatch(setSeasonsLoading(true));
-	listModels('seasons', null, true).then(res => {
-		dispatch(loadSeasons(res.data));
+	listModels('seasons', null, true).then(resp => {
+		dispatch(loadSeasons(resp.data));
 		dispatch(setSeasonsLoading(false));
 	});
 };

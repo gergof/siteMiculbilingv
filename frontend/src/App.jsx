@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose } from 'recompose';
 import { AxiosProvider } from 'react-axios';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';

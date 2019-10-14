@@ -15,7 +15,7 @@ const styles = theme => ({
 	}
 });
 
-export const CountySelect = ({ lang, classes, ...rest }) => {
+export const CountySelect = ({ lang, classes }) => {
 	return (
 		<React.Fragment>
 			<Typography className={classes.task}>

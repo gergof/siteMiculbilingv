@@ -4,8 +4,6 @@ import { compose, lifecycle, withState, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 import { withLang } from '../../lang';
 import { withStyles } from '@material-ui/core/styles';
-import { Formik, Field } from 'formik';
-import { withRouter } from 'react-router-dom';
 import { addNotification, fetchSeasons } from '../../data/duck';
 import { fetchEntries } from './data/duck';
 
@@ -17,12 +15,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import CheckIcon from '@material-ui/icons/Check';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import EnterField from './components/EnterField';
@@ -108,6 +103,15 @@ export const Enter = ({
 			) : null}
 		</Paper>
 	);
+};
+
+Enter.propTypes = {
+	entries: PropTypes.array,
+	isAdding: PropTypes.bool,
+	onAddEntryClick: PropTypes.func,
+	onEntryAddDone: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

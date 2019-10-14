@@ -43,6 +43,9 @@ export const News = ({ news, highlight, markAsRead, lang, classes }) => {
 };
 
 News.propTypes = {
+	news: PropTypes.array,
+	highlight: PropTypes.string,
+	markAsRead: PropTypes.func,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };
@@ -76,7 +79,7 @@ export const enhance = compose(
 		}
 	}),
 	withHandlers({
-		markAsRead: ({ news, markAsRead }) => (id, read = true) => {
+		markAsRead: ({ markAsRead }) => (id, read = true) => {
 			markAsRead(id, read);
 		}
 	}),

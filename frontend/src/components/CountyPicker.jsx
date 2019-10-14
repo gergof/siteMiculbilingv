@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
-
-import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
 	svg: {
@@ -320,7 +318,11 @@ export const CountyPicker = ({ value, onCountyClick, classes }) => {
 	);
 };
 
-CountyPicker.propTypes = {};
+CountyPicker.propTypes = {
+	value: PropTypes.string,
+	onCountyClick: PropTypes.func,
+	classes: PropTypes.object
+};
 
 export const enhance = compose(
 	withHandlers({

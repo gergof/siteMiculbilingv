@@ -35,6 +35,12 @@ export const DocumentList = ({ classes, lang, children }) => {
 	);
 };
 
+DocumentList.propTypes = {
+	classes: PropTypes.object,
+	lang: PropTypes.object,
+	children: PropTypes.node
+};
+
 export const enhancer = compose(
 	withLang,
 	withStyles(styles)

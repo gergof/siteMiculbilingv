@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers, withProps, lifecycle } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { withLang } from '../../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -26,20 +26,6 @@ const styles = theme => ({
 	},
 	actionCell: {
 		padding: 0
-	},
-	highlight: {
-		animation: '5s $highlightAnimation ease-in-out'
-	},
-	'@keyframes highlightAnimation': {
-		'0%': {
-			background: '#FFFFFF'
-		},
-		'10%': {
-			background: '#FFFF50'
-		},
-		'100%': {
-			background: '#FFFFFF'
-		}
 	},
 	grid: {
 		alignItems: 'center'
@@ -77,8 +63,6 @@ export const MessageItem = ({
 	isSent,
 	onReadToggleClick,
 	onDeleteClick,
-	highlight,
-	highlightRef,
 	onClick,
 	lang,
 	classes
@@ -86,10 +70,8 @@ export const MessageItem = ({
 	return (
 		<TableRow
 			className={classNames({
-				[classes.row]: true,
-				[classes.highlight]: highlight
+				[classes.row]: true
 			})}
-			ref={highlightRef}
 			onClick={onClick}
 		>
 			<TableCell>
@@ -134,6 +116,16 @@ export const MessageItem = ({
 	);
 };
 
+MessageItem.propTypes = {
+	message: PropTypes.object,
+	isSent: PropTypes.bool,
+	onReadToggleClick: PropTypes.func,
+	onDeleteClick: PropTypes.func,
+	onClick: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withRouter,
 	withHandlers({
@@ -141,7 +133,7 @@ export const enhancer = compose(
 			markAsRead(message.id, message.is_read == 0);
 			e.stopPropagation();
 		},
-		onDeleteClick: ({ message, onDeleteClick }) => e => {
+		onDeleteClick: ({ onDeleteClick }) => e => {
 			onDeleteClick();
 			e.stopPropagation();
 		},
@@ -151,23 +143,6 @@ export const enhancer = compose(
 			}
 			if (message.id != 'new') {
 				history.push('/messages/' + message.id);
-			}
-		}
-	}),
-	withProps(({ highlight }) => {
-		if (highlight) {
-			return { highlightRef: React.createRef() };
-		}
-	}),
-	lifecycle({
-		componentDidMount() {
-			if (this.props.highlight) {
-				setTimeout(() => {
-					window.scrollTo({
-						top: this.props.highlightRef.current.offsetTop - 100,
-						behavior: 'smooth'
-					});
-				}, 500);
 			}
 		}
 	}),

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { compose, lifecycle } from 'recompose';
 import { withLang } from '../../lang';
 import { connect } from 'react-redux';

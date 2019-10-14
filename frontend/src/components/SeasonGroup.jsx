@@ -34,6 +34,14 @@ export const SeasonGroup = ({
 	);
 };
 
+SeasonGroup.propTypes = {
+	season: PropTypes.object,
+	childKey: PropTypes.string,
+	Wrapper: PropTypes.elementType,
+	Component: PropTypes.elementType,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withProps(({ wrapper, component }) => {
 		return {

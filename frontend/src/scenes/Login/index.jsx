@@ -114,6 +114,14 @@ export const Login = ({ isLogging, login, onResetPassword, lang, classes }) => {
 	);
 };
 
+Login.propTypes = {
+	isLogging: PropTypes.bool,
+	login: PropTypes.func,
+	onResetPassword: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withRouter,
 	connect(

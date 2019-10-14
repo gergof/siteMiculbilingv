@@ -50,7 +50,7 @@ export const ResetForm = ({ isLoading, onPasswordReset, lang, classes }) => {
 					onPasswordReset(values);
 				}}
 			>
-				{({ touched, errors }) => (
+				{() => (
 					<Form>
 						<Typography variant="h6" gutterBottom>
 							{lang.passwordReset}
@@ -114,6 +114,13 @@ export const ResetForm = ({ isLoading, onPasswordReset, lang, classes }) => {
 			</Formik>
 		</Paper>
 	);
+};
+
+ResetForm.propTypes = {
+	isLoading: PropTypes.bool,
+	onPasswordReset: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

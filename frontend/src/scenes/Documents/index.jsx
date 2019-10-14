@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, lifecycle } from 'recompose';
-import { withLang } from '../../lang';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { fetchSeasons } from '../../data/duck';
 import { fetchDocuments } from './data/duck';
@@ -11,9 +9,7 @@ import SeasonGroup from '../../components/SeasonGroup';
 import DocumentList from './components/DocumentList';
 import Document from './components/Document';
 
-const styles = theme => ({});
-
-export const Documents = ({ documents, lang, classes }) => {
+export const Documents = ({ documents }) => {
 	return (
 		<div>
 			{documents.map(docs => (
@@ -29,7 +25,9 @@ export const Documents = ({ documents, lang, classes }) => {
 	);
 };
 
-Documents.propTypes = {};
+Documents.propTypes = {
+	documents: PropTypes.array
+};
 
 export const enhancer = compose(
 	connect(
@@ -54,9 +52,7 @@ export const enhancer = compose(
 		componentDidMount() {
 			this.props.fetchDocuments();
 		}
-	}),
-	withLang,
-	withStyles(styles)
+	})
 );
 
 export default enhancer(Documents);

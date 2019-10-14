@@ -80,6 +80,14 @@ export const Message = ({ loading, message, onBackClick, lang, classes }) => {
 	);
 };
 
+Message.propTypes = {
+	loading: PropTypes.bool,
+	message: PropTypes.object,
+	onBackClick: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withRouter,
 	connect(

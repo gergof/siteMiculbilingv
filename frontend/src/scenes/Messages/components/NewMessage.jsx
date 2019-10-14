@@ -106,6 +106,14 @@ export const NewMessage = ({ onSubmit, language, users, lang, classes }) => {
 	);
 };
 
+NewMessage.propTypes = {
+	onSubmit: PropTypes.func,
+	language: PropTypes.string,
+	users: PropTypes.array,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withRouter,
 	connect(

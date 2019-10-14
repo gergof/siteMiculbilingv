@@ -128,6 +128,15 @@ export const EnterField = ({
 	);
 };
 
+EnterField.propTypes = {
+	isConfirming: PropTypes.bool,
+	onSubmit: PropTypes.func,
+	onConfirmReject: PropTypes.func,
+	onConfirmAccept: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
+
 export const enhancer = compose(
 	withState('isConfirming', 'setIsConfirming', false),
 	withState('entry', 'setEntry', null),

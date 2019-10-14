@@ -172,6 +172,11 @@ export const Scenes = ({
 };
 
 Scenes.propTypes = {
+	isLogged: PropTypes.bool,
+	onAccountClick: PropTypes.func,
+	onAccountMenuClose: PropTypes.func,
+	accountMenu: PropTypes.object,
+	goTo: PropTypes.func,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };

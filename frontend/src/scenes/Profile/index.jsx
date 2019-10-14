@@ -99,7 +99,7 @@ export const Profile = ({ onSubmit, loading, profile, lang, classes }) => {
 					enableReinitialize={true}
 					onSubmit={onSubmit}
 				>
-					{({ handleSubmit, errors }) => (
+					{() => (
 						<Form>
 							<Field name="name">
 								{({ field, form }) => (
@@ -180,6 +180,14 @@ export const Profile = ({ onSubmit, loading, profile, lang, classes }) => {
 			) : null}
 		</div>
 	);
+};
+
+Profile.propTypes = {
+	onSubmit: PropTypes.func,
+	loading: PropTypes.bool,
+	profile: PropTypes.object,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

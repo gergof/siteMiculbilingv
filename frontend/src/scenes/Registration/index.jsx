@@ -7,7 +7,7 @@ import { withLang } from '../../lang';
 import { withAxios } from 'react-axios';
 import { connect } from 'react-redux';
 import { addNotification } from '../../data/duck';
-import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Paper from '@material-ui/core/Paper';
@@ -221,7 +221,16 @@ export const Registration = ({
 	);
 };
 
-Registration.propTypes = {};
+Registration.propTypes = {
+	activeStep: PropTypes.number,
+	onNextStepClick: PropTypes.func,
+	onPrevStepClick: PropTypes.func,
+	isSubmitting: PropTypes.bool,
+	isRegDone: PropTypes.bool,
+	onSubmit: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
 
 export const enhancer = compose(
 	withAxios,
@@ -246,7 +255,6 @@ export const enhancer = compose(
 		},
 		onSubmit: ({
 			axios,
-			history,
 			dispatchNotification,
 			lang,
 			setActiveStep,

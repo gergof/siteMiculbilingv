@@ -20,7 +20,7 @@ import Button from '@material-ui/core/Button';
 
 import MessageItem from './MessageItem';
 
-const styles = theme => ({
+const styles = () => ({
 	table: {
 		width: '100%'
 	}
@@ -29,10 +29,10 @@ const styles = theme => ({
 export const SentMessages = ({
 	messages,
 	onMessageDelete,
-	lang,
 	isDeleting,
 	onDeleteReject,
 	onDeleteConfirm,
+	lang,
 	classes
 }) => {
 	return (
@@ -50,7 +50,6 @@ export const SentMessages = ({
 						<MessageItem
 							key={message.id}
 							message={message}
-							highlight={false}
 							onDeleteClick={() => onMessageDelete(message.id)}
 							isSent={true}
 						/>
@@ -73,6 +72,16 @@ export const SentMessages = ({
 			</Dialog>
 		</div>
 	);
+};
+
+SentMessages.propTypes = {
+	messages: PropTypes.array,
+	onMessageDelete: PropTypes.func,
+	isDeleting: PropTypes.number,
+	onDeleteReject: PropTypes.func,
+	onDeleteConfirm: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

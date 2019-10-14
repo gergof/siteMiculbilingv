@@ -110,6 +110,8 @@ export const PieceOfNews = ({
 PieceOfNews.propTypes = {
 	news: PropTypes.object,
 	onToggleReadClick: PropTypes.func,
+	highlight: PropTypes.bool,
+	highlightRef: PropTypes.object,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };

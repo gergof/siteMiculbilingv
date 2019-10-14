@@ -96,6 +96,11 @@ export const VerifyData = ({
 };
 
 VerifyData.propTypes = {
+	form: PropTypes.object,
+	school_county: PropTypes.string,
+	school_name_ro: PropTypes.string,
+	school_name_hu: PropTypes.string,
+	school_city: PropTypes.string,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };

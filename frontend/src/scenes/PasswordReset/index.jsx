@@ -93,7 +93,12 @@ export const PasswordReset = ({ isLoading, onRequestReset, lang, classes }) => {
 	);
 };
 
-PasswordReset.propTypes = {};
+PasswordReset.propTypes = {
+	isLoading: PropTypes.bool,
+	onRequestReset: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
 
 export const enhancer = compose(
 	withAxios,
@@ -173,7 +178,7 @@ export const enhancer = compose(
 					password: values.password
 				})
 				.then(
-					response => {
+					() => {
 						dispatchNotification('success', lang.passwordReseted);
 						history.push('/auth/login');
 					},

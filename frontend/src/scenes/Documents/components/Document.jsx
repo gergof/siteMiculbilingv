@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withHandlers } from 'recompose';
-import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../../lang';
 import { getModel } from '../../../data/api';
 import { connect } from 'react-redux';
@@ -10,9 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
 
-const styles = theme => ({});
-
-export const Document = ({ data, onDownloadClick, lang, classes }) => {
+export const Document = ({ data, onDownloadClick, lang }) => {
 	return (
 		<TableRow>
 			<TableCell>{data.name}</TableCell>
@@ -23,6 +20,12 @@ export const Document = ({ data, onDownloadClick, lang, classes }) => {
 			</TableCell>
 		</TableRow>
 	);
+};
+
+Document.propTypes = {
+	data: PropTypes.object,
+	onDownloadClick: PropTypes.func,
+	lang: PropTypes.object
 };
 
 export const enhancer = compose(
@@ -36,8 +39,7 @@ export const enhancer = compose(
 			});
 		}
 	}),
-	withLang,
-	withStyles(styles)
+	withLang
 );
 
 export default enhancer(Document);

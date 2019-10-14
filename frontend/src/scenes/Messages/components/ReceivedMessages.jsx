@@ -14,17 +14,15 @@ import TableCell from '@material-ui/core/TableCell';
 
 import MessageItem from './MessageItem';
 
-const styles = theme => ({
+const styles = () => ({
 	table: {
 		width: '100%'
 	}
 });
 
 export const ReceivedMessages = ({
-	highlight,
 	messages,
 	markMessageAsRead,
-	openMessage,
 	lang,
 	classes
 }) => {
@@ -42,7 +40,6 @@ export const ReceivedMessages = ({
 					<MessageItem
 						key={message.id}
 						message={message}
-						highlight={message.id == highlight}
 						isSent={false}
 						markAsRead={markMessageAsRead}
 					/>
@@ -50,6 +47,13 @@ export const ReceivedMessages = ({
 			</TableBody>
 		</Table>
 	);
+};
+
+ReceivedMessages.propTypes = {
+	messages: PropTypes.array,
+	markMessageAsRead: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

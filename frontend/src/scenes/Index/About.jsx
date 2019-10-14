@@ -4,7 +4,6 @@ import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../lang';
 
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({

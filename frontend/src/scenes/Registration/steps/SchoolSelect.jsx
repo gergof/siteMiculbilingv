@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import InputFiles from 'react-input-files';
 
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import Select from '@material-ui/core/Select';
 import Collapse from '@material-ui/core/Collapse';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -68,8 +67,7 @@ export const SchoolSelect = ({
 	handleNewSchool,
 	onDownloadContractClick,
 	lang,
-	classes,
-	...rest
+	classes
 }) => {
 	return (
 		<React.Fragment>
@@ -184,7 +182,15 @@ export const SchoolSelect = ({
 	);
 };
 
-SchoolSelect.propTypes = {};
+SchoolSelect.propTypes = {
+	schools: PropTypes.array,
+	isFetching: PropTypes.bool,
+	isNewSchool: PropTypes.bool,
+	handleNewSchool: PropTypes.func,
+	onDownloadContractClick: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
+};
 
 export const enhancer = compose(
 	withState('isNewSchool', 'setIsNewSchool', false),
@@ -198,7 +204,7 @@ export const enhancer = compose(
 				setIsNewSchool(false);
 			}
 		},
-		onDownloadContractClick: ({}) => () => {
+		onDownloadContractClick: () => () => {
 			console.log('asd');
 		}
 	}),

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const styles = theme => ({
+const styles = () => ({
 	loadingContainer: {
 		position: 'absolute',
 		top: '50%',
@@ -23,6 +24,10 @@ export const Loading = ({ classes }) => {
 			<CircularProgress className={classes.loading} />
 		</div>
 	);
+};
+
+Loading.propTypes = {
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(withStyles(styles));

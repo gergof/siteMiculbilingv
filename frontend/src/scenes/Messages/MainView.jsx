@@ -4,15 +4,11 @@ import { compose, withHandlers, withProps } from 'recompose';
 import { withLang } from '../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter, Switch, Route } from 'react-router-dom';
-import queryString from 'query-string';
 
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Slide from '@material-ui/core/Slide';
-
 import ReceivedMessages from './components/ReceivedMessages';
 import SentMessages from './components/SentMessages';
 import NewMessage from './components/NewMessage';
@@ -62,6 +58,13 @@ export const Messages = ({ currentTab, onTabChange, lang, classes }) => {
 			</Grid>
 		</Paper>
 	);
+};
+
+Messages.propTypes = {
+	currentTab: PropTypes.number,
+	onTabChange: PropTypes.func,
+	lang: PropTypes.object,
+	classes: PropTypes.object
 };
 
 export const enhancer = compose(

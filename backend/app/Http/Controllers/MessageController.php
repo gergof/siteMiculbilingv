@@ -10,10 +10,26 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller {
-	public function index() {
-		$announcements = Auth::user()->incomingMessages()->latest()->get();
+	public function index(Request $request) {
+		$filters = $request->validate([
+			'sent' => 'boolean',
+			'has_message' => 'boolean',
+		]);
 
-		return response()->json($announcements);
+		if (isset($filters['has_message']) && $filters['has_message']) {
+			//only return if user has message or not
+			$hasMessage = Auth::user()->incomingMessages()->where('is_read', 0)->exists();
+			return response()->json(['hasMessage' => $hasMessage]);
+		}
+
+		$messages;
+		if (isset($filters['sent']) && $filters['sent']) {
+			$messages = Auth::user()->messages()->with(['user:id,name', 'recipient:id,name'])->latest()->get();
+		} else {
+			$messages = Auth::user()->incomingMessages()->with(['user:id,name', 'recipient:id,name'])->latest()->get();
+		}
+
+		return response()->json($messages);
 	}
 
 	public function store(Request $request) {
@@ -49,7 +65,7 @@ class MessageController extends Controller {
 					'sender_name' => Auth::user()->name,
 					'recipient_name' => $recipient->name,
 					'content' => $data['message'],
-					'messageUrl' => config('app.url') . '/messages/' . Auth::user()->id . '?highlight=' . $message->id,
+					'messageUrl' => config('app.url') . '/messages/' . $message->id,
 					'unsubscribeUrl' => config('app.url') . '/profile/emailUnsubscribe',
 				])
 			);

@@ -32,7 +32,7 @@ class DocumentController extends Controller {
 	public function store(Request $request) {
 		$data = $request->validate([
 			'name' => 'string|required',
-			'file' => 'file|required|max:10000',
+			'file' => 'file|required|max:50000',
 			'is_public' => 'boolean|required',
 			'target_counties' => 'array',
 			'target_schools' => 'array',

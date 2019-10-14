@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth:token'], function () {
 	Route::resource('objectives', 'ObjectiveController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('partialResults', 'PartialResultController')->only(['index', 'store', 'show', 'update', 'destroy']);
 	Route::resource('results', 'ResultController')->only(['index', 'store', 'show', 'update']);
+	Route::resource('users', 'UserController')->only(['index']);
 });
 
 Route::post('auth/login', 'LoginController@login');

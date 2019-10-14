@@ -55,12 +55,20 @@ const styles = theme => ({
 	}
 });
 
-export const PieceOfNews = ({ news, onToggleReadClick, highlight, highlightRef, lang, classes }) => {
+export const PieceOfNews = ({
+	news,
+	onToggleReadClick,
+	highlight,
+	highlightRef,
+	lang,
+	classes
+}) => {
 	return (
 		<Paper
 			className={classnames({
 				[classes.container]: true,
-				[classes.unread]: news.is_public == 0 && news.target && news.target.is_read == 0,
+				[classes.unread]:
+					news.is_public == 0 && news.target && news.target.is_read == 0,
 				[classes.highlight]: highlight
 			})}
 			ref={highlightRef}
@@ -112,19 +120,19 @@ export const enhance = compose(
 			markAsRead(news.target.id, news.target.is_read == 0);
 		}
 	}),
-	withProps(({highlight}) => {
-		if(highlight){
+	withProps(({ highlight }) => {
+		if (highlight) {
 			return {
 				highlightRef: React.createRef()
-			}
+			};
 		}
 	}),
 	lifecycle({
-		componentDidMount(){
-			if(this.props.highlight){
+		componentDidMount() {
+			if (this.props.highlight) {
 				setTimeout(() => {
 					window.scrollTo({
-						top: this.props.highlightRef.current.offsetTop-100,
+						top: this.props.highlightRef.current.offsetTop - 100,
 						behavior: 'smooth'
 					});
 				}, 500);

@@ -4,11 +4,11 @@ import { compose, lifecycle, withHandlers, withProps } from 'recompose';
 import { connect } from 'react-redux';
 import { withLang } from '../../../lang';
 import { withStyles } from '@material-ui/core/styles';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 
 import { fetchNews, markAsRead } from '../data/duck';
-import {fetchSeasons} from '../../../data/duck';
+import { fetchSeasons } from '../../../data/duck';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -30,7 +30,12 @@ export const News = ({ news, highlight, markAsRead, lang, classes }) => {
 			</Typography>
 			<div>
 				{news.map(news => (
-					<PieceOfNews key={news.id} news={news} markAsRead={markAsRead} highlight={news.id==highlight} />
+					<PieceOfNews
+						key={news.id}
+						news={news}
+						markAsRead={markAsRead}
+						highlight={news.id == highlight}
+					/>
 				))}
 			</div>
 		</div>
@@ -57,12 +62,12 @@ export const enhance = compose(
 			fetchSeasons: () => dispatch(fetchSeasons())
 		})
 	),
-	withProps(({location}) => {
-		const queryParams=queryString.parse(location.search);
+	withProps(({ location }) => {
+		const queryParams = queryString.parse(location.search);
 
 		return {
 			highlight: queryParams.highlight
-		}
+		};
 	}),
 	lifecycle({
 		componentDidMount() {

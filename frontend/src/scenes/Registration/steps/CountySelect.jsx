@@ -18,7 +18,9 @@ const styles = theme => ({
 export const CountySelect = ({ lang, classes, ...rest }) => {
 	return (
 		<React.Fragment>
-			<Typography className={classes.task}>{lang.pleaseSelectCounty}</Typography>
+			<Typography className={classes.task}>
+				{lang.pleaseSelectCounty}
+			</Typography>
 			<Field name="school_county">
 				{({ field }) => (
 					<CountyPicker

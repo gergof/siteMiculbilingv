@@ -51,7 +51,8 @@ export default {
 	verifyData: 'Adatok ellenőrzése',
 	county: 'Megye',
 	finalize: 'Véglegesítés',
-	emailUsed: 'A megadott e-mail címmel már regisztráltak. Kérlek jelentkezz be!',
+	emailUsed:
+		'A megadott e-mail címmel már regisztráltak. Kérlek jelentkezz be!',
 	successfullRegistration:
 		'Sikeresen regisztráltál. Kérlek nézd meg az e-mail fiókod!',
 	regDone:

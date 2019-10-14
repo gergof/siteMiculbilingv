@@ -28,7 +28,11 @@ export const ErrorNotFound = ({ onGoToHomeClick, lang, classes }) => {
 				404
 			</Typography>
 			<Typography>{lang.error404}</Typography>
-			<Button color="primary" className={classes.button} onClick={onGoToHomeClick}>
+			<Button
+				color="primary"
+				className={classes.button}
+				onClick={onGoToHomeClick}
+			>
 				{lang.goHome}
 			</Button>
 		</Paper>

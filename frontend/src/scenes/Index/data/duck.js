@@ -118,10 +118,10 @@ export const fetchNews = () => (dispatch, getState) => {
 	dispatch(setLoading(true));
 
 	listModels('announcements', null, !isLogged).then(res => {
-		const data=res.data;
+		const data = res.data;
 		data.sort((a, b) => a.updated_at.localeCompare(b.updateTarget));
 		dispatch(loadNews(data));
-		if(isLogged){
+		if (isLogged) {
 			listModels('announcementTargets').then(res => {
 				dispatch(loadTargets(res.data));
 				dispatch(setLoading(false));

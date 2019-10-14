@@ -13,7 +13,13 @@ const styles = theme => ({
 	}
 });
 
-export const SeasonGroup = ({ season, childKey, Wrapper, Component, classes }) => {
+export const SeasonGroup = ({
+	season,
+	childKey,
+	Wrapper,
+	Component,
+	classes
+}) => {
 	return (
 		<div>
 			<Typography variant="h4" className={classes.season}>

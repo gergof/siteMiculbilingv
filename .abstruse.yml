@@ -22,7 +22,7 @@ deploy:
   - tar -czvf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
   - >
-    if [ "$ABSTRUSE_BRANCH" == "master" ] || [ "$ABSTRUSE_BRANCH" == "feature/deploy" ]; then
+    if [ "$ABSTRUSE_BRANCH" == "master" ] || [ "$ABSTRUSE_BRANCH" == "dev" ]; then
       mkdir -p ~/.ssh
       echo $ID_RSA | base64 -di > ~/.ssh/ID_RSA
       chmod -R 600 ~/.ssh

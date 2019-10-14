@@ -27,7 +27,7 @@ deploy:
       echo $ID_RSA | base64 -di > ~/.ssh/ID_RSA
       chmod -R 600 ~/.ssh
       scp dist.tar.gz miculbilingv.ro@systemtest.tk:public_html/dist.tar.gz
-      ssh miculbilingv.ro@systemtest.tk '
+      ssh -oStrictHostKeyChecking=no miculbilingv.ro@systemtest.tk '
         tar -xzvf dist.tar.gz
         chown -R miculbilingv.ro:www-data ~/public_html
         chmod -R 644 ~/public_html

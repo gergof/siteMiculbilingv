@@ -26,7 +26,7 @@ deploy:
       mkdir -p ~/.ssh
       echo $ID_RSA | base64 -di > ~/.ssh/id_rsa
       chmod -R 600 ~/.ssh
-      scp dist.tar.gz miculbilingv.ro@systemtest.tk:public_html/dist.tar.gz
+      scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dist.tar.gz miculbilingv.ro@systemtest.tk:public_html/dist.tar.gz
       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null miculbilingv.ro@systemtest.tk '
         tar -xzvf dist.tar.gz
         chown -R miculbilingv.ro:www-data ~/public_html

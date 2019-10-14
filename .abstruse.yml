@@ -23,11 +23,10 @@ deploy:
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
   - >
     if [ "$ABSTRUSE_BRANCH" == "master" ] || [ "$ABSTRUSE_BRANCH" == "dev" ]; then
-      mkdir -p ~/.ssh
-      echo $ID_RSA | base64 -di > ~/.ssh/id_rsa
-      chmod -R 600 ~/.ssh
-      scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null dist.tar.gz miculbilingv.ro@systemtest.tk:public_html/dist.tar.gz
-      ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null miculbilingv.ro@systemtest.tk '
+      echo $ID_RSA | base64 -di > ./id_rsa
+      chmod 600 ./id_rsa
+      scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa dist.tar.gz miculbilingv.ro@172.17.0.1:public_html/dist.tar.gz
+      ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa miculbilingv.ro@172.17.0.1 '
         tar -xzvf dist.tar.gz
         chown -R miculbilingv.ro:www-data ~/public_html
         chmod -R 644 ~/public_html

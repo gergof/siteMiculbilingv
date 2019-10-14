@@ -13,9 +13,24 @@ script:
 deploy:
   - cd frontend && npm ci && cd ..
   - cd backend && composer install --optimize-autoloader --no-dev && cd ..
+  - echo $ENV_FRONTEND | base64 -di > frontend/.env
   - cd frontend && npm run build && cd ..
   - cp frontend/build/index.blade.php backend/resources/views/
   - cp frontend/build/index.js backend/public/
+  - echo $ENV_BACKEND | base64 -di > backend/.env
   - cd backend && php artisan config:cache && cd ..
   - tar -czvf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
+  - >
+    if [ "$ABSTRUSE_BRANCH" == "master" ] || [ "$ABSTRUSE_BRANCH" == "feature/deploy" ]; then
+      mkdir -p ~/.ssh
+      echo $ID_RSA | base64 -di > ~/.ssh/ID_RSA
+      chmod -R 600 ~/.ssh
+      scp dist.tar.gz miculbilingv.ro@systemtest.tk:public_html/dist.tar.gz
+      ssh miculbilingv.ro@systemtest.tk '
+        tar -xzvf dist.tar.gz
+        chown -R miculbilingv.ro:www-data ~/public_html
+        chmod -R 644 ~/public_html
+        php artisan migrate
+      '
+    fi

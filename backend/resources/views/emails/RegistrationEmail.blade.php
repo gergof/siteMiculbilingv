@@ -5,7 +5,7 @@
 @section('content')
 	<p>Kedves {{ $name }}!</p>
 	<p>
-		Köszöntünk a Micul Bilingv weboldalán! A regisztrációd véglegesítéséhez meg kell erősítsd az email címedet. Ehhez kérlek kattints az alábbi gombra!
+		Köszöntünk a Micul Bilingv weboldalán! A regisztrációd véglegesítéséhez meg kell erősítsd az e-mail címedet. Ehhez kérlek kattints az alábbi gombra!
 	</p>
 @endsection
 

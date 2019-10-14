@@ -26,7 +26,11 @@ export const About = ({ lang, classes }) => {
 			<Typography variant="h1" className={classes.title}>
 				{lang.title}
 			</Typography>
-			<Typography className={classes.text}>{lang.contestAbout}</Typography>
+			{lang.contestAbout.map((paragraph, i) => (
+				<Typography key={i} className={classes.text}>
+					{paragraph}
+				</Typography>
+			))}
 		</div>
 	);
 };

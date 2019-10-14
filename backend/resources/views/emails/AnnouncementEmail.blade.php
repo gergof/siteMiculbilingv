@@ -1,6 +1,6 @@
 @extends('emails.Base')
 
-@section('title', 'Új közlemény: ' . $title)
+@section('title', 'Új hír: ' . $title)
 
 @section('head')
 	@parent
@@ -17,7 +17,7 @@
 @section('content')
 	<p>Kedves {{ $user_name }}!</p>
 	<p>
-		A weboldalon egy új közleményt tettek közzé!
+		A weboldalon egy új hír olvasható!
 	</p>
 	<div class="message">
 		{!! $content !!}
@@ -28,7 +28,7 @@
 	<div class="button__width button__margin">
 		<a href="{{ $announcementUrl }}">
 			<div class="button">
-				<span>Közlemény megtekintése</span>
+				<span>Hír megtekintése</span>
 			</div>
 		</a>
 	</div>

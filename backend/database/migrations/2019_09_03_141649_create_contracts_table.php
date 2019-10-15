@@ -13,9 +13,9 @@ class CreateContractsTable extends Migration {
 	public function up() {
 		Schema::create('contracts', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('season_id');
-			$table->bigInteger('school_id');
-			$table->bigInteger('document_id');
+			$table->unsignedBigInteger('season_id');
+			$table->unsignedBigInteger('school_id');
+			$table->unsignedBigInteger('document_id');
 			$table->timestamps();
 
 			$table->foreign('season_id')->references('id')->on('seasons');

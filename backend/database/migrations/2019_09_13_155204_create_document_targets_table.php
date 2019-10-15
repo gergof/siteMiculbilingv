@@ -13,8 +13,8 @@ class CreateDocumentTargetsTable extends Migration {
 	public function up() {
 		Schema::create('document_targets', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('document_id');
-			$table->bigInteger('user_id');
+			$table->unsignedBigInteger('document_id');
+			$table->unsignedBigInteger('user_id');
 			$table->timestamps();
 
 			$table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');

@@ -57,9 +57,16 @@ export const NewMessage = ({ onSubmit, language, users, lang, classes }) => {
 								>
 									{users.map(user => (
 										<MenuItem key={user.id} value={user.id}>
-											{user.name} ({user.school.county},{' '}
-											{user.school[language == 'hu_HU' ? 'name_hu' : 'name_ro']}
-											)
+											{user.name}{' '}
+											{user.school
+												? '(' +
+												  user.school.county +
+												  ', ' +
+												  user.school[
+														language == 'hu_HU' ? 'name_hu' : 'name_ro'
+												  ] +
+												  ')'
+												: ''}
 										</MenuItem>
 									))}
 								</Select>

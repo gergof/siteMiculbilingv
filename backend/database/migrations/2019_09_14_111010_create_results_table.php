@@ -13,8 +13,8 @@ class CreateResultsTable extends Migration {
 	public function up() {
 		Schema::create('results', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('student_id');
-			$table->bigInteger('phase_id');
+			$table->unsignedBigInteger('student_id');
+			$table->unsignedBigInteger('phase_id');
 			$table->boolean('is_absent')->default(false);
 			$table->boolean('is_advanced')->default(false);
 			$table->integer('result')->default(0);

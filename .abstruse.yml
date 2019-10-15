@@ -28,8 +28,8 @@ deploy:
       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa miculbilingv.ro@172.17.0.1 '
         tar -xzf ~/documents/dist.tar.gz -C ~/public_html
         chown -R miculbilingv.ro:www-data ~/public_html
-        chmod -R 744 ~/public_html
+        chmod -R 754 ~/public_html
         php ~/public_html/artisan config:cache
-        php ~/public_html/artisan migrate -y
+        php ~/public_html/artisan migrate --no-interaction
       '
     fi

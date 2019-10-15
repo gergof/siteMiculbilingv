@@ -156,7 +156,7 @@ export const Scenes = ({
 			<div className={classes.content}>
 				<Switch>
 					<Route exact path="/" component={Index} />
-					<Route exact path="/documents" component={Documents} />
+					<Route exact path="/documents/:id?" component={Documents} />
 					<Route exact path="/enter" component={Enter} />
 					<Route exact path="/auth/login" component={Login} />
 					<Route exact path="/auth/logout" component={Logout} />

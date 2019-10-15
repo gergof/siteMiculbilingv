@@ -29,7 +29,6 @@ deploy:
         tar -xzf ~/documents/dist.tar.gz -C ~/public_html
         chown -R miculbilingv.ro:www-data ~/public_html
         chmod -R 754 ~/public_html
-        php ~/public_html/artisan config:cache
         php ~/public_html/artisan migrate --force
         php ~/public_html/artisan queue:restart
       '

@@ -15,9 +15,9 @@ class CreateStudentsTable extends Migration {
 			$table->bigIncrements('id');
 			$table->string('name');
 			$table->tinyInteger('class');
-			$table->bigInteger('season_id');
-			$table->bigInteger('school_id');
-			$table->bigInteger('user_id');
+			$table->unsignedInteger('season_id');
+			$table->unsignedInteger('school_id');
+			$table->unsignedInteger('user_id');
 			$table->timestamps();
 
 			$table->foreign('season_id')->references('id')->on('seasons');

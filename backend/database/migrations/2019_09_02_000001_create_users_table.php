@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
 			$table->timestamp('email_verified_at')->nullable();
 			$table->boolean('is_email_subscribed')->default(true);
 			$table->string('password');
-			$table->bigInteger('school_id')->nullable();
+			$table->unsignedInteger('school_id')->nullable();
 			$table->tinyInteger('class'); // 0-no class, 1-3rd grade, 2-4th grade, 3-both
 			$table->tinyInteger('class_size');
 			$table->enum('role', ['teacher', 'lmanager', 'manager', 'admin'])->default('teacher');

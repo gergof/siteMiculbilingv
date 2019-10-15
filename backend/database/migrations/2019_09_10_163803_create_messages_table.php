@@ -13,8 +13,8 @@ class CreateMessagesTable extends Migration {
 	public function up() {
 		Schema::create('messages', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('user_id');
-			$table->bigInteger('recipient_id');
+			$table->unsignedInteger('user_id');
+			$table->unsignedInteger('recipient_id');
 			$table->text('message');
 			$table->boolean('is_read')->default(false);
 			$table->timestamps();

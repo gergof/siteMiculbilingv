@@ -13,8 +13,8 @@ class CreateAnnouncementTargetsTable extends Migration {
 	public function up() {
 		Schema::create('announcement_targets', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('announcement_id');
-			$table->bigInteger('user_id');
+			$table->unsignedInteger('announcement_id');
+			$table->unsignedInteger('user_id');
 			$table->boolean('is_read')->default(false);
 			$table->timestamps();
 

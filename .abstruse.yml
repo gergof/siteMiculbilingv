@@ -30,6 +30,6 @@ deploy:
         chown -R miculbilingv.ro:www-data ~/public_html
         chmod -R 754 ~/public_html
         php ~/public_html/artisan config:cache
-        php ~/public_html/artisan migrate --no-interaction
+        php ~/public_html/artisan migrate --force
       '
     fi

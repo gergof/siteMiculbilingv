@@ -4,7 +4,7 @@ import { compose, lifecycle, withHandlers, withState } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../../lang';
 import { Field } from 'formik';
-import { listModels } from '../../../data/api';
+import { listModels, getModel } from '../../../data/api';
 import classnames from 'classnames';
 import InputFiles from 'react-input-files';
 
@@ -205,7 +205,11 @@ export const enhancer = compose(
 			}
 		},
 		onDownloadContractClick: () => () => {
-			console.log('asd');
+			getModel('documents', process.env.CONTRACT_DOCUMENT_ID, null, true).then(
+				res => {
+					window.location.href = res.data.downloadLink;
+				}
+			);
 		}
 	}),
 	lifecycle({

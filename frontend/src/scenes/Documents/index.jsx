@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
-import { fetchSeasons } from '../../data/duck';
+import { fetchSeasons, addNotification } from '../../data/duck';
 import { fetchDocuments } from './data/duck';
+import { withRouter } from 'react-router-dom';
+import { getModel } from '../../data/api';
+import { withLang } from '../../lang';
 
 import SeasonGroup from '../../components/SeasonGroup';
 import DocumentList from './components/DocumentList';
@@ -30,8 +33,10 @@ Documents.propTypes = {
 };
 
 export const enhancer = compose(
+	withRouter,
 	connect(
 		state => ({
+			isLogged: !!state.app.auth.token,
 			documents: state.app.seasons.list.map(id => ({
 				...state.app.seasons.store[id],
 				documents: state.documents.documents.bySeason[id]
@@ -45,12 +50,35 @@ export const enhancer = compose(
 			fetchDocuments: () => {
 				dispatch(fetchSeasons());
 				dispatch(fetchDocuments());
-			}
+			},
+			dispatchNotification: (type, message) =>
+				dispatch(addNotification(type, message))
 		})
 	),
+	withLang,
 	lifecycle({
 		componentDidMount() {
 			this.props.fetchDocuments();
+
+			if (this.props.match.params.id) {
+				getModel(
+					'documents',
+					this.props.match.params.id,
+					null,
+					!this.props.isLogged
+				).then(
+					res => {
+						window.location.href = res.data.downloadLink;
+						setTimeout(() => {
+							this.props.history.goBack();
+						}, 500);
+					},
+					() => {
+						this.props.dispatchNotification('error', this.props.lang.error404);
+						this.props.history.goBack();
+					}
+				);
+			}
 		}
 	})
 );

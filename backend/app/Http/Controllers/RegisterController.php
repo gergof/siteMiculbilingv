@@ -21,7 +21,7 @@ class RegisterController extends Controller {
 			'school_name_hu' => 'string|required_without:school_id',
 			'school_county' => 'string|required_without:school_id|in:' . config('services.supportedCounties'),
 			'school_city' => 'string|required_without:school_id',
-			'school_contract' => 'file|required_without:school_id|mimes:pdf',
+			'school_contract' => 'file|required_without:school_id|mimes:pdf|max:5000',
 			'name' => 'string|required|max:65',
 			'email' => 'email|required|unique:users,email',
 			'password' => 'string|required|min:8',
@@ -42,7 +42,7 @@ class RegisterController extends Controller {
 			$season = Season::latest()->first();
 
 			$contractDoc = new Document();
-			$contractDoc->name = "contract_" . $data['school_name_ro'] . "_" . $season->name . ".pdf";
+			$contractDoc->name = 'contract_' . $data['school_name_ro'] . '_' . $season->name . '.pdf';
 			$contractDoc->season()->associate($season);
 			$contractDoc->saveFile($request->file('school_contract'));
 			$contractDoc->save();
@@ -53,7 +53,7 @@ class RegisterController extends Controller {
 			$contract->document()->associate($contractDoc);
 			$contract->save();
 		} else {
-			$school = School::find($data->school_id);
+			$school = School::find($data['school_id']);
 		}
 
 		$emailToken = Str::random(32);
@@ -67,7 +67,7 @@ class RegisterController extends Controller {
 		Mail::to($data['email'])->send(
 			new RegistrationEmail([
 				'name' => $userData['name'],
-				'confirmationUrl' => config('app.url') . '/auth/verifyEmail?email=' . $userData['email'] . '&token=' . $emailToken,
+				'confirmationUrl' => config('app.url') . '/auth/verifyEmail?email=' . urlencode($userData['email']) . '&token=' . urlencode($emailToken),
 			])
 		);
 

@@ -13,7 +13,7 @@ class CreateAuthTokensTable extends Migration {
 	public function up() {
 		Schema::create('auth_tokens', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->bigInteger('user_id');
+			$table->unsignedBigInteger('user_id');
 			$table->string('access_token', 35)->unique();
 			$table->dateTime('expires_at')->nullable();
 			$table->timestamps();

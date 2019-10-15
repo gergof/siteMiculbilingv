@@ -13,9 +13,24 @@ script:
 deploy:
   - cd frontend && npm ci && cd ..
   - cd backend && composer install --optimize-autoloader --no-dev && cd ..
+  - echo $ENV_FRONTEND | base64 -di > frontend/.env
   - cd frontend && npm run build && cd ..
   - cp frontend/build/index.blade.php backend/resources/views/
   - cp frontend/build/index.js backend/public/
-  - cd backend && php artisan config:cache && cd ..
-  - tar -czvf dist.tar.gz -C backend .
+  - echo $ENV_BACKEND | base64 -di > backend/.env
+  - tar -czf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
+  - >
+    if [ "$ABSTRUSE_BRANCH" == "master" ] && [ "$ABSTRUSE_EVENT_TYPE" == "push" ]; then
+      echo $ID_RSA | base64 -di > ./id_rsa
+      chmod 600 ./id_rsa
+      scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa dist.tar.gz miculbilingv.ro@172.17.0.1:documents/dist.tar.gz
+      ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa miculbilingv.ro@172.17.0.1 '
+        tar -xzf ~/documents/dist.tar.gz -C ~/public_html
+        chown -R miculbilingv.ro:www-data ~/public_html
+        chmod -R 754 ~/public_html
+        php ~/public_html/artisan config:cache
+        php ~/public_html/artisan migrate --force
+        php ~/public_html/artisan queue:restart
+      '
+    fi

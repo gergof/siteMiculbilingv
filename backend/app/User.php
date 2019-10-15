@@ -20,7 +20,7 @@ class User extends Authenticatable {
 	 * @var array
 	 */
 	protected $hidden = [
-		'password',
+		'password', 'email_verification_token',
 	];
 
 	/**
@@ -38,5 +38,29 @@ class User extends Authenticatable {
 
 	public function school() {
 		return $this->belongsTo('App\School');
+	}
+
+	public function announcements() {
+		return $this->hasMany('App\Announcement');
+	}
+
+	public function announcementTargets() {
+		return $this->hasMany('App\AnnouncementTarget');
+	}
+
+	public function messages() {
+		return $this->hasMany('App\Message');
+	}
+
+	public function incomingMessages() {
+		return $this->hasMany('App\Message', 'recipient_id');
+	}
+
+	public function documentTargets() {
+		return $this->hasMany('App\DocumentTarget');
+	}
+
+	public function students() {
+		return $this->hasMany('App\Student');
 	}
 }

@@ -27,7 +27,8 @@ module.exports = {
 		new Dotenv(),
 		new HtmlPlugin({
 			hash: true,
-			filename: 'index.blade.php',
+			filename:
+				process.env.NODE_ENV == 'production' ? 'index.blade.php' : 'index.html',
 			template: 'src/public/index.html'
 		})
 	],

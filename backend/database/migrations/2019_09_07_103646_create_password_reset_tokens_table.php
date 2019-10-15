@@ -13,7 +13,7 @@ class CreatePasswordResetTokensTable extends Migration {
 	public function up() {
 		Schema::create('password_reset_tokens', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->unsignedInteger('user_id');
+			$table->unsignedBigInteger('user_id');
 			$table->string('token', 70);
 			$table->dateTime('expires_at')->nullable();
 			$table->timestamps();

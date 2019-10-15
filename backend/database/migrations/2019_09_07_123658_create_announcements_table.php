@@ -13,7 +13,7 @@ class CreateAnnouncementsTable extends Migration {
 	public function up() {
 		Schema::create('announcements', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->unsignedInteger('user_id');
+			$table->unsignedBigInteger('user_id');
 			$table->text('title');
 			$table->text('message');
 			$table->boolean('is_public')->default(false);

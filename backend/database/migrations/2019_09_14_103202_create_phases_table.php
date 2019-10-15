@@ -19,7 +19,7 @@ class CreatePhasesTable extends Migration {
 			$table->boolean('is_local_managed')->default(false);
 			$table->boolean('is_rated')->default(false);
 			$table->dateTime('deadline');
-			$table->unsignedInteger('season_id');
+			$table->unsignedBigInteger('season_id');
 			$table->timestamps();
 
 			$table->foreign('season_id')->references('id')->on('seasons');

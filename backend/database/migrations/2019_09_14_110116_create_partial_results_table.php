@@ -13,8 +13,8 @@ class CreatePartialResultsTable extends Migration {
 	public function up() {
 		Schema::create('partial_results', function (Blueprint $table) {
 			$table->bigIncrements('id');
-			$table->unsignedInteger('student_id');
-			$table->unsignedInteger('objective_id');
+			$table->unsignedBigInteger('student_id');
+			$table->unsignedBigInteger('objective_id');
 			$table->tinyInteger('result');
 			$table->timestamps();
 

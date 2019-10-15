@@ -17,7 +17,7 @@ class CreateObjectivesTable extends Migration {
 			$table->string('name');
 			$table->text('description');
 			$table->tinyInteger('max_points');
-			$table->unsignedInteger('phase_id');
+			$table->unsignedBigInteger('phase_id');
 			$table->timestamps();
 
 			$table->foreign('phase_id')->references('id')->on('phases');

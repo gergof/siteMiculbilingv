@@ -17,7 +17,7 @@ class CreateDocumentsTable extends Migration {
 			$table->string('name', 65);
 			$table->string('mime', 255);
 			$table->boolean('is_public')->default(false);
-			$table->unsignedInteger('season_id');
+			$table->unsignedBigInteger('season_id');
 			$table->timestamps();
 
 			$table->foreign('season_id')->references('id')->on('seasons');

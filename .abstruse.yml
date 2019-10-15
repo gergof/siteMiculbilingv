@@ -21,7 +21,7 @@ deploy:
   - tar -czf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
   - >
-    if [ "$ABSTRUSE_BRANCH" == "master" ] || [ "$ABSTRUSE_BRANCH" == "dev" ]; then
+    if [ "$ABSTRUSE_BRANCH" == "master" ]; then
       echo $ID_RSA | base64 -di > ./id_rsa
       chmod 600 ./id_rsa
       scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa dist.tar.gz miculbilingv.ro@172.17.0.1:documents/dist.tar.gz
@@ -31,5 +31,6 @@ deploy:
         chmod -R 754 ~/public_html
         php ~/public_html/artisan config:cache
         php ~/public_html/artisan migrate --force
+        php ~/public_html/artisan queue:restart
       '
     fi

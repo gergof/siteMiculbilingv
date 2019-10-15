@@ -21,7 +21,7 @@ deploy:
   - tar -czf dist.tar.gz -C backend .
   - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
   - >
-    if [ "$ABSTRUSE_BRANCH" == "master" ]; then
+    if [ "$ABSTRUSE_BRANCH" == "master" ] && [ "$ABSTRUSE_EVENT_TYPE" == "push" ]; then
       echo $ID_RSA | base64 -di > ./id_rsa
       chmod 600 ./id_rsa
       scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./id_rsa dist.tar.gz miculbilingv.ro@172.17.0.1:documents/dist.tar.gz

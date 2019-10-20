@@ -1,7 +1,6 @@
 image: laravel
 branches:
   - master
-  - dev
   - release/.*
 matrix:
   - env: DOMAIN=frontend SCRIPT=lint

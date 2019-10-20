@@ -16,7 +16,7 @@ export default {
 	email: 'E-mail cím',
 	password: 'Jelszó',
 	contestAbout: [
-		'„Ahány nyelvet beszélsz, annyi ember vagy” – tartja a régi szólás. Egy nyelv ismerete hozzásegít érzéseid, gondolataid kifejezéséhez. A magyar anyanyelvű gyermekeknek két nyelv áll rendelkezésükre mindezek megosztására. A nyelv tanulásán keresztül megismerünk egyfajta gondolkodásmódot, közelebb kerülünk egy másik kultúra megértéséhez is.',
+		'„Ahány nyelvet beszélsz, annyi ember vagy” – tartja a régi szólás. Egy nyelv ismerete hozzásegít érzéseid, gondolataid kifejezéséhez. Hazánkban a magyar anyanyelvű gyermekeknek két nyelv áll rendelkezésükre mindezek megosztására. A nyelv tanulásán keresztül megismerünk egyfajta gondolkodásmódot, közelebb kerülünk egy másik kultúra megértéséhez is.',
 		'A „Micul bilingv” verseny játékos feladatain keresztül lehetőséget biztosít a tanulók nyelvi készségeinek kreatív módon való alkalmazására, segít harmóniába rendezni a sokféleséget, erősíti a megértést, együttélést.'
 	],
 	news: 'Hírek',
@@ -32,7 +32,7 @@ export default {
 	newSchool: 'Iskola hozzáadása',
 	schoolNameRo: 'Iskola román neve',
 	schoolNameHu: 'Iskola magyar neve',
-	city: 'Város',
+	city: 'Település (magyarul)',
 	school: 'Iskola',
 	personalData: 'Személyes adatok',
 	name: 'Név',
@@ -87,7 +87,7 @@ export default {
 	save: 'Mentés',
 	confirmEntry: 'Nevezés megerősítése',
 	confirmEntryText:
-		'A nevezés után már nem lesz lehetőség annak a módosítására. Kérlek győződj meg róla, hogy helyesen adtad meg az adatokat!',
+		'Itt a megyei fordulóra továbbjutó diákok neveit kell megadd. A nevezés után már nem lesz lehetőség annak a módosítására. Kérlek győződj meg róla, hogy helyesen adtad meg az adatokat!',
 	accept: 'Rendben',
 	cancel: 'Mégsem',
 	deadlinePassed: 'A regisztráció már lezárult.',

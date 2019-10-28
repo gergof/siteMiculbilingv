@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withState, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../lang';
 
@@ -158,13 +158,26 @@ export const Scenes = ({
 					<Route exact path="/" component={Index} />
 					<Route exact path="/documents/:id?" component={Documents} />
 					<Route exact path="/enter" component={Enter} />
-					<Route exact path="/auth/login" component={Login} />
-					<Route exact path="/auth/logout" component={Logout} />
-					<Route exact path="/auth/registration" component={Registration} />
-					<Route exact path="/auth/verifyEmail" component={VerifyEmail} />
-					<Route exact path="/auth/passwordReset" component={PasswordReset} />
-					<Route path="/messages" component={Messages} />
-					<Route path="/profile" component={Profile} />
+					{!isLogged ? (
+						<Route exact path="/auth/login" component={Login} />
+					) : null}
+					{isLogged ? (
+						<Route exact path="/auth/logout" component={Logout} />
+					) : null}
+					{!isLogged ? (
+						<Route exact path="/auth/registration" component={Registration} />
+					) : null}
+					{!isLogged ? (
+						<Route exact path="/auth/verifyEmail" component={VerifyEmail} />
+					) : null}
+					{!isLogged ? (
+						<Route exact path="/auth/passwordReset" component={PasswordReset} />
+					) : null}
+					{isLogged ? <Route path="/messages" component={Messages} /> : null}
+					{isLogged ? <Route path="/profile" component={Profile} /> : null}
+					<Route>
+						<Redirect to="/" />
+					</Route>
 				</Switch>
 			</div>
 		</React.Fragment>

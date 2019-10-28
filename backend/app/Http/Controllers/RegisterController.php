@@ -21,7 +21,7 @@ class RegisterController extends Controller {
 			'school_name_hu' => 'string|required_without:school_id',
 			'school_county' => 'string|required_without:school_id|in:' . config('services.supportedCounties'),
 			'school_city' => 'string|required_without:school_id',
-			'school_contract' => 'file|required_without:school_id|mimes:pdf|max:5000',
+			'school_contract' => 'file|required_without:school_id|mimes:pdf|max:25000',
 			'name' => 'string|required|max:65',
 			'email' => 'email|required|unique:users,email',
 			'password' => 'string|required|min:8',

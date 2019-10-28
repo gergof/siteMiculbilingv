@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 
 class Document extends Model {
 	protected $fillable = ['name', 'is_public'];
@@ -18,7 +19,7 @@ class Document extends Model {
 		$command = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->getCommand('GetObject', [
 			'Bucket' => config('filesystems.disks.s3.bucket'),
 			'Key' => $this->file,
-			'ResponseContentDisposition' => 'attachment; filename=' . $this->name,
+			'ResponseContentDisposition' => 'attachment; filename=' . Str::ascii($this->name),
 		]);
 
 		$request = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->createPresignedRequest($command, config('filesystems.downloadLinkValid'));

@@ -1,13 +1,14 @@
 {
   "name": "miculbilingv-frontend",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Frontend for the website of the Micul Bilingv contest.",
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack",
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
-    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.html'"
+    "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.html'",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -63,6 +64,7 @@
     "path": "^0.12.7",
     "prettier": "^1.18.2",
     "redux-devtools-extension": "^2.13.8",
+    "standard-version": "^7.0.0",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1"

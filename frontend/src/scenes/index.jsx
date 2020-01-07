@@ -33,6 +33,7 @@ import VerifyEmail from './VerifyEmail';
 import PasswordReset from './PasswordReset';
 import Messages from './Messages';
 import Profile from './Profile';
+import AdminTools from './AdminTools';
 
 const styles = theme => ({
 	appBar: {
@@ -65,6 +66,7 @@ const styles = theme => ({
 
 export const Scenes = ({
 	isLogged,
+	role,
 	onAccountClick,
 	onAccountMenuClose,
 	accountMenu,
@@ -139,6 +141,11 @@ export const Scenes = ({
 						</React.Fragment>
 					) : (
 						<React.Fragment>
+							{['admin', 'manager'].includes(role) ? (
+								<ListItem button onClick={() => goTo('/admin')}>
+									<ListItemText>{lang.adminTools}</ListItemText>
+								</ListItem>
+							) : null}
 							<ListItem button onClick={() => goTo('/messages')}>
 								<ListItemText>{lang.messages}</ListItemText>
 							</ListItem>
@@ -158,9 +165,7 @@ export const Scenes = ({
 					<Route exact path="/" component={Index} />
 					<Route exact path="/documents/:id?" component={Documents} />
 					<Route exact path="/enter" component={Enter} />
-					{!isLogged ? (
-						<Route exact path="/auth/login" component={Login} />
-					) : null}
+					<Route exact path="/auth/login" component={Login} />
 					{isLogged ? (
 						<Route exact path="/auth/logout" component={Logout} />
 					) : null}
@@ -172,6 +177,13 @@ export const Scenes = ({
 					) : null}
 					{!isLogged ? (
 						<Route exact path="/auth/passwordReset" component={PasswordReset} />
+					) : null}
+					{isLogged && ['admin', 'manager'].includes(role) ? (
+						<Route
+							exact
+							path="/admin/:path(schools|users|students)?"
+							component={AdminTools}
+						/>
 					) : null}
 					{isLogged ? <Route path="/messages" component={Messages} /> : null}
 					{isLogged ? <Route path="/profile" component={Profile} /> : null}
@@ -186,6 +198,7 @@ export const Scenes = ({
 
 Scenes.propTypes = {
 	isLogged: PropTypes.bool,
+	role: PropTypes.string,
 	onAccountClick: PropTypes.func,
 	onAccountMenuClose: PropTypes.func,
 	accountMenu: PropTypes.object,
@@ -198,7 +211,8 @@ export const enhancer = compose(
 	withRouter,
 	withState('accountMenu', 'setAccountMenu', null),
 	connect(state => ({
-		isLogged: !!state.app.auth.token
+		isLogged: !!state.app.auth.token,
+		role: state.app.auth.token && state.profile.profile.data.role
 	})),
 	withHandlers({
 		onAccountClick: ({ setAccountMenu }) => e => {

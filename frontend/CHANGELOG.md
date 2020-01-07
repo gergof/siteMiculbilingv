@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/gergof/siteMiculbilingv/compare/v1.0.4...v1.1.0) (2020-01-07)
+
+
+### Features
+
+* **frontend - admin tools:** Added listing for users, schools and students ([5369a33](https://github.com/gergof/siteMiculbilingv/commit/5369a33f173d3a7070c7d19c73fcbb8d1a38febb))
+
+
+### Bug Fixes
+
+* **frontend:** Clear login token if 401 response code is intercepted ([09a050a](https://github.com/gergof/siteMiculbilingv/commit/09a050a6e2c1a0f3929882382d2f1d91cbb7f40b))
+
 ### [1.0.4](https://github.com/gergof/siteMiculbilingv/compare/v1.0.3...v1.0.4) (2019-10-28)
 
 ### [1.0.3](https://github.com/gergof/siteMiculbilingv/compare/v1.0.2...v1.0.3) (2019-10-28)

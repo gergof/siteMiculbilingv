@@ -2,6 +2,7 @@ import uuidv4 from 'uuid/v4';
 import { axios, listModels } from './api';
 import { normalize, pluck } from '../utils';
 import { getLang } from '../lang';
+import { fetchProfile } from '../scenes/Profile/data/duck';
 
 export const types = {
 	SET_AUTH_TOKEN: 'AUTH::TOKEN@SET',
@@ -154,6 +155,8 @@ export const login = cred => dispatch => {
 				axios.defaults.headers['Authorization'] = resp.data.token;
 				dispatch(setAuthToken(resp.data.token));
 				dispatch(addNotification('success', getLang().loginSuccess));
+
+				dispatch(fetchProfile());
 			},
 			() => {
 				dispatch(setAuthLoading(false));

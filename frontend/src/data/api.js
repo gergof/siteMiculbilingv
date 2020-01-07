@@ -16,7 +16,7 @@ const getAxios = (apiBase, token, reduxDispatch) => {
 			reduxDispatch(clearAuthToken());
 		}
 
-		return response;
+		return error;
 	});
 
 	return axios;

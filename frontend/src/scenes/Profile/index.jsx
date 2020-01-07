@@ -194,7 +194,7 @@ export const enhancer = compose(
 	withRouter,
 	connect(
 		state => ({
-			profile: state.profile.profile.data,
+			profile: state.profile.profile.data || {},
 			loading: state.profile.profile.loading
 		}),
 		dispatch => ({

@@ -11,6 +11,7 @@ import entriesDuck from '../scenes/Enter/data/duck';
 import profileDuck from '../scenes/Profile/data/duck';
 import messagesDuck from '../scenes/Messages/data/duck';
 import usersDuck from '../scenes/Users/data/duck';
+import adminToolsDuck from '../scenes/AdminTools/data/duck';
 
 const rootReducer = combineReducers({
 	app: appDuck,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
 	enter: entriesDuck,
 	profile: profileDuck,
 	messages: messagesDuck,
-	users: usersDuck
+	users: usersDuck,
+	adminTools: adminToolsDuck
 });
 
 const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);

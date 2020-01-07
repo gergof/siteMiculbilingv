@@ -24,7 +24,8 @@ const App = () => {
 							<AxiosProvider
 								instance={getAxios(
 									process.env.API_ENDPOINT,
-									redux.store.getState().app.auth.token
+									redux.store.getState().app.auth.token,
+									redux.store.dispatch
 								)}
 							>
 								<MuiThemeProvider theme={theme}>

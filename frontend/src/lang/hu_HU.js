@@ -107,5 +107,16 @@ export default {
 	newMessage: 'Új üzenet',
 	message: 'Üzenet',
 	send: 'Küldés',
-	messageNotFound: 'A keresett üzenet nem található.'
+	messageNotFound: 'A keresett üzenet nem található.',
+	adminTools: 'Adminisztrátori eszközök',
+	schools: 'Iskolák',
+	contracts: 'Szerződések',
+	users: 'Felhasználók',
+	students: 'Diákok',
+	id: 'ID',
+	role: 'Jogkör',
+	schoolId: 'Iskola ID',
+	season: 'Év',
+	teacher: 'Tanár',
+	teacherId: 'Tanár ID'
 };

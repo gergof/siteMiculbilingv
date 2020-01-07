@@ -1,13 +1,22 @@
 import Axios from 'axios';
+import { clearAuthToken } from './duck';
 
 let axios;
 
-const getAxios = (apiBase, token) => {
+const getAxios = (apiBase, token, reduxDispatch) => {
 	axios = Axios.create({
 		baseURL: apiBase,
 		headers: {
 			Authorization: token || ''
 		}
+	});
+
+	axios.interceptors.response.use(null, error => {
+		if (error.response.status == 401) {
+			reduxDispatch(clearAuthToken());
+		}
+
+		return response;
 	});
 
 	return axios;

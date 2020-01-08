@@ -49,7 +49,7 @@ export const Students = ({ loading, students, lang, classes }) => {
 							<TableCell>{student.id}</TableCell>
 							<TableCell>{student.name}</TableCell>
 							<TableCell>{student.class}</TableCell>
-							<TableCell>{student.teacher_id}</TableCell>
+							<TableCell>{student.user_id}</TableCell>
 							<TableCell>
 								{student.teacher ? student.teacher.name : '-'}
 							</TableCell>
@@ -94,7 +94,7 @@ export const enhancer = compose(
 					],
 				teacher:
 					state.adminTools.users.store[
-						state.adminTools.students.store[id].school_id
+						state.adminTools.students.store[id].user_id
 					]
 			})),
 			loading: state.adminTools.students.loading

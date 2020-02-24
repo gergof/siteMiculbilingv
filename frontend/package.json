@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack --node-args='--max-old-space-size=512'",
     "lint": "eslint 'src/**/*.js' 'src/**/*.jsx'",
     "format": "prettier --write 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.html'",
     "release": "standard-version"

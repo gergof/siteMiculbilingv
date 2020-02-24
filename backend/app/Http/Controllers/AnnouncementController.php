@@ -40,7 +40,8 @@ class AnnouncementController extends Controller {
 			$announcements = $public;
 		}
 
-		return response()->json($announcements);
+		$sorted = collect($announcements)->sortByDesc('updated_at');
+		return response()->json($sorted->values()->all());
 	}
 
 	public function store(Request $request) {

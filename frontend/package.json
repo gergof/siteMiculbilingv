@@ -64,7 +64,7 @@
     "path": "^0.12.7",
     "prettier": "^1.18.2",
     "redux-devtools-extension": "^2.13.8",
-    "standard-version": "^7.0.0",
+    "standard-version": "^8.0.1",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1"

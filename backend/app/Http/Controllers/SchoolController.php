@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\School;
-use App\Season;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller {
 	public function index() {
-		if (!is_null(Auth::user()) && (Auth::user()->role == 'manager' || Auth::user()->role == 'admin')) {
-			return response()->json(School::all());
-		} else {
-			$schools = Season::latest()->first()->contracts->pluck('school')->unique()->flatten();
-			return response()->json($schools);
-		}
+		$schools = School::orderBy('name', 'asc')->get();
+
+		return response()->json($schools);
 	}
 
 	public function store(Request $request) {

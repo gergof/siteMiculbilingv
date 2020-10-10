@@ -15,7 +15,7 @@ class StudentController extends Controller {
 			'own' => 'boolean',
 		]);
 
-		$students = Student::where('season_id', $filters['season_id']);
+		$students = Student::where('season_id', $filters['season_id'])->orderBy('name', 'asc');
 
 		if (Auth::user() && isset($filters['own']) && $filters['own']) {
 			$students = $students->where('user_id', Auth::user()->id);

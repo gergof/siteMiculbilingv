@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import packageJson from '../../package.json';
 
 import appDuck from './duck';
 import indexDuck from '../scenes/Index/data/duck';
@@ -24,9 +25,16 @@ const rootReducer = combineReducers({
 	adminTools: adminToolsDuck
 });
 
-const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);
 
 const configureStore = () => {
+	// reset store if app was updated
+	if(storage.getItem('mb:version') != packageJson.version){
+		storage.removeItem('persist:root');
+		storage.setItem('mb:version', packageJson.version);
+	}
+
+	const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);
+
 	let store = createStore(
 		persistedReducer,
 		composeWithDevTools(applyMiddleware(thunkMiddleware))

@@ -157,7 +157,8 @@ export const login = cred => dispatch => {
 				dispatch(addNotification('success', getLang().loginSuccess));
 
 				dispatch(fetchProfile());
-			},
+			}
+		).catch(
 			() => {
 				dispatch(setAuthLoading(false));
 				dispatch(addNotification('error', getLang().loginError));

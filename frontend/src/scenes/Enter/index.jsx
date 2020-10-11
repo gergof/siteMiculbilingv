@@ -174,7 +174,10 @@ export const enhancer = compose(
 			entries: state.enter.entries.list.map(
 				id => state.enter.entries.store[id]
 			),
-			hasContract: !!state.enter.school.data.currentContracts.length
+			hasContract: !!(
+				state.enter.school.data &&
+				state.enter.school.data.currentContracts.length
+			)
 		}),
 		dispatch => ({
 			dispatchNotification: (type, message) =>

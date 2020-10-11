@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/gergof/siteMiculbilingv/compare/v1.1.3...v1.2.0) (2020-10-11)
+
+
+### Features
+
+* **Enter:** Remember users to upload contract ([cc518c3](https://github.com/gergof/siteMiculbilingv/commit/cc518c32b3cd317e56c3c8a9c2dfd14c355f7ffa))
+
+
+### Bug Fixes
+
+* **frontend:** Reset redux store when the app version changed ([e84cbea](https://github.com/gergof/siteMiculbilingv/commit/e84cbea8428c2a5dfc453a50a2d3b57e98867816))
+* **frontend:** Show login error message ([7beecf1](https://github.com/gergof/siteMiculbilingv/commit/7beecf12194be9ce8ecfd8ed0266f57bdcad650a))
+* Order listed entities (users, schools, students) alphabetically ([59d9697](https://github.com/gergof/siteMiculbilingv/commit/59d969763de9ad39681a2844eba55cd7be1d1184))
+
 ### [1.1.3](https://github.com/gergof/siteMiculbilingv/compare/v1.1.2...v1.1.3) (2020-02-24)
 
 ### [1.1.2](https://github.com/gergof/siteMiculbilingv/compare/v1.1.1...v1.1.2) (2020-02-24)

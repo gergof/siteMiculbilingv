@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller {
 	public function index() {
-		$schools = School::orderBy('name', 'asc')->get();
+		$schools = School::orderBy('name_ro', 'asc')->get();
 
 		return response()->json($schools);
 	}

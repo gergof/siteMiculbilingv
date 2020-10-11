@@ -175,7 +175,7 @@ export const enhancer = compose(
 				id => state.enter.entries.store[id]
 			),
 			hasContract: !!(
-				state.enter.school.data &&
+				state.enter.school.data.currentContracts &&
 				state.enter.school.data.currentContracts.length
 			)
 		}),

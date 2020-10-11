@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/gergof/siteMiculbilingv/compare/v1.2.1...v1.2.2) (2020-10-11)
+
+
+### Bug Fixes
+
+* Yet some more errors ([159eca3](https://github.com/gergof/siteMiculbilingv/commit/159eca34ab2a34de0d9adf25f5affeb327b6e7eb))
+
 ### [1.2.1](https://github.com/gergof/siteMiculbilingv/compare/v1.2.0...v1.2.1) (2020-10-11)
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\School;
+use App\Season;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,11 @@ class SchoolController extends Controller {
 		$school = School::find($id);
 		if (is_null($school)) {
 			return response()->json(['error' => 'Not found'], 404);
+		}
+
+		if (Auth::user()->role == 'manager' || Auth::user()->role == 'admin' || Auth::user()->school_id == $school->id) {
+			$seasonId = Season::latest()->first()->id;
+			$school['currentContracts'] = $school->contracts()->where('season_id', $seasonId)->get();
 		}
 
 		return response()->json($school);

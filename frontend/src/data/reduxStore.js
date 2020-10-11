@@ -25,15 +25,17 @@ const rootReducer = combineReducers({
 	adminTools: adminToolsDuck
 });
 
-
 const configureStore = () => {
 	// reset store if app was updated
-	if(storage.getItem('mb:version') != packageJson.version){
-		storage.removeItem('persist:root');
-		storage.setItem('mb:version', packageJson.version);
+	if (localStorage.getItem('mb:version') != packageJson.version) {
+		localStorage.removeItem('persist:root');
+		localStorage.setItem('mb:version', packageJson.version);
 	}
 
-	const persistedReducer = persistReducer({ key: 'root', storage }, rootReducer);
+	const persistedReducer = persistReducer(
+		{ key: 'root', storage },
+		rootReducer
+	);
 
 	let store = createStore(
 		persistedReducer,

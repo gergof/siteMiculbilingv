@@ -1,4 +1,4 @@
-import { listModels, createModel } from '../../../data/api';
+import { listModels, createModel, getModel } from '../../../data/api';
 import { normalize, pluck } from '../../../utils';
 import { addNotification } from '../../../data/duck';
 import { getLang } from '../../../lang';
@@ -7,7 +7,9 @@ export const types = {
 	SET_ENTRIES_LOADING: 'ENTRIES::LOADING@SET',
 	LOAD_ENTRIES: 'ENTRIES@LOAD',
 	ADD_ENTRY: 'ENTRIES@ADD',
-	DELETE_ENTRY: 'ENTRIES@DELETE'
+	DELETE_ENTRY: 'ENTRIES@DELETE',
+	SET_SCHOOL_LOADING: 'ENTRIES_SCHOOL::LOADING@SET',
+	LOAD_SCHOOL: 'ENTRIES_SCHOOL@LOAD'
 };
 
 const initialState = {
@@ -15,6 +17,10 @@ const initialState = {
 		loading: false,
 		store: {},
 		list: []
+	},
+	school: {
+		loading: false,
+		data: {}
 	}
 };
 
@@ -57,6 +63,22 @@ const reducer = (state = initialState, action) => {
 					list: state.entries.list.filter(id => id != action.payload)
 				}
 			};
+		case types.SET_SCHOOL_LOADING:
+			return {
+				...state,
+				school: {
+					...state.school,
+					loading: action.payload
+				}
+			};
+		case types.LOAD_SCHOOL:
+			return {
+				...state,
+				school: {
+					...state.school,
+					data: action.payload
+				}
+			};
 		default:
 			return state;
 	}
@@ -80,6 +102,16 @@ export const addEntry = entry => ({
 export const deleteEntry = id => ({
 	type: types.DELETE_ENTRY,
 	payload: id
+});
+
+export const setSchoolLoading = (loading = true) => ({
+	type: types.SET_SCHOOL_LOADING,
+	payload: loading
+});
+
+export const loadSchool = school => ({
+	type: types.LOAD_SCHOOL,
+	payload: school
 });
 
 export const fetchEntries = () => (dispatch, getState) => {
@@ -123,6 +155,19 @@ export const createEntry = entry => dispatch => {
 			}
 		}
 	);
+};
+
+export const fetchSchool = () => (dispatch, getState) => {
+	const schoolId = getState().profile.profile.data.school_id;
+
+	if (schoolId) {
+		dispatch(setSchoolLoading(true));
+
+		getModel('schools', schoolId, {}).then(res => {
+			dispatch(loadSchool(res.data));
+			dispatch(setSchoolLoading(false));
+		});
+	}
 };
 
 export default reducer;

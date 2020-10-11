@@ -149,20 +149,18 @@ export const login = cred => dispatch => {
 			email: cred.email,
 			password: cred.password
 		})
-		.then(
-			resp => {
-				dispatch(setAuthLoading(false));
-				axios.defaults.headers['Authorization'] = resp.data.token;
-				dispatch(setAuthToken(resp.data.token));
-				dispatch(addNotification('success', getLang().loginSuccess));
+		.then(resp => {
+			dispatch(setAuthLoading(false));
+			axios.defaults.headers['Authorization'] = resp.data.token;
+			dispatch(setAuthToken(resp.data.token));
+			dispatch(addNotification('success', getLang().loginSuccess));
 
-				dispatch(fetchProfile());
-			},
-			() => {
-				dispatch(setAuthLoading(false));
-				dispatch(addNotification('error', getLang().loginError));
-			}
-		);
+			dispatch(fetchProfile());
+		})
+		.catch(() => {
+			dispatch(setAuthLoading(false));
+			dispatch(addNotification('error', getLang().loginError));
+		});
 };
 
 export const logout = () => (dispatch, getState) => {

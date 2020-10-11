@@ -4,9 +4,9 @@ import { compose, lifecycle, withHandlers, withState } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import { withLang } from '../../../lang';
 import { Field } from 'formik';
-import { listModels, getModel } from '../../../data/api';
+import { listModels } from '../../../data/api';
 import classnames from 'classnames';
-import InputFiles from 'react-input-files';
+import FileUploadField from '../../../components/FileUploadField';
 
 import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
@@ -14,10 +14,6 @@ import Collapse from '@material-ui/core/Collapse';
 import MenuItem from '@material-ui/core/MenuItem';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-
-import CloudDoneIcon from '@material-ui/icons/CloudDone';
 
 const styles = theme => ({
 	task: {
@@ -44,19 +40,6 @@ const styles = theme => ({
 	textField: {
 		width: '80%',
 		marginBottom: theme.spacing(3)
-	},
-	button: {
-		width: '300px',
-		marginRight: theme.spacing(1)
-	},
-	uploadedFile: {
-		alignItems: 'center',
-		justifyContent: 'center',
-		marginTop: theme.spacing(1),
-		marginBottom: theme.spacing(3)
-	},
-	uploadedFileIcon: {
-		marginRight: theme.spacing(1)
 	}
 });
 
@@ -65,7 +48,6 @@ export const SchoolSelect = ({
 	isFetching,
 	isNewSchool,
 	handleNewSchool,
-	onDownloadContractClick,
 	lang,
 	classes
 }) => {
@@ -137,42 +119,10 @@ export const SchoolSelect = ({
 						)}
 					</Field>
 					<Field name="school_contract">
-						{({ field, form }) => (
+						{props => (
 							<React.Fragment>
 								<Typography>{lang.schoolContractExplanation}</Typography>
-								<Button
-									variant="contained"
-									className={classes.button}
-									color="primary"
-									onClick={onDownloadContractClick}
-								>
-									{lang.getSchoolContract}
-								</Button>
-								<InputFiles
-									accept="application/pdf"
-									onChange={files =>
-										form.setFieldValue('school_contract', files[0])
-									}
-								>
-									<Button
-										variant="contained"
-										className={classes.button}
-										color="primary"
-									>
-										{lang.uploadSchoolContract}
-									</Button>
-								</InputFiles>
-								<br />
-								{field.value && field.value.name ? (
-									<Grid container className={classes.uploadedFile}>
-										<Grid item>
-											<CloudDoneIcon className={classes.uploadedFileIcon} />
-										</Grid>
-										<Grid item>
-											<Typography>{field.value.name}</Typography>
-										</Grid>
-									</Grid>
-								) : null}
+								<FileUploadField {...props} />
 							</React.Fragment>
 						)}
 					</Field>
@@ -187,7 +137,6 @@ SchoolSelect.propTypes = {
 	isFetching: PropTypes.bool,
 	isNewSchool: PropTypes.bool,
 	handleNewSchool: PropTypes.func,
-	onDownloadContractClick: PropTypes.func,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };
@@ -203,13 +152,6 @@ export const enhancer = compose(
 			} else {
 				setIsNewSchool(false);
 			}
-		},
-		onDownloadContractClick: () => () => {
-			getModel('documents', process.env.CONTRACT_DOCUMENT_ID, null, true).then(
-				res => {
-					window.location.href = res.data.downloadLink;
-				}
-			);
 		}
 	}),
 	lifecycle({

@@ -9,12 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class SchoolController extends Controller {
 	public function index() {
-		if (!is_null(Auth::user()) && (Auth::user()->role == 'manager' || Auth::user()->role == 'admin')) {
-			return response()->json(School::all());
-		} else {
-			$schools = Season::latest()->first()->contracts->pluck('school')->unique()->flatten();
-			return response()->json($schools);
-		}
+		$schools = School::orderBy('name', 'asc')->get();
+
+		return response()->json($schools);
 	}
 
 	public function store(Request $request) {
@@ -45,6 +42,11 @@ class SchoolController extends Controller {
 		$school = School::find($id);
 		if (is_null($school)) {
 			return response()->json(['error' => 'Not found'], 404);
+		}
+
+		if (Auth::user()->role == 'manager' || Auth::user()->role == 'admin' || Auth::user()->school_id == $school->id) {
+			$seasonId = Season::latest()->first()->id;
+			$school['currentContracts'] = $school->contracts()->where('season_id', $seasonId)->get();
 		}
 
 		return response()->json($school);

@@ -61,12 +61,16 @@ export const updateProfile = profile => ({
 	payload: profile
 });
 
-export const fetchProfile = () => dispatch => {
+export const fetchProfile = cb => dispatch => {
 	dispatch(setProfileLoading(true));
 
 	getModel('me', '').then(res => {
 		dispatch(loadProfile(res.data));
 		dispatch(setProfileLoading(false));
+
+		if (cb) {
+			cb(res.data);
+		}
 	});
 };
 

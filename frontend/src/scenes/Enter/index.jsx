@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, lifecycle, withState, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
+import green from '@material-ui/core/colors/green';
+import className from 'classnames';
 import { withLang } from '../../lang';
 import { withStyles } from '@material-ui/core/styles';
 import { addNotification, fetchSeasons } from '../../data/duck';
-import { fetchEntries } from './data/duck';
+import { fetchProfile } from '../Profile/data/duck';
+import { fetchEntries, fetchSchool } from './data/duck';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -19,8 +22,11 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 import EnterField from './components/EnterField';
+import UploadContract from './components/UploadContract';
 
 const styles = theme => ({
 	container: {
@@ -47,12 +53,29 @@ const styles = theme => ({
 	grid: {
 		alignItems: 'center',
 		justifyContent: 'space-between'
+	},
+	hasContract: {
+		flex: 1,
+		marginTop: theme.spacing(8)
+	},
+	hasContractHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	hasContractIcon: {
+		fill: green[600],
+		marginRight: theme.spacing(0.5)
+	},
+	hasContractIcon_no: {
+		fill: theme.palette.error.dark
 	}
 });
 
 export const Enter = ({
 	entries,
 	isAdding,
+	hasContract,
 	onAddEntryClick,
 	onEntryAddDone,
 	lang,
@@ -60,47 +83,75 @@ export const Enter = ({
 }) => {
 	return (
 		<Paper className={classes.container}>
-			<Typography className={classes.title} variant="h6" gutterBottom>
-				{lang.enteredStudents}
-			</Typography>
-			<Table>
-				<TableHead>
-					<TableRow>
-						<TableCell>{lang.name}</TableCell>
-						<TableCell>{lang.class}</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{entries.map(entry => (
-						<TableRow key={entry.id}>
-							<TableCell>{entry.name}</TableCell>
-							<TableCell>
-								<Grid container className={classes.grid}>
-									<Grid item>{entry.class}</Grid>
-									{entry.loading ? (
-										<Grid item>
-											<CircularProgress size={14} />
-										</Grid>
-									) : null}
-								</Grid>
-							</TableCell>
-						</TableRow>
-					))}
-					{isAdding ? <EnterField onDone={onEntryAddDone} /> : null}
-				</TableBody>
-			</Table>
-			{entries.length < process.env.MAX_ENTRIES && !isAdding ? (
-				<Button
-					className={classes.addButton}
-					color="primary"
-					onClick={onAddEntryClick}
-				>
-					<AddCircleOutlineIcon className={classes.addIcon} />
-					<Typography variant="button" className={classes.addText}>
-						{lang.newStudent}
+			{process.env.ENTRY_PHASE ? (
+				<React.Fragment>
+					<Typography className={classes.title} variant="h6" gutterBottom>
+						{lang.enteredStudents}
 					</Typography>
-				</Button>
-			) : null}
+					<Table>
+						<TableHead>
+							<TableRow>
+								<TableCell>{lang.name}</TableCell>
+								<TableCell>{lang.class}</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{entries.map(entry => (
+								<TableRow key={entry.id}>
+									<TableCell>{entry.name}</TableCell>
+									<TableCell>
+										<Grid container className={classes.grid}>
+											<Grid item>{entry.class}</Grid>
+											{entry.loading ? (
+												<Grid item>
+													<CircularProgress size={14} />
+												</Grid>
+											) : null}
+										</Grid>
+									</TableCell>
+								</TableRow>
+							))}
+							{isAdding ? <EnterField onDone={onEntryAddDone} /> : null}
+						</TableBody>
+					</Table>
+					{entries.length < process.env.MAX_ENTRIES && !isAdding ? (
+						<Button
+							className={classes.addButton}
+							color="primary"
+							onClick={onAddEntryClick}
+						>
+							<AddCircleOutlineIcon className={classes.addIcon} />
+							<Typography variant="button" className={classes.addText}>
+								{lang.newStudent}
+							</Typography>
+						</Button>
+					) : null}
+				</React.Fragment>
+			) : (
+				<React.Fragment>
+					<Typography variant="body1">{lang.entryNotAvailableYet}</Typography>
+					<Grid container>
+						<Grid item className={classes.hasContract}>
+							<div className={classes.hasContractHeader}>
+								{hasContract ? (
+									<CheckCircleIcon className={classes.hasContractIcon} />
+								) : (
+									<CancelIcon
+										className={className([
+											classes.hasContractIcon,
+											classes.hasContractIcon_no
+										])}
+									/>
+								)}
+								<Typography variant="caption">
+									{hasContract ? lang.hasContract : lang.notHasContract}
+								</Typography>
+							</div>
+							{!hasContract ? <UploadContract /> : null}
+						</Grid>
+					</Grid>
+				</React.Fragment>
+			)}
 		</Paper>
 	);
 };
@@ -110,6 +161,7 @@ Enter.propTypes = {
 	isAdding: PropTypes.bool,
 	onAddEntryClick: PropTypes.func,
 	onEntryAddDone: PropTypes.func,
+	hasContract: PropTypes.bool,
 	lang: PropTypes.object,
 	classes: PropTypes.object
 };
@@ -119,13 +171,18 @@ export const enhancer = compose(
 	connect(
 		state => ({
 			isLogged: !!state.app.auth.token,
-			entries: state.enter.entries.list.map(id => state.enter.entries.store[id])
+			entries: state.enter.entries.list.map(
+				id => state.enter.entries.store[id]
+			),
+			hasContract: !!state.enter.school.data.currentContracts.length
 		}),
 		dispatch => ({
 			dispatchNotification: (type, message) =>
 				dispatch(addNotification(type, message)),
 			fetchSeasons: () => dispatch(fetchSeasons()),
-			fetchEntries: () => dispatch(fetchEntries())
+			fetchEntries: () => dispatch(fetchEntries()),
+			fetchProfile: cb => dispatch(fetchProfile(cb)),
+			fetchSchool: () => dispatch(fetchSchool())
 		})
 	),
 	withLang,
@@ -149,6 +206,9 @@ export const enhancer = compose(
 			} else {
 				this.props.fetchSeasons();
 				this.props.fetchEntries();
+				this.props.fetchProfile(() => {
+					this.props.fetchSchool();
+				});
 			}
 		}
 	}),

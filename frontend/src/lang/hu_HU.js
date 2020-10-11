@@ -118,5 +118,10 @@ export default {
 	schoolId: 'Iskola ID',
 	season: 'Év',
 	teacher: 'Tanár',
-	teacherId: 'Tanár ID'
+	teacherId: 'Tanár ID',
+	entryNotAvailableYet:
+		'Itt kell majd megadd a megyei fordulóra továbbjutó diákokat. Addig is kérlek győződj meg, hogy az iskolád töltött fel társszerződést. Ez szükséges, hogy érvényes legyen a nevezésed! Amennyiben ez még nem történt meg, kérlek pótold!',
+	hasContract: 'Társszerződés feltöltve',
+	notHasContract: 'Nincs feltöltve. Kérlek pótold!',
+	contractUploaded: 'Társszerződés sikeresen feltöltve!'
 };

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/gergof/siteMiculbilingv/compare/v1.2.0...v1.2.1) (2020-10-11)
+
+
+### Bug Fixes
+
+* Don't crash when not having school ([ca25333](https://github.com/gergof/siteMiculbilingv/commit/ca25333f50163067d8ca3b6ab21c52770191d0b1))
+
 ## [1.2.0](https://github.com/gergof/siteMiculbilingv/compare/v1.1.3...v1.2.0) (2020-10-11)
 
 

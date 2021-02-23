@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contract;
 use App\Document;
+use App\School;
 use App\Season;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,13 @@ class ContractController extends Controller {
 	public function store(Request $request) {
 		$data = $request->validate([
 			'contract' => 'file|required|mimes:pdf|max:5000',
+			'school_id' => 'integer|exists:school,id',
 		]);
+
+		//acl
+		if (isset($data['school_id']) && Auth::user()->role != 'admin' && Auth::user()->role != 'manager') {
+			return response()->json(['error' => 'Only admins can upload contracts for other schools'], 403);
+		}
 
 		$season = Season::latest()->first();
 
@@ -32,7 +39,13 @@ class ContractController extends Controller {
 
 		$contract = new Contract();
 		$contract->season()->associate($season);
-		$contract->school()->associate(Auth::user()->school);
+
+		if (isset($data['school_id'])) {
+			$contract->school()->associate(School::find($id));
+		} else {
+			$contract->school()->associate(Auth::user()->school);
+		}
+
 		$contract->document()->associate($document);
 		$contract->save();
 
@@ -59,7 +72,7 @@ class ContractController extends Controller {
 			return response()->json(['error' => 'Not found'], 404);
 		}
 
-		//acld
+		//acl
 		if (Auth::user()->role != 'admin' && Auth::user()->role != 'manager') {
 			return response()->json(['error' => 'Forbidden'], 403);
 		}

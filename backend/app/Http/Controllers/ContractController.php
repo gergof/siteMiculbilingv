@@ -33,7 +33,7 @@ class ContractController extends Controller {
 
 		$school;
 		if (isset($data['school_id'])) {
-			$school = School::find($id);
+			$school = School::find($data['school_id']);
 		} else {
 			$school = Auth::user()->school;
 		}

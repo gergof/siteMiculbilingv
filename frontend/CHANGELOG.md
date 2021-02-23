@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/gergof/siteMiculbilingv/compare/v1.2.2...v1.3.0) (2021-02-23)
+
+
+### Features
+
+* Add method to upload contract for a school ([69ef69a](https://github.com/gergof/siteMiculbilingv/commit/69ef69ae1597c710bb281120f8d67dbe3c22a4ab))
+
+
+### Bug Fixes
+
+* Add classSize to admin tools ([98dba89](https://github.com/gergof/siteMiculbilingv/commit/98dba89c2f21d7d103829c3bd711591e19b607ce))
+* Document download file name ([ad60d30](https://github.com/gergof/siteMiculbilingv/commit/ad60d30bf0e35926bddc37f01e8359131c4f4e28))
+
 ### [1.2.2](https://github.com/gergof/siteMiculbilingv/compare/v1.2.1...v1.2.2) (2020-10-11)
 
 

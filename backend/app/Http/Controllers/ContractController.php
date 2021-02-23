@@ -31,21 +31,22 @@ class ContractController extends Controller {
 
 		$season = Season::latest()->first();
 
+		$school;
+		if (isset($data['school_id'])) {
+			$school = School::find($id);
+		} else {
+			$school = Auth::user()->school;
+		}
+
 		$document = new Document();
-		$document->name = 'contract_' . Auth::user()->school->name_ro . '_' . $season->name . '_user_' . Auth::user()->name . '.pdf';
+		$document->name = 'contract_' . $school->name_ro . '_' . $season->name . '_user_' . Auth::user()->name . '.pdf';
 		$document->season()->associate($season);
 		$document->saveFile($request->file('contract'));
 		$document->save();
 
 		$contract = new Contract();
 		$contract->season()->associate($season);
-
-		if (isset($data['school_id'])) {
-			$contract->school()->associate(School::find($id));
-		} else {
-			$contract->school()->associate(Auth::user()->school);
-		}
-
+		$contract->school()->associate($school);
 		$contract->document()->associate($document);
 		$contract->save();
 

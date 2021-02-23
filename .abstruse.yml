@@ -18,7 +18,7 @@ deploy:
   - cp frontend/build/index.js backend/public/
   - echo $ENV_BACKEND | base64 -di > backend/.env
   - tar -czf dist.tar.gz -C backend .
-  - deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
+  #- deploy_b2 "SiteMiculbilingv-$ABSTRUSE_BRANCH" siteMiculbilingv dist.tar.gz
   - >
     if [ "$ABSTRUSE_BRANCH" == "master" ] && [ "$ABSTRUSE_EVENT_TYPE" == "push" ]; then
       echo $ID_RSA | base64 -di > ./id_rsa

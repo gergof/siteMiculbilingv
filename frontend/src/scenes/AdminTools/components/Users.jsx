@@ -47,6 +47,7 @@ export const Users = ({ loading, users, lang, classes }) => {
 						<TableCell>{lang.id}</TableCell>
 						<TableCell>{lang.name}</TableCell>
 						<TableCell>{lang.class}</TableCell>
+						<TableCell>{lang.classSize}</TableCell>
 						<TableCell>{lang.role}</TableCell>
 						<TableCell>{lang.schoolId}</TableCell>
 						<TableCell>{lang.schoolNameRo}</TableCell>
@@ -61,6 +62,7 @@ export const Users = ({ loading, users, lang, classes }) => {
 							<TableCell>{user.id}</TableCell>
 							<TableCell>{user.name}</TableCell>
 							<TableCell>{classToDisplay(user.class)}</TableCell>
+							<TableCell>{user.class_size}</TableCell>
 							<TableCell>{user.role}</TableCell>
 							<TableCell>{user.school_id}</TableCell>
 							<TableCell>{user.school ? user.school.name_ro : '-'}</TableCell>

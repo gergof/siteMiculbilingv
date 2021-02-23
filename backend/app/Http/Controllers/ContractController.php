@@ -21,7 +21,7 @@ class ContractController extends Controller {
 	public function store(Request $request) {
 		$data = $request->validate([
 			'contract' => 'file|required|mimes:pdf|max:5000',
-			'school_id' => 'integer|exists:school,id',
+			'school_id' => 'integer|exists:schools,id',
 		]);
 
 		//acl

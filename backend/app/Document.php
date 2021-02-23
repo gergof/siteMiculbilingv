@@ -16,10 +16,11 @@ class Document extends Model {
 	}
 
 	public function getDownloadLink() {
+		$downloadName = preg_replace('/[^a-zA-Z0-9_. ]/', '', Str::ascii($this->name));
 		$command = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->getCommand('GetObject', [
 			'Bucket' => config('filesystems.disks.s3.bucket'),
 			'Key' => $this->file,
-			'ResponseContentDisposition' => 'attachment; filename=' . Str::ascii($this->name),
+			'ResponseContentDisposition' => 'attachment; filename=' . $downloadName,
 		]);
 
 		$request = \Storage::disk('s3')->getDriver()->getAdapter()->getClient()->createPresignedRequest($command, config('filesystems.downloadLinkValid'));

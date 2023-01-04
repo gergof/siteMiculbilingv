@@ -47,6 +47,28 @@ class LoginController extends Controller {
 		]);
 	}
 
+	public function impersonate(Request $request)
+	{
+		if (Auth::user()->role != 'admin') {
+			return response()->json(['error' => 'Forbidden'], 403);
+		}
+
+		$data = $request->validate([
+			'user_id' => 'integer|required|exists:user,id',
+		]);
+
+		$token = Str::random(32);
+		$expires = date('Y-m-d H:i:s', time() + config('auth.lifetime'));
+
+		$user = User::find($data['user_id']);
+		$user->authTokens()->create(['access_token' => $token, 'expires_at' => $expires]);
+
+		return response()->json([
+			'token' => 'Bearer ' . $token,
+			'expires_at' => $expires,
+		]);
+	}
+
 	private function getTokenForRequest(Request $request) {
 		$token = $request->query('access_token');
 

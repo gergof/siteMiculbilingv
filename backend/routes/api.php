@@ -13,6 +13,7 @@
 
 Route::group(['middleware' => 'auth:token'], function () {
 	Route::post('auth/logout', 'LoginController@logout');
+	Route::post('auth/impersonate', 'LoginController@impersonate');
 
 	Route::get('me', 'ProfileController@index');
 	Route::put('me', 'ProfileController@update');

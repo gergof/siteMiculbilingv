@@ -83,7 +83,7 @@ export const Enter = ({
 }) => {
 	return (
 		<Paper className={classes.container}>
-			{process.env.ENTRY_PHASE ? (
+			{process.env.ENTRY_PHASE && hasContract ? (
 				<React.Fragment>
 					<Typography className={classes.title} variant="h6" gutterBottom>
 						{lang.enteredStudents}

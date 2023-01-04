@@ -54,7 +54,7 @@ class LoginController extends Controller {
 		}
 
 		$data = $request->validate([
-			'user_id' => 'integer|required|exists:user,id',
+			'user_id' => 'integer|required|exists:users,id',
 		]);
 
 		$token = Str::random(32);

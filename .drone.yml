@@ -1,0 +1,40 @@
+---
+kind: pipeline
+name: build
+type: docker
+trigger:
+  branch:
+    - master
+steps:
+  - name: build
+    image: docker
+    volumes:
+      - name: dockersock
+        path: /var/run
+    environment:
+      REGISTRY: registry.systest.eu
+      DOCKER_USER:
+        from_secret: privatereg_docker_user
+      DOCKER_PASSWORD:
+        from_secret: privatereg_docker_password
+    commands:
+      - echo "$DOCKER_PASSWORD" | docker login $REGISTRY --username $DOCKER_USER --password-stdin
+      - docker build -t $REGISTRY/www/miculbilingv-ro:$DRONE_COMMIT_SHA .
+      - docker tag $REGISTRY/www/miculbilingv-ro:$DRONE_COMMIT_SHA $REGISTRY/www/miculbilingv-ro:latest
+      - docker push $REGISTRY/www/miculbilingv-ro:$DRONE_COMMIT_SHA
+      - docker push $REGISTRY/www/miculbilingv-ro:latest
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+volumes:
+  - name: dockersock
+    temp: {}
+---
+kind: signature
+hmac: 379440a3043617d24495f1d178a1fd4f7c3d9ef66e3ee14005a8f9048e9b36be
+
+...

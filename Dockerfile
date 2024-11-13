@@ -16,13 +16,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
 	sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN a2enmod rewrite
 
 # RUN docker-php-ext-install pdo pdo_mysql openssl mbstring tokenizer xml ctype json fileinfo zip
+RUN apt-get update && \
+	apt-get install -y unzip && \
+	apt-get clean
 
 COPY backend/ /var/www/html/
 

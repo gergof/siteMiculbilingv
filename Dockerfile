@@ -22,10 +22,11 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 
 RUN a2enmod rewrite
 
-# RUN docker-php-ext-install pdo pdo_mysql openssl mbstring tokenizer xml ctype json fileinfo zip
 RUN apt-get update && \
-	apt-get install -y unzip && \
+	apt-get install -y unzip libicu-dev libxml2-dev libzip-dev libssl-dev && \
 	apt-get clean
+
+RUN docker-php-ext-install pdo pdo_mysql mbstring tokenizer xml ctype json fileinfo zip
 
 COPY backend/ /var/www/html/
 
